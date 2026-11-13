@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>After launch</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="assets/logo-mark.svg">
+<style>x-dc{display:none}</style>
+<script src="assets/vendor/react.production.min.js"></script>
+<script src="assets/vendor/react-dom.production.min.js"></script>
+<script src="assets/dc-runtime.js" defer></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-500.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-600.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-700.woff2') format('woff2');font-weight:700;font-display:swap}
+body{margin:0}
+a{color:#274291}a:hover{color:#1d3270}
+button{font-family:'Switzer',system-ui,sans-serif;cursor:pointer}
+.cf-press{transition:transform .16s cubic-bezier(.2,.8,.2,1),background .2s,opacity .2s}
+.cf-press:hover{transform:translateY(-1px)}
+.cf-press:active{transform:scale(.97)}
+@keyframes cfFloat{0%{transform:translate(0,0)}50%{transform:translate(40px,-30px)}100%{transform:translate(0,0)}}
+@keyframes cfStage{from{opacity:0;transform:translateY(22px) scale(.985);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+@keyframes cfRow{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+@keyframes cfPulse{0%{box-shadow:0 0 0 0 rgba(153,202,62,.6)}70%{box-shadow:0 0 0 12px rgba(153,202,62,0)}100%{box-shadow:0 0 0 0 rgba(153,202,62,0)}}
+@keyframes cfStripe{from{background-position:0 0}to{background-position:28px 0}}
+@media (max-width: 1100px){.cf-grid{flex-direction:column}.cf-rail,.cf-side{width:100% !important}}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 1000px; box-sizing: border-box; position: relative; overflow: hidden; background: #eef2f7; font-family: 'Switzer', 'Inter', system-ui, sans-serif; color: #2d3e50;">
+  <div aria-hidden="true" style="position: absolute; left: -220px; top: -200px; width: 760px; height: 760px; border-radius: 50%; background: radial-gradient(circle, rgba(39,66,145,.24), rgba(39,66,145,0) 68%); filter: blur(24px); animation: cfFloat 18s ease-in-out infinite;"></div>
+  <div aria-hidden="true" style="position: absolute; right: -200px; bottom: -220px; width: 760px; height: 760px; border-radius: 50%; background: radial-gradient(circle, rgba(153,202,62,.28), rgba(153,202,62,0) 68%); filter: blur(24px); animation: cfFloat 22s ease-in-out infinite reverse;"></div>
+
+  <div style="position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 24px 32px 40px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px;">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px;">
+      <a href="playbook.html" class="cf-press" style="height: 40px; padding: 0 16px 0 12px; border-radius: 999px; border: 1px solid #ffffff; background: rgba(255,255,255,.6); color: #1b2740; font-size: 14px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>Playbook</a>
+      <div style="flex: 1 1 320px; min-width: 0;">
+        <div style="font-size: 13px; color: #52617a;">Velocity Auto · Riverside · {{ dateLabel }}</div>
+        <h1 style="margin: 2px 0 0; font-size: 34px; line-height: 1.1; font-weight: 600; letter-spacing: -0.025em; color: #1b2740;">Winter Service Push</h1>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px; padding: 6px 6px 6px 16px; border-radius: 999px; background: rgba(27,39,64,.86); color: #ffffff;">
+        <span style="font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.7);">Prototype time</span>
+        <button type="button" onClick="{{ reset }}" class="cf-press" style="height: 34px; padding: 0 12px; border-radius: 999px; border: 0; background: rgba(255,255,255,.12); color: #ffffff; font-size: 13px; font-weight: 500;">Restart</button>
+        <button type="button" onClick="{{ advance }}" aria-disabled="{{ advDisabled }}" class="cf-press" style="height: 34px; padding: 0 14px; border-radius: 999px; border: 0; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; {{ advStyle }}">{{ advLabel }}<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
+      </div>
+    </div>
+
+    <div class="cf-grid" style="display: flex; gap: 24px; align-items: flex-start;">
+
+      <nav class="cf-rail" aria-label="Playbook lifecycle" style="width: 230px; flex: 0 0 auto; display: flex; flex-direction: column; gap: 4px; padding: 16px; box-sizing: border-box; border-radius: 26px; background: rgba(255,255,255,.55); border: 1px solid rgba(255,255,255,.9); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);">
+        <sc-for list="{{ rail }}" as="r" hint-placeholder-count="7">
+          <div style="display: flex; gap: 12px; align-items: flex-start; padding: 8px 6px; border-radius: 14px; transition: background .4s; {{ r.rowStyle }}">
+            <div style="display: flex; flex-direction: column; align-items: center; padding-top: 2px;">
+              <span style="width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; transition: background .5s, color .5s, box-shadow .5s; {{ r.dotStyle }}">{{ r.mark }}</span>
+            </div>
+            <div style="min-width: 0;">
+              <div style="font-size: 14px; font-weight: 600; color: #1b2740;">{{ r.label }}</div>
+              <div style="font-size: 12px; color: #52617a; line-height: 1.35;">{{ r.sub }}</div>
+              <div style="font-size: 10px; font-weight: 600; letter-spacing: .06em; color: #6b7a82; margin-top: 2px;">{{ r.jobs }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </nav>
+
+      <main style="flex: 1 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px;">
+
+        <sc-if value="{{ s0 }}" hint-placeholder-val="{{ true }}">
+          <section style="border-radius: 28px; padding: 28px; background: rgba(255,255,255,.8); border: 1px solid #ffffff; backdrop-filter: blur(28px) saturate(170%); -webkit-backdrop-filter: blur(28px) saturate(170%); box-shadow: 0 40px 80px -40px rgba(27,39,64,.4); display: flex; flex-direction: column; gap: 18px; animation: cfStage .62s cubic-bezier(.2,.8,.2,1);">
+            <div>
+              <div style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">Before you commit</div>
+              <h2 style="margin: 6px 0 0; font-size: 28px; font-weight: 600; letter-spacing: -0.02em; color: #1b2740;">Here's what you're signing up for.</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
+              <div style="padding: 16px; border-radius: 18px; background: #f5f8fa; border: 1px solid #dde4ef;"><div style="font-size: 12px; color: #52617a;">You commit now</div><div style="font-size: 26px; font-weight: 600; color: #1b2740;">$2,400</div><div style="font-size: 12px; color: #52617a;">Billed as each step runs</div></div>
+              <div style="padding: 16px; border-radius: 18px; background: #f5f8fa; border: 1px solid #dde4ef;"><div style="font-size: 12px; color: #52617a;">Co-op eligible, up to</div><div style="font-size: 26px; font-weight: 600; color: #1b2740;">$1,200</div><div style="font-size: 12px; color: #52617a;">Conditional, paid after proof</div></div>
+              <div style="padding: 16px; border-radius: 18px; background: #fdf1ec; border: 1px solid #fad4c6;"><div style="font-size: 12px; color: #9a4a06;">Worst case out of pocket</div><div style="font-size: 26px; font-weight: 600; color: #1b2740;">$2,400</div><div style="font-size: 12px; color: #9a4a06;">If no proof is accepted</div></div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="font-size: 13px; font-weight: 600; color: #1b2740;">What has to be true to get the $1,200</div>
+              <sc-for list="{{ conditions }}" as="cd" hint-placeholder-count="4">
+                <div style="display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.45; color: #2d3e50;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#274291" stroke-width="2.2" aria-hidden="true" style="flex: 0 0 auto; margin-top: 2px;"><path d="M20 6 9 17l-5-5"></path></svg><span>{{ cd }}</span></div>
+              </sc-for>
+            </div>
+            <div style="padding: 14px 16px; border-radius: 16px; background: rgba(39,66,145,.06); font-size: 14px; line-height: 1.5; color: #1b2740;">Velocity's co-op money typically arrives <strong>about 4–6 weeks</strong> after the playbook ends. You'll carry the full $2,400 until then. This is sized to your open service capacity: about 30 bays' worth of bookings, not more.</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+              <button type="button" onClick="{{ advance }}" class="cf-press" style="height: 50px; padding: 0 26px; border-radius: 999px; border: 0; background: #274291; color: #ffffff; font-size: 16px; font-weight: 600; box-shadow: 0 12px 26px -12px rgba(39,66,145,.8);">Commit $2,400 and launch</button>
+              <button type="button" class="cf-press" style="height: 50px; padding: 0 20px; border-radius: 999px; border: 1px solid #c3cee8; background: #ffffff; color: #1b2740; font-size: 15px; font-weight: 500;">Make it smaller</button>
+              <button type="button" class="cf-press" style="height: 50px; padding: 0 16px; border-radius: 999px; border: 0; background: transparent; color: #52617a; font-size: 15px; font-weight: 500;">Decide not to run it</button>
+            </div>
+          </section>
+        </sc-if>
+
+        <sc-if value="{{ showSteps }}" hint-placeholder-val="{{ false }}">
+          <section style="border-radius: 28px; padding: 24px; background: rgba(255,255,255,.8); border: 1px solid #ffffff; backdrop-filter: blur(28px) saturate(170%); -webkit-backdrop-filter: blur(28px) saturate(170%); box-shadow: 0 40px 80px -40px rgba(27,39,64,.4); display: flex; flex-direction: column; gap: 14px; animation: cfStage .62s cubic-bezier(.2,.8,.2,1);">
+            <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px;">
+              <div>
+                <div style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">{{ panelKicker }}</div>
+                <h2 style="margin: 6px 0 0; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; color: #1b2740;">{{ panelTitle }}</h2>
+              </div>
+              <span style="font-size: 13px; color: #52617a;">{{ panelHint }}</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <sc-for list="{{ rows }}" as="row" hint-placeholder-count="6">
+                <div style="display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; border-radius: 18px; background: {{ row.bg }}; border: 1px solid {{ row.border }}; animation: cfRow .5s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{ row.delay }};">
+                  <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px;">
+                    <span style="width: 64px; font-size: 12px; font-weight: 600; color: #52617a;">{{ row.ch }}</span>
+                    <div style="flex: 1 1 220px; min-width: 0;">
+                      <div style="font-size: 15px; font-weight: 600; color: #1b2740;">{{ row.name }}</div>
+                      <div style="font-size: 13px; color: #52617a;">{{ row.detail }}</div>
+                    </div>
+                    <span style="height: 28px; padding: 0 11px; border-radius: 999px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; white-space: nowrap; {{ row.chipStyle }}">{{ row.chip }}</span>
+                  </div>
+                  <sc-if value="{{ row.hasNote }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-left: 76px; padding: 10px 12px; border-radius: 12px; font-size: 13px; line-height: 1.45; {{ row.noteStyle }}">{{ row.note }}</div>
+                  </sc-if>
+                  <sc-if value="{{ row.decide }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-left: 76px; display: flex; flex-wrap: wrap; gap: 8px;">
+                      <button type="button" onClick="{{ challenge }}" class="cf-press" style="height: 40px; padding: 0 16px; border-radius: 999px; border: 0; background: #274291; color: #ffffff; font-size: 14px; font-weight: 600;">That's wrong. Challenge it.</button>
+                      <button type="button" onClick="{{ accept }}" class="cf-press" style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #c3cee8; background: #ffffff; color: #1b2740; font-size: 14px; font-weight: 500;">Accept $225</button>
+                      <button type="button" onClick="{{ toggleWhy }}" class="cf-press" style="height: 40px; padding: 0 14px; border-radius: 999px; border: 0; background: transparent; color: #274291; font-size: 14px; font-weight: 600;">{{ whyLabel }}</button>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ row.showWhy }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-left: 76px; display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 6px 12px; padding: 12px 14px; border-radius: 12px; background: #ffffff; border: 1px solid #dde4ef; font-size: 13px; line-height: 1.4; animation: cfRow .4s cubic-bezier(.2,.8,.2,1);">
+                      <span style="color: #52617a;">Rule</span><span style="color: #1b2740;">VEL-COOP-2026 §2.3: only in-program product lines may appear in reimbursed creative</span>
+                      <span style="color: #52617a;">Ruleset</span><span style="color: #1b2740;">v3, effective Oct 1</span>
+                      <span style="color: #52617a;">Looked at</span><span style="color: #1b2740;">Carousel card 3 screenshot, product recognized as "unbranded all-season tire"</span>
+                      <span style="color: #52617a;">Decided by</span><span style="color: #1b2740;">Automated check, then confirmed by a Velocity co-op reviewer, Nov 24</span>
+                      <span style="color: #52617a;">Effect</span><span style="color: #1b2740;">1 of 4 cards excluded, so $75 of $300 not reimbursed</span>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+            <sc-if value="{{ showChallengeCard }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; flex-direction: column; gap: 10px; padding: 16px; border-radius: 18px; background: rgba(39,66,145,.07); border: 1px solid rgba(39,66,145,.18); animation: cfStage .5s cubic-bezier(.2,.8,.2,1);">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+                  <span style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #1d3270;">Your challenge</span>
+                  <span style="height: 26px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; {{ challengeChipStyle }}">{{ challengeChip }}</span>
+                </div>
+                <div style="font-size: 15px; line-height: 1.5; color: #1b2740;">"Card 3 shows <strong>Arctic Trax</strong>, Velocity's own winter tire line. It's in-program, so this is a wrong fact, not a rule question."</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px;">
+                  <span style="height: 26px; padding: 0 10px; border-radius: 999px; background: #ffffff; border: 1px solid #dde4ef; display: inline-flex; align-items: center; color: #1b2740;">Attached: card 3 creative</span>
+                  <span style="height: 26px; padding: 0 10px; border-radius: 999px; background: #ffffff; border: 1px solid #dde4ef; display: inline-flex; align-items: center; color: #1b2740;">Attached: Velocity product catalog p.14</span>
+                  <span style="height: 26px; padding: 0 10px; border-radius: 999px; background: #ffffff; border: 1px solid #dde4ef; display: inline-flex; align-items: center; color: #1b2740;">Type: fact correction</span>
+                </div>
+                <div style="font-size: 13px; color: #52617a;">{{ challengeNote }}</div>
+              </div>
+            </sc-if>
+          </section>
+        </sc-if>
+
+        <sc-if value="{{ showReceive }}" hint-placeholder-val="{{ false }}">
+          <section style="border-radius: 28px; padding: 28px; background: rgba(255,255,255,.82); border: 1px solid #ffffff; backdrop-filter: blur(28px) saturate(170%); -webkit-backdrop-filter: blur(28px) saturate(170%); box-shadow: 0 40px 80px -40px rgba(27,39,64,.4); display: flex; flex-direction: column; gap: 16px; animation: cfStage .62s cubic-bezier(.2,.8,.2,1);">
+            <div>
+              <div style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">{{ recvKicker }}</div>
+              <h2 style="margin: 6px 0 0; font-size: 28px; font-weight: 600; letter-spacing: -0.02em; color: #1b2740;">{{ recvTitle }}</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 8px 16px; padding: 16px; border-radius: 18px; background: #f5f8fa; border: 1px solid #dde4ef; font-size: 14px;">
+              <span style="color: #52617a;">Amount</span><span style="color: #1b2740; font-weight: 600;">{{ payAmount }}</span>
+              <span style="color: #52617a;">Method</span><span style="color: #1b2740;">ACH to Velocity Auto Riverside, account ending 4471</span>
+              <span style="color: #52617a;">Sent</span><span style="color: #1b2740;">Nov 28 · batch B6189</span>
+              <span style="color: #52617a;">Expected to land</span><span style="color: #1b2740;">Dec 1–2</span>
+              <span style="color: #52617a;">Covers</span><span style="color: #1b2740;">{{ payCovers }}</span>
+            </div>
+            <sc-if value="{{ askConfirm }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+                <span style="font-size: 15px; color: #1b2740; flex: 1 1 260px;">Sent isn't the same as received. Did it arrive?</span>
+                <button type="button" onClick="{{ confirmYes }}" class="cf-press" style="height: 46px; padding: 0 22px; border-radius: 999px; border: 0; background: #99CA3E; color: #1b2740; font-size: 15px; font-weight: 600; animation: cfPulse 2.4s infinite;">Yes, it arrived</button>
+                <button type="button" onClick="{{ confirmNo }}" class="cf-press" style="height: 46px; padding: 0 18px; border-radius: 999px; border: 1px solid #c3cee8; background: #ffffff; color: #1b2740; font-size: 15px; font-weight: 500;">Not yet</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ notYet }}" hint-placeholder-val="{{ false }}">
+              <div style="padding: 12px 14px; border-radius: 14px; background: #fdf1ec; color: #9a4a06; font-size: 14px; line-height: 1.45; animation: cfRow .4s;">Got it. ACH can take until Dec 2. If it's not there by Dec 3, I'll open a trace with Velocity's payments team with the batch and amount already filled in, so you won't have to call anyone.</div>
+            </sc-if>
+            <sc-if value="{{ done }}" hint-placeholder-val="{{ false }}">
+              <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; animation: cfStage .6s cubic-bezier(.2,.8,.2,1);">
+                <div style="padding: 16px; border-radius: 18px; background: #ffffff; border: 1px solid #dde4ef;"><div style="font-size: 12px; color: #52617a;">You spent</div><div style="font-size: 24px; font-weight: 600; color: #1b2740;">$2,400</div></div>
+                <div style="padding: 16px; border-radius: 18px; background: #ffffff; border: 1px solid #dde4ef;"><div style="font-size: 12px; color: #52617a;">Co-op received</div><div style="font-size: 24px; font-weight: 600; color: #126b34;">{{ payReceived }}</div></div>
+                <div style="padding: 16px; border-radius: 18px; background: #ffffff; border: 1px solid #dde4ef;"><div style="font-size: 12px; color: #52617a;">Net cost</div><div style="font-size: 24px; font-weight: 600; color: #1b2740;">{{ payNet }}</div></div>
+                <div style="padding: 16px; border-radius: 18px; background: #ffffff; border: 1px solid #dde4ef;"><div style="font-size: 12px; color: #52617a;">Bookings</div><div style="font-size: 24px; font-weight: 600; color: #1b2740;">47</div><div style="font-size: 12px; color: #52617a;">I predicted 38–55</div></div>
+              </div>
+              <div style="font-size: 14px; line-height: 1.5; color: #52617a;">About {{ perBooking }} net per booking. I can't prove all 47 came from this playbook: 31 used a playbook link or code, and 16 are likely but unattributed. I'll use this for next winter's version.</div>
+            </sc-if>
+          </section>
+        </sc-if>
+
+        <div style="border-radius: 24px; padding: 18px 20px; background: rgba(255,255,255,.55); border: 1px solid rgba(255,255,255,.9);">
+          <div style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a; margin-bottom: 10px;">What happened</div>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <sc-for list="{{ log }}" as="e" hint-placeholder-count="2">
+              <div style="display: flex; gap: 12px; font-size: 14px; line-height: 1.45; animation: cfRow .45s cubic-bezier(.2,.8,.2,1);">
+                <span style="width: 54px; flex: 0 0 auto; color: #52617a; font-variant-numeric: tabular-nums;">{{ e.d }}</span>
+                <span style="color: #1b2740;">{{ e.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </main>
+
+      <aside class="cf-side" style="width: 330px; flex: 0 0 auto; display: flex; flex-direction: column; gap: 16px;">
+        <div style="border-radius: 26px; padding: 22px; background: rgba(255,255,255,.75); border: 1px solid #ffffff; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 24px 56px -30px rgba(27,39,64,.35); display: flex; flex-direction: column; gap: 14px;">
+          <div style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">Your money</div>
+          <div style="display: flex; height: 14px; border-radius: 999px; overflow: hidden; background: rgba(27,39,64,.06);">
+            <sc-for list="{{ bar }}" as="b" hint-placeholder-count="4">
+              <div title="{{ b.label }}" style="height: 100%; transition: width .8s cubic-bezier(.34,1.2,.44,1), background .5s; {{ b.style }}"></div>
+            </sc-for>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <sc-for list="{{ ledger }}" as="l" hint-placeholder-count="5">
+              <div style="display: flex; align-items: center; gap: 10px; font-size: 14px;">
+                <span style="width: 10px; height: 10px; border-radius: 3px; flex: 0 0 auto; {{ l.swatch }}"></span>
+                <span style="flex: 1; color: #2d3e50;">{{ l.label }}</span>
+                <span style="font-weight: 600; color: #1b2740; font-variant-numeric: tabular-nums; transition: color .4s;">{{ l.value }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="padding-top: 12px; border-top: 1px solid rgba(27,39,64,.08); display: flex; justify-content: space-between; align-items: baseline;">
+            <span style="font-size: 14px; color: #52617a;">{{ exposureLabel }}</span>
+            <span style="font-size: 22px; font-weight: 600; color: #1b2740; font-variant-numeric: tabular-nums;">{{ exposure }}</span>
+          </div>
+        </div>
+
+        <div style="border-radius: 26px; padding: 22px; background: rgba(255,255,255,.66); border: 1px solid #ffffff; display: flex; flex-direction: column; gap: 12px;">
+          <div style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">Three different things</div>
+          <div style="display: flex; justify-content: space-between; font-size: 14px;"><span style="color: #2d3e50;">Delivered</span><span style="font-weight: 600; color: #1b2740;">{{ kDelivered }}</span></div>
+          <div style="display: flex; justify-content: space-between; font-size: 14px;"><span style="color: #2d3e50;">Response (bookings)</span><span style="font-weight: 600; color: #1b2740;">{{ kBookings }}</span></div>
+          <div style="display: flex; justify-content: space-between; font-size: 14px;"><span style="color: #2d3e50;">Support received</span><span style="font-weight: 600; color: #1b2740;">{{ kReceived }}</span></div>
+          <div style="font-size: 12px; line-height: 1.45; color: #52617a;">Launching isn't delivery, delivery isn't response, and paid isn't received. Each one has its own check.</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { stage: 0, choice: null, why: false, confirmed: null };
+  }
+  renderVals() {
+    const s = this.state;
+    const st = s.stage;
+    const STEPS = [
+      { ch: "Search", name: "Google Search ads", coop: 450, deliv: "9,420 searches reached within 15 mi", proof: "Google invoice + 3 ad screenshots" },
+      { ch: "Social", name: "Facebook + Instagram carousel", coop: 300, deliv: "118k reached, recent bookers excluded", proof: "Meta invoice + 4 placement screenshots" },
+      { ch: "Stories", name: "Instagram story series", coop: 150, deliv: "31k reached Wed 6pm", proof: "Meta invoice + 3 frame captures" },
+      { ch: "Print", name: "Service counter flyer · 500", coop: 120, deliv: "500 received at the store, Nov 4", proof: "Print invoice + counter photo you took" },
+      { ch: "Video", name: "15-second pre-roll", coop: 180, deliv: "47.6k of 48k households", proof: "CTV delivery affidavit" },
+      { ch: "Email", name: "Email to service customers", coop: 0, deliv: "2,086 delivered, 54 bounced", proof: "Not co-op eligible" }
+    ];
+    const challenged = s.choice === "challenge";
+    const resolved = st >= 4;
+    const socialApproved = (challenged && resolved) ? 300 : 225;
+
+    const RAIL = [
+      { label: "Decide", sub: "Commit with the risk understood", jobs: "J07.A · H01 · H03" },
+      { label: "Running", sub: "Delivery checked as it happens", jobs: "J04 · J14.B" },
+      { label: "Delivered", sub: "Proof collected for you", jobs: "J04 · T03" },
+      { label: "Determined", sub: "Velocity's co-op decision", jobs: "J15 · T06" },
+      { label: "Resolved", sub: "Challenges answered", jobs: "T06.A · G03" },
+      { label: "Paid", sub: "Money sent", jobs: "J16" },
+      { label: "Received", sub: "Money in your account", jobs: "J07 · ES03" }
+    ];
+    const rail = RAIL.map((r, i) => {
+      const doneI = i < st || (i === 6 && s.confirmed === "yes");
+      const cur = i === st && !doneI;
+      return Object.assign({}, r, {
+        mark: doneI ? "✓" : String(i + 1),
+        dotStyle: doneI ? "background: #99CA3E; color: #1b2740;" : (cur ? "background: #274291; color: #ffffff; box-shadow: 0 0 0 5px rgba(39,66,145,.15);" : "background: rgba(27,39,64,.08); color: #52617a;"),
+        rowStyle: cur ? "background: rgba(255,255,255,.85);" : ""
+      });
+    });
+
+    const fmt = (n) => "$" + n.toLocaleString("en-US");
+    let rows = [], panelKicker = "", panelTitle = "", panelHint = "";
+    if (st === 1) {
+      panelKicker = "Running · day 5 of 21";
+      panelTitle = "Everything is live. One step needed a fix.";
+      panelHint = "Checked hourly against what you approved";
+      rows = STEPS.map((x, i) => {
+        const vid = x.ch === "Video";
+        const pr = x.ch === "Print";
+        return { ch: x.ch, name: x.name, detail: vid ? "Pacing at 72% of plan" : (pr ? "Printed, ships Nov 2" : "On pace"),
+          chip: vid ? "Under-delivering" : "On pace",
+          chipStyle: vid ? "background: #fdf1ec; color: #9a4a06;" : "background: #e7f4e9; color: #126b34;",
+          hasNote: vid, note: "Connected TV inventory was thin this week. I extended the flight by 4 days at no extra cost instead of letting it under-deliver. No action needed from you.",
+          noteStyle: "background: #fdf1ec; color: #9a4a06;", bg: "#ffffff", border: "#dde4ef", delay: (i * 60) + "ms", decide: false, showWhy: false };
+      });
+    }
+    if (st === 2) {
+      panelKicker = "Delivered · Nov 21";
+      panelTitle = "Delivered as approved. Proof is collected.";
+      panelHint = "You didn't upload anything";
+      rows = STEPS.map((x, i) => ({ ch: x.ch, name: x.name, detail: x.deliv + " · " + x.proof,
+        chip: x.coop ? "Proof ready" : "No co-op",
+        chipStyle: x.coop ? "background: #e7eaf4; color: #1d3270;" : "background: rgba(27,39,64,.06); color: #52617a;",
+        hasNote: false, note: "", noteStyle: "", bg: "#ffffff", border: "#dde4ef", delay: (i * 60) + "ms", decide: false, showWhy: false }));
+    }
+    if (st === 3 || st === 4) {
+      panelKicker = st === 3 ? "Determined · Nov 24" : "Resolved · Nov 26";
+      panelTitle = st === 3 ? "Velocity approved $1,125 of $1,200." : (challenged ? "Your challenge was upheld. All $1,200 approved." : "You accepted $1,125.");
+      panelHint = "Velocity co-op program VEL-COOP-2026 v3";
+      rows = STEPS.filter((x) => x.coop).map((x, i) => {
+        const soc = x.ch === "Social";
+        const partial = soc && !(challenged && resolved);
+        const amt = soc ? socialApproved : x.coop;
+        return { ch: x.ch, name: x.name, detail: soc ? (partial ? "3 of 4 carousel cards approved" : "4 of 4 carousel cards approved, fact corrected") : "Approved in full",
+          chip: (partial ? fmt(amt) + " of " + fmt(x.coop) : fmt(amt) + " approved"),
+          chipStyle: partial ? "background: #fdf1ec; color: #9a4a06;" : "background: #e7f4e9; color: #126b34;",
+          hasNote: soc, note: partial ? "Card 3 was read as showing a tire that isn't in the program, so $75 wasn't reimbursed." : "Reviewer note: Arctic Trax is Velocity's in-program line. The automated check misidentified the product. Corrected and logged.",
+          noteStyle: partial ? "background: #fdf1ec; color: #9a4a06;" : "background: #e7f4e9; color: #126b34;",
+          bg: partial ? "#fffaf7" : "#ffffff", border: partial ? "#fad4c6" : "#dde4ef", delay: (i * 60) + "ms",
+          decide: soc && st === 3 && !s.choice, showWhy: soc && s.why && st === 3 };
+      });
+    }
+
+    const showSteps = st >= 1 && st <= 4;
+    const showReceive = st >= 5;
+    const LOG = [
+      { at: 1, d: "Oct 30", t: "You committed $2,400. Pre-approval was filed for you. Velocity says the activity is permitted, and support is conditional on proof." },
+      { at: 1, d: "Nov 3", t: "Video was pacing at 72%, so I extended the flight 4 days at no cost." },
+      { at: 2, d: "Nov 21", t: "All 6 steps delivered. Proof collected automatically for the 5 co-op steps." },
+      { at: 3, d: "Nov 24", t: "Velocity determined $1,125 approved and $75 not approved (Social card 3)." }
+    ];
+    let log = LOG.filter((e) => st >= e.at);
+    if (challenged) log.push({ d: "Nov 24", t: "You challenged the Social decision as a wrong fact, with evidence attached." });
+    if (s.choice === "accept") log.push({ d: "Nov 24", t: "You accepted $225 for Social." });
+    if (st >= 4 && challenged) log.push({ d: "Nov 26", t: "A Velocity reviewer corrected the fact and approved the remaining $75." });
+    const total = challenged ? 1200 : 1125;
+    if (st >= 5) log.push({ d: "Nov 28", t: "Velocity sent " + fmt(total) + " by ACH, batch B6189." });
+    if (s.confirmed === "no") log.push({ d: "Dec 1", t: "You said it hasn't arrived. A trace is scheduled for Dec 3 if it's still missing." });
+    if (s.confirmed === "yes") log.push({ d: "Dec 1", t: "You confirmed " + fmt(total) + " arrived. This playbook is complete." });
+    log = log.slice().reverse();
+
+    const approved = st >= 3 ? (st >= 4 ? total : 1125) : 0;
+    const pending = (st === 3 && challenged) ? 75 : 0;
+    const paid = st >= 5 ? total : 0;
+    const received = s.confirmed === "yes" ? total : 0;
+    const conditional = st >= 3 ? 0 : 1200;
+    const pct = (n) => (n / 1200 * 100) + "%";
+    const bar = [
+      { label: "Received", style: "width: " + pct(received) + "; background: #99CA3E;" },
+      { label: "Paid, not yet confirmed", style: "width: " + pct(paid - received) + "; background: #274291;" },
+      { label: "Approved, not yet paid", style: "width: " + pct(approved - paid) + "; background: #8a9fd6;" },
+      { label: "In review", style: "width: " + pct(pending) + "; background: #c27a2c;" },
+      { label: "Conditional", style: "width: " + pct(st >= 1 ? conditional : 0) + "; background: repeating-linear-gradient(45deg, #c3cee8 0 6px, #e7eaf4 6px 12px); animation: cfStripe 1.4s linear infinite;" }
+    ];
+    const ledger = [
+      { label: "Committed", value: st >= 1 ? "$2,400" : "Not yet", swatch: "background: #1b2740;" },
+      { label: "Co-op conditional", value: fmt(st >= 1 ? conditional : 0), swatch: "background: #c3cee8;" },
+      { label: "Approved", value: fmt(approved), swatch: "background: #8a9fd6;" },
+      { label: "In review", value: fmt(pending), swatch: "background: #c27a2c;" },
+      { label: "Paid", value: fmt(paid), swatch: "background: #274291;" },
+      { label: "Received", value: fmt(received), swatch: "background: #99CA3E;" }
+    ];
+    let exposureLabel = "Worst case out of pocket", exposure = "$2,400";
+    if (st >= 3) { exposure = fmt(2400 - approved); exposureLabel = "Out of pocket if approved pays"; }
+    if (s.confirmed === "yes") { exposure = fmt(2400 - received); exposureLabel = "Final net cost"; }
+
+    const dates = ["Oct 30", "Nov 5", "Nov 21", "Nov 24", "Nov 26", "Nov 28", "Dec 1"];
+    const waitingOnYou = st === 3 && !s.choice;
+    const atEnd = st >= 6;
+    let advLabel = "Next event";
+    if (st === 0) advLabel = "Commit to continue";
+    if (waitingOnYou) advLabel = "Waiting on you";
+    if (atEnd) advLabel = "End of slice";
+    const advDisabled = st === 0 || waitingOnYou || atEnd;
+    const go = (n) => this.setState({ stage: n });
+
+    return {
+      rail, rows, log, bar, ledger, exposure, exposureLabel,
+      payAmount: fmt(total) + ".00",
+      payReceived: fmt(total), payNet: fmt(2400 - total), perBooking: fmt(Math.round((2400 - total) / 47)),
+      payCovers: "5 steps: Search $450, Social " + fmt(socialApproved) + ", Stories $150, Flyer $120, Video $180",
+      s0: st === 0, showSteps, showReceive, panelKicker, panelTitle, panelHint,
+      dateLabel: dates[st],
+      conditions: [
+        "Each step runs as approved. I watch delivery and fix problems as they come up.",
+        "Creative shows only in-program products. Every step already passed Velocity's 14 brand rules.",
+        "Proof of performance is collected automatically from Google, Meta, the printer and the CTV vendor.",
+        "Velocity's co-op reviewer approves each step. Approval isn't guaranteed, and you can challenge a decision."
+      ],
+      advance: () => { if (st === 0) { go(1); return; } if (!advDisabled) go(st + 1); },
+      advLabel, advDisabled: advDisabled ? "true" : "false",
+      advStyle: advDisabled ? "background: rgba(255,255,255,.18); color: rgba(255,255,255,.6); cursor: default;" : "background: #99CA3E; color: #1b2740;",
+      reset: () => this.setState({ stage: 0, choice: null, why: false, confirmed: null }),
+      challenge: () => this.setState({ choice: "challenge", why: false }),
+      accept: () => this.setState({ choice: "accept", why: false }),
+      toggleWhy: () => this.setState({ why: !s.why }),
+      whyLabel: s.why ? "Hide reasoning" : "Show the reasoning",
+      showChallengeCard: challenged && (st === 3 || st === 4),
+      challengeChip: st >= 4 ? "Upheld · fact corrected" : "With Velocity reviewer · answer by Nov 26",
+      challengeChipStyle: st >= 4 ? "background: #e7f4e9; color: #126b34;" : "background: #ffffff; color: #1d3270;",
+      challengeNote: st >= 4 ? "Corrected facts are logged against the rule, so the automated check won't make the same mistake on Arctic Trax again." : "The other $1,125 isn't held up by this. It moves to payment on its own schedule.",
+      recvKicker: st === 5 ? "Paid · Nov 28" : "Received · Dec 1",
+      recvTitle: s.confirmed === "yes" ? "Done. The money arrived." : (st === 5 ? "Velocity sent your co-op." : "Did your co-op arrive?"),
+      askConfirm: st === 6 && s.confirmed !== "yes",
+      notYet: st === 6 && s.confirmed === "no",
+      done: s.confirmed === "yes",
+      confirmYes: () => this.setState({ confirmed: "yes" }),
+      confirmNo: () => this.setState({ confirmed: "no" }),
+      kDelivered: st >= 2 ? "6 of 6 steps" : (st === 1 ? "Running" : "—"),
+      kBookings: st >= 3 ? "47" : (st === 2 ? "39" : (st === 1 ? "14 so far" : "—")),
+      kReceived: s.confirmed === "yes" ? fmt(total) : (st >= 5 ? "Sent, not confirmed" : "—")
+    };
+  }
+}
+</script>
+</body>
+</html>

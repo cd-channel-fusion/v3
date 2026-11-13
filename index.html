@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connected Platform 2028 Prototype</title>
+<link rel="icon" href="assets/logo-mark.svg">
+<style>
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-500.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-600.woff2') format('woff2');font-weight:600;font-display:swap}
+:root{--ink:#1b2740;--text:#2d3e50;--muted:#52617a;--navy:#274291;--lime:#99CA3E;--ground:#eef2f7}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--ground);font-family:'Switzer',system-ui,sans-serif;color:var(--text);position:relative;overflow-x:hidden}
+.orb{position:fixed;border-radius:50%;filter:blur(24px);pointer-events:none}
+.o1{left:-200px;top:-220px;width:760px;height:760px;background:radial-gradient(circle,rgba(39,66,145,.24),rgba(39,66,145,0) 68%)}
+.o2{right:-200px;bottom:-240px;width:760px;height:760px;background:radial-gradient(circle,rgba(153,202,62,.26),rgba(153,202,62,0) 68%)}
+main{position:relative;max-width:1180px;margin:0 auto;padding:56px 24px 72px}
+.brand{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.brand img{width:34px;height:34px}
+h1{margin:22px 0 10px;font-size:clamp(36px,6vw,64px);line-height:1.04;font-weight:600;letter-spacing:-.03em;color:var(--ink)}
+.lede{margin:0;max-width:760px;font-size:18px;line-height:1.55;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;margin-top:40px}
+a.card{display:flex;flex-direction:column;gap:10px;padding:24px;border-radius:24px;text-decoration:none;color:inherit;background:rgba(255,255,255,.66);border:1px solid rgba(255,255,255,.9);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 20px 48px -24px rgba(27,39,64,.3);transition:transform .38s cubic-bezier(.2,.8,.2,1),box-shadow .38s}
+a.card:hover{transform:translateY(-3px);box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 34px 64px -28px rgba(27,39,64,.38)}
+a.card:focus-visible{outline:3px solid var(--navy);outline-offset:3px}
+.num{font-size:13px;font-weight:600;color:var(--navy);letter-spacing:.06em}
+.title{font-size:21px;font-weight:600;color:var(--ink)}
+.desc{font-size:15px;line-height:1.5;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+.tag{height:24px;padding:0 9px;border-radius:999px;background:rgba(39,66,145,.08);color:#1d3270;font-size:12px;font-weight:500;display:inline-flex;align-items:center}
+.note{margin-top:40px;padding:18px 20px;border-radius:18px;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.9);font-size:14px;line-height:1.55;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="orb o1" aria-hidden="true"></div>
+<div class="orb o2" aria-hidden="true"></div>
+<main>
+  <div class="brand"><img src="assets/logo-mark.svg" alt="">Connected Platform · Design prototype</div>
+  <h1>Connected Platform 2028</h1>
+  <p class="lede">Interactive concept prototypes for an AI-led channel marketing platform: suggested playbooks for each location, a clear path from spending to co-op money received, visible oversight of everything done in a partner's name, and a brand view of where national initiatives actually ran.</p>
+
+  <div class="grid">
+    <a class="card" href="design-language.html">
+      <span class="num">01</span><span class="title">Design language</span>
+      <span class="desc">Principles, color, glass tiers, type, motion tokens and the signature interaction patterns.</span>
+      <span class="tags"><span class="tag">Static</span></span>
+    </a>
+    <a class="card" href="briefing.html">
+      <span class="num">02</span><span class="title">Location briefing</span>
+      <span class="desc">A dealer's home: suggested playbooks with the reasons behind them, filters that tuck behind the main panel, running work and money on the table.</span>
+      <span class="tags"><span class="tag">Interactive</span><span class="tag">J04 · J17</span></span>
+    </a>
+    <a class="card" href="playbook.html">
+      <span class="num">03</span><span class="title">Running a playbook</span>
+      <span class="desc">Steps in a coverflow with include, modify and skip, chat edits, brand checks, review-all grid, and audiences you can open, edit and swap.</span>
+      <span class="tags"><span class="tag">Interactive</span><span class="tag">J04 · J05 · J07.A</span></span>
+    </a>
+    <a class="card" href="after-launch.html">
+      <span class="num">04</span><span class="title">After launch</span>
+      <span class="desc">From committing money to co-op cash confirmed received, including a rejected proof the dealer challenges.</span>
+      <span class="tags"><span class="tag">Interactive</span><span class="tag">J07.A → J07 · J15 · T06</span></span>
+    </a>
+    <a class="card" href="on-your-behalf.html">
+      <span class="num">05</span><span class="title">Done on your behalf</span>
+      <span class="desc">Everything done in the dealer's name by the platform, their rep, their agency or the brand, with the permission each act relied on and limits they can change.</span>
+      <span class="tags"><span class="tag">Interactive</span><span class="tag">PT01 · G03</span></span>
+    </a>
+    <a class="card" href="brand-coverage.html">
+      <span class="num">06</span><span class="title">Brand coverage</span>
+      <span class="desc">Corporate's view of a national event: which locations actually ran it, which ran their own version or opted out, and why the rest didn't.</span>
+      <span class="tags"><span class="tag">Interactive</span><span class="tag">PJ14 · PJ19</span></span>
+    </a>
+  </div>
+
+  <p class="note">These are design prototypes for research and review, not product. All brands, people, locations and figures are fictional. Tags refer to records in the Connected Platform jobs-to-be-done research catalog (draft, not yet validated with customers).</p>
+</main>
+</body>
+</html>

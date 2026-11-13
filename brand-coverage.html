@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Event coverage</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="assets/logo-mark.svg">
+<style>x-dc{display:none}</style>
+<script src="assets/vendor/react.production.min.js"></script>
+<script src="assets/vendor/react-dom.production.min.js"></script>
+<script src="assets/dc-runtime.js" defer></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-500.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-600.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-700.woff2') format('woff2');font-weight:700;font-display:swap}
+body{margin:0}
+a{color:#274291}a:hover{color:#1d3270}
+button{font-family:'Switzer',system-ui,sans-serif;cursor:pointer}
+.cf-press{transition:transform .16s cubic-bezier(.2,.8,.2,1),background .2s,opacity .2s}
+.cf-press:hover{transform:translateY(-1px)}
+.cf-press:active{transform:scale(.97)}
+.cf-tile{transition:transform .2s cubic-bezier(.34,1.36,.44,1),background .6s,box-shadow .3s,opacity .3s}
+.cf-tile:hover{transform:scale(1.18);z-index:2}
+@keyframes cfFloat{0%{transform:translate(0,0)}50%{transform:translate(40px,-30px)}100%{transform:translate(0,0)}}
+@keyframes cfRow{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes cfToast{from{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%,0)}}
+@media (max-width: 1100px){.cf-grid{flex-direction:column}.cf-side{width:100% !important}}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 1000px; box-sizing: border-box; position: relative; overflow: hidden; background: #eef2f7; font-family: 'Switzer', 'Inter', system-ui, sans-serif; color: #2d3e50;">
+  <div aria-hidden="true" style="position: absolute; right: -200px; top: -240px; width: 780px; height: 780px; border-radius: 50%; background: radial-gradient(circle, rgba(97,85,212,.22), rgba(97,85,212,0) 68%); filter: blur(24px); animation: cfFloat 18s ease-in-out infinite;"></div>
+  <div aria-hidden="true" style="position: absolute; left: -220px; bottom: -260px; width: 760px; height: 760px; border-radius: 50%; background: radial-gradient(circle, rgba(39,66,145,.22), rgba(39,66,145,0) 68%); filter: blur(24px); animation: cfFloat 22s ease-in-out infinite reverse;"></div>
+
+  <div style="position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 24px 32px 48px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px;">
+    <div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px;">
+      <div style="flex: 1 1 360px; min-width: 0;">
+        <div style="font-size: 13px; color: #52617a;">Velocity Auto Group · Corporate marketing · David Lenzen</div>
+        <h1 style="margin: 2px 0 0; font-size: 36px; line-height: 1.1; font-weight: 600; letter-spacing: -0.025em; color: #1b2740;">Velocity Holiday Sales Event</h1>
+        <p style="margin: 6px 0 0; font-size: 16px; color: #52617a;">Dec 1 – Jan 2 · day 6 of 33 · intended for all 64 locations</p>
+      </div>
+      <div role="group" aria-label="Region" style="display: inline-flex; padding: 4px; border-radius: 999px; background: rgba(255,255,255,.65); border: 1px solid #ffffff;">
+        <sc-for list="{{ regions }}" as="rg" hint-placeholder-count="5">
+          <button type="button" onClick="{{ rg.pick }}" aria-pressed="{{ rg.pressed }}" style="height: 36px; padding: 0 14px; border-radius: 999px; border: 0; font-size: 13px; font-weight: 600; transition: background .3s, color .3s; {{ rg.style }}">{{ rg.l }}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <section style="border-radius: 28px; padding: 22px 24px; background: rgba(255,255,255,.8); border: 1px solid #ffffff; backdrop-filter: blur(28px) saturate(170%); -webkit-backdrop-filter: blur(28px) saturate(170%); box-shadow: 0 30px 70px -40px rgba(27,39,64,.4); display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px;">
+        <span style="font-size: 44px; font-weight: 600; letter-spacing: -0.03em; color: #1b2740; font-variant-numeric: tabular-nums;">{{ runningN }}</span>
+        <span style="font-size: 17px; color: #2d3e50;">of {{ totalN }} locations are actually running it</span>
+        <span style="flex: 1;"></span>
+        <span style="font-size: 13px; color: #52617a;">Running means ads served or materials in store, confirmed by the ad platforms and printers.</span>
+      </div>
+      <div style="display: flex; height: 16px; border-radius: 999px; overflow: hidden; background: rgba(27,39,64,.06);">
+        <sc-for list="{{ bar }}" as="b" hint-placeholder-count="6">
+          <div title="{{ b.label }}" style="height: 100%; transition: width .9s cubic-bezier(.34,1.2,.44,1); width: {{ b.w }}; background: {{ b.c }};"></div>
+        </sc-for>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px 18px;">
+        <sc-for list="{{ legend }}" as="lg" hint-placeholder-count="6">
+          <span style="display: inline-flex; align-items: center; gap: 7px; font-size: 13px; color: #2d3e50;"><span style="width: 10px; height: 10px; border-radius: 3px; background: {{ lg.c }};"></span>{{ lg.label }}<strong style="color: #1b2740; font-variant-numeric: tabular-nums;">{{ lg.n }}</strong></span>
+        </sc-for>
+      </div>
+    </section>
+
+    <div class="cf-grid" style="display: flex; gap: 24px; align-items: flex-start;">
+      <main style="flex: 1 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 14px;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">Why the rest aren't running</div>
+        <sc-for list="{{ gaps }}" as="g" hint-placeholder-count="5">
+          <article style="border-radius: 22px; padding: 18px; background: rgba(255,255,255,.82); border: 1px solid {{ g.border }}; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 18px 44px -30px rgba(27,39,64,.35); display: flex; flex-direction: column; gap: 10px; animation: cfRow .45s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{ g.delay }};">
+            <div style="display: flex; align-items: flex-start; gap: 14px;">
+              <span style="min-width: 44px; height: 44px; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 600; color: #ffffff; background: {{ g.c }}; font-variant-numeric: tabular-nums;">{{ g.n }}</span>
+              <div style="flex: 1; min-width: 0;">
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;"><span style="font-size: 17px; font-weight: 600; color: #1b2740;">{{ g.title }}</span><span style="height: 24px; padding: 0 9px; border-radius: 999px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; {{ g.kindStyle }}">{{ g.kind }}</span></div>
+                <div style="font-size: 14px; line-height: 1.45; color: #52617a; margin-top: 2px;">{{ g.detail }}</div>
+              </div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px; padding-left: 58px;">
+              <sc-for list="{{ g.names }}" as="nm" hint-placeholder-count="4">
+                <button type="button" onClick="{{ nm.pick }}" class="cf-press" style="height: 26px; padding: 0 10px; border-radius: 999px; border: 1px solid #dde4ef; background: #ffffff; color: #1b2740; font-size: 12px;">{{ nm.l }}</button>
+              </sc-for>
+            </div>
+            <sc-if value="{{ g.hasAction }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding-left: 58px;">
+                <button type="button" onClick="{{ g.act }}" class="cf-press" style="height: 40px; padding: 0 16px; border-radius: 999px; border: 0; background: #274291; color: #ffffff; font-size: 14px; font-weight: 600;">{{ g.actLabel }}</button>
+                <span style="font-size: 13px; color: #52617a;">{{ g.actNote }}</span>
+              </div>
+            </sc-if>
+          </article>
+        </sc-for>
+        <sc-if value="{{ noGaps }}" hint-placeholder-val="{{ false }}">
+          <div style="padding: 28px; border-radius: 22px; background: rgba(255,255,255,.6); text-align: center; font-size: 15px; color: #52617a;">Every location in this region is running it, ran its own version, or gave a reason.</div>
+        </sc-if>
+      </main>
+
+      <aside class="cf-side" style="width: 420px; flex: 0 0 auto; display: flex; flex-direction: column; gap: 14px;">
+        <div style="border-radius: 26px; padding: 20px; background: rgba(255,255,255,.8); border: 1px solid #ffffff; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 24px 56px -30px rgba(27,39,64,.35); display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;"><span style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">Every location</span><span style="font-size: 12px; color: #52617a;">Tap one</span></div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ blocks }}" as="bk" hint-placeholder-count="4">
+              <div style="display: flex; flex-direction: column; gap: 6px; transition: opacity .3s; {{ bk.style }}">
+                <span style="font-size: 12px; font-weight: 600; color: #52617a;">{{ bk.name }}</span>
+                <div style="display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 4px;">
+                  <sc-for list="{{ bk.tiles }}" as="t" hint-placeholder-count="16">
+                    <button type="button" onClick="{{ t.pick }}" aria-label="{{ t.aria }}" class="cf-tile" style="aspect-ratio: 1; border-radius: 5px; border: 0; padding: 0; position: relative; background: {{ t.c }}; {{ t.ring }}"></button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <sc-if value="{{ hasSel }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 14px; border-radius: 16px; background: #f5f8fa; border: 1px solid #dde4ef; display: flex; flex-direction: column; gap: 6px; animation: cfRow .35s;">
+              <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 10px; height: 10px; border-radius: 3px; background: {{ sel.c }};"></span><span style="font-size: 15px; font-weight: 600; color: #1b2740;">{{ sel.name }}</span></div>
+              <div style="font-size: 13px; color: #2d3e50;">{{ sel.status }}</div>
+              <div style="font-size: 13px; color: #52617a;">{{ sel.detail }}</div>
+              <div style="font-size: 12px; color: #52617a;">Rep: {{ sel.rep }} · {{ sel.region }}</div>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="border-radius: 22px; padding: 18px 20px; background: rgba(255,255,255,.66); border: 1px solid #ffffff; display: flex; flex-direction: column; gap: 8px;">
+          <div style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">What it changed</div>
+          <div style="font-size: 15px; font-weight: 600; color: #1b2740;">Too early to tell.</div>
+          <div style="font-size: 13px; line-height: 1.5; color: #52617a;">The first estimate is due Dec 15. It compares running locations with similar locations that aren't running it, and with last year's event. It will show a range and its limits, and "no measurable effect" is a possible answer.</div>
+        </div>
+
+        <div style="border-radius: 22px; padding: 18px 20px; background: rgba(255,255,255,.5); border: 1px solid rgba(255,255,255,.9); display: flex; flex-direction: column; gap: 8px; font-size: 12px; line-height: 1.5; color: #52617a;">
+          <div><strong style="color: #1b2740;">Not counted as running:</strong> assets downloaded, log-ins, approvals issued, or co-op spent. None of them proves the event reached customers.</div>
+          <div><strong style="color: #1b2740;">Dealers set their own prices.</strong> The event requires the national offer's disclosures, not a price.</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 50%; bottom: 28px; z-index: 20; max-width: min(640px, calc(100% - 32px)); padding: 14px 20px; border-radius: 20px; background: rgba(27,39,64,.9); color: #ffffff; font-size: 14px; line-height: 1.45; box-shadow: 0 20px 40px -16px rgba(27,39,64,.6); animation: cfToast .45s cubic-bezier(.34,1.36,.44,1) both;">{{ toast }}</div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { region: "all", sel: null, fixed: { spanish: false, coop: false }, asked: false, toast: null };
+  }
+  renderVals() {
+    const s = this.state;
+    const REG = [
+      { key: "ne", name: "Northeast", rep: "Priya Nair", cities: ["Albany", "Hartford", "Worcester", "Providence", "Scranton", "Syracuse", "Nashua", "Portland ME", "Burlington", "Springfield MA", "Allentown", "Trenton", "Utica", "New Haven", "Lowell", "Bangor"] },
+      { key: "se", name: "Southeast", rep: "Tom Reyes", cities: ["Riverside", "Orlando", "Tampa", "Savannah", "Charlotte", "Raleigh", "Columbia", "Augusta", "Mobile", "Macon", "Durham", "Greenville", "Jacksonville", "Hialeah", "Kissimmee", "Pensacola"] },
+      { key: "ce", name: "Central", rep: "James Okafor", cities: ["Dayton", "Toledo", "Peoria", "Madison", "Fort Wayne", "Lansing", "Akron", "Rockford", "Des Moines", "Omaha", "Wichita", "Topeka", "Springfield IL", "Evansville", "Grand Rapids", "Cedar Rapids"] },
+      { key: "we", name: "West", rep: "Ana Lopez", cities: ["Fresno", "Bakersfield", "Tucson", "Mesa", "Reno", "Boise", "Spokane", "Salem", "Modesto", "Stockton", "Santa Ana", "El Paso", "Albuquerque", "Ogden", "Eugene", "Oxnard"] }
+    ];
+    const SPECIAL = {
+      spanish: ["Hialeah", "Kissimmee", "Santa Ana", "El Paso", "Oxnard"],
+      coop: ["Utica", "Bangor", "Topeka", "Pensacola"],
+      none: ["Scranton", "Macon", "Rockford", "Evansville", "Ogden", "Modesto"],
+      optEvent: ["Charlotte", "Omaha", "Mesa"],
+      optStock: ["Lowell", "Wichita"],
+      optClosed: ["Augusta", "Eugene"],
+      own: ["Hartford", "Tampa", "Raleigh", "Madison", "Des Moines", "Fresno", "Reno", "Spokane"]
+    };
+    const findKey = (c) => { for (const k in SPECIAL) if (SPECIAL[k].indexOf(c) >= 0) return k; return "ran"; };
+    const C = { ran: "#274291", own: "#8a9fd6", opt: "#99CA3E", fixable: "#c27a2c", none: "#b42318", waiting: "#e0a96d" };
+    const locs = [];
+    REG.forEach((r) => r.cities.forEach((c) => {
+      let k = findKey(c);
+      if ((k === "spanish" && s.fixed.spanish) || (k === "coop" && s.fixed.coop)) k = "ran";
+      if (k === "none" && s.asked) k = "asked";
+      locs.push({ city: c, region: r, k });
+    }));
+    const group = (k) => k === "ran" ? "ran" : (k === "own" ? "own" : (k.indexOf("opt") === 0 ? "opt" : (k === "spanish" || k === "coop" ? "fixable" : (k === "asked" ? "waiting" : "none"))));
+    const inReg = (l) => s.region === "all" || l.region.key === s.region;
+    const vis = locs.filter(inReg);
+    const cnt = (g) => vis.filter((l) => group(l.k) === g).length;
+    const total = vis.length;
+    const LEG = [["ran", "Running as intended"], ["own", "Running their own version"], ["opt", "Opted out, with a reason"], ["fixable", "Blocked on our side"], ["waiting", "Asked, waiting for a reason"], ["none", "Not running, no reason"]];
+    const bar = LEG.map((x) => ({ label: x[1], c: C[x[0]], w: (cnt(x[0]) / total * 100) + "%" }));
+    const legend = LEG.filter((x) => cnt(x[0]) > 0).map((x) => ({ label: x[1], c: C[x[0]], n: String(cnt(x[0])) }));
+    const say = (t) => { this.setState({ toast: t }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toast: null }), 4200); };
+    const namesOf = (keys) => vis.filter((l) => keys.indexOf(l.k) >= 0).map((l) => ({ l: l.city, pick: () => this.setState({ sel: l.city }) }));
+    const GAPS = [
+      { keys: ["spanish"], title: "No approved Spanish version", kind: "Blocked on our side", fixable: true, c: C.fixable,
+        detail: "These stores serve mostly Spanish-speaking ZIP codes, and their playbooks are waiting on a Spanish cut of the national creative.",
+        actLabel: "Approve the drafted Spanish version", actNote: "Drafted from the approved English version and checked against the same rules",
+        act: () => { this.setState({ fixed: Object.assign({}, s.fixed, { spanish: true }) }); say("Approved. The 5 stores' playbooks picked up the Spanish version and are running. Each store still chose its own prices."); } },
+      { keys: ["coop"], title: "Co-op account empty", kind: "Blocked on our side", fixable: true, c: C.fixable,
+        detail: "These stores used their Q4 co-op earlier in the quarter, so the event would be fully out of pocket for them.",
+        actLabel: "Release $8,000 from Unallocated", actNote: "Under co-op §4.2, accounts with negative balances in the division are covered first",
+        act: () => { this.setState({ fixed: Object.assign({}, s.fixed, { coop: true }) }); say("Released $8,000. 4 stores were notified with the new terms, and all 4 accepted and are running."); } },
+      { keys: ["none"], title: "Not running, no reason given", kind: "Unknown", fixable: true, c: C.none,
+        detail: "Nothing has run, and nobody has said why. We can't tell yet whether this is a decision or a problem.",
+        actLabel: "Ask their reps to find out", actNote: "Each rep gets the store list in their coaching queue",
+        act: () => { this.setState({ asked: true }); say("Asked Priya, Tom, James and Ana. Reasons will appear here as stores answer, with no chasing on your side."); } },
+      { keys: ["asked"], title: "Asked, waiting for a reason", kind: "In progress", fixable: false, c: C.waiting,
+        detail: "Their reps have the list. A reason is still a valid answer even if the store decides not to run." },
+      { keys: ["optEvent", "optStock", "optClosed"], title: "Opted out, with a reason", kind: "Valid decision", fixable: false, c: C.opt,
+        detail: "3 are running their own Black Friday event, 2 don't have enough eligible inventory, and 2 are closed for remodel. These count as informed decisions, not failures." },
+      { keys: ["own"], title: "Running their own version", kind: "Valid decision", fixable: false, c: C.own,
+        detail: "These stores ran their own creative for the event window. 7 carry the required national offer disclosures, and 1 is being checked." }
+    ];
+    const gaps = GAPS.map((g) => ({ g, names: namesOf(g.keys) })).filter((x) => x.names.length > 0).map((x, i) => {
+      const g = x.g;
+      return { title: g.title, kind: g.kind, detail: g.detail, c: g.c, n: String(x.names.length), names: x.names,
+        hasAction: !!g.fixable, act: g.act, actLabel: g.actLabel, actNote: g.actNote, delay: (i * 60) + "ms",
+        border: g.fixable ? "#fad4c6" : "#ffffff",
+        kindStyle: g.kind === "Valid decision" ? "background: #e7f4e9; color: #126b34;" : (g.kind === "Unknown" ? "background: #fdecec; color: #b42318;" : (g.kind === "In progress" ? "background: rgba(27,39,64,.06); color: #52617a;" : "background: #fdf1ec; color: #9a4a06;")) };
+    });
+    const STATUS = { ran: "Running as intended", own: "Running its own version", optEvent: "Opted out: running its own Black Friday event", optStock: "Opted out: not enough eligible inventory", optClosed: "Opted out: closed for remodel", spanish: "Blocked: waiting on a Spanish version", coop: "Blocked: co-op account empty", none: "Not running, no reason given", asked: "Asked, waiting for a reason" };
+    const DETAIL = { ran: "Search, social and in-store materials confirmed live Dec 1.", own: "Own creative, event window matched. Disclosures checked.", optEvent: "Recorded by the store Nov 20.", optStock: "Recorded by the store Nov 24.", optClosed: "Reopens Jan 6.", spanish: "Playbook ready except the Spanish creative.", coop: "Store would carry the full cost.", none: "No activity, no message.", asked: "Rep has it in their queue." };
+    const blocks = REG.map((r) => ({ name: r.name, style: (s.region === "all" || s.region === r.key) ? "opacity: 1;" : "opacity: .25;",
+      tiles: locs.filter((l) => l.region.key === r.key).map((l) => ({ c: C[group(l.k)], aria: l.city + ": " + STATUS[l.k],
+        ring: s.sel === l.city ? "box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #1b2740;" : "",
+        pick: () => this.setState({ sel: l.city }) })) }));
+    const selL = locs.find((l) => l.city === s.sel);
+    const regions = [{ key: "all", l: "All" }].concat(REG.map((r) => ({ key: r.key, l: r.name }))).map((r) => ({ l: r.l, pressed: s.region === r.key ? "true" : "false",
+      style: s.region === r.key ? "background: #274291; color: #ffffff;" : "background: transparent; color: #1b2740;",
+      pick: () => this.setState({ region: r.key }) }));
+    return {
+      regions, bar, legend, gaps, blocks, noGaps: gaps.length === 0,
+      runningN: String(cnt("ran") + cnt("own")), totalN: String(total),
+      hasSel: !!selL,
+      sel: selL ? { name: "Velocity Auto " + selL.city, c: C[group(selL.k)], status: STATUS[selL.k], detail: DETAIL[selL.k], rep: selL.region.rep, region: selL.region.name } : { name: "", c: "", status: "", detail: "", rep: "", region: "" },
+      hasToast: !!s.toast, toast: s.toast || ""
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>On your behalf</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="assets/logo-mark.svg">
+<style>x-dc{display:none}</style>
+<script src="assets/vendor/react.production.min.js"></script>
+<script src="assets/vendor/react-dom.production.min.js"></script>
+<script src="assets/dc-runtime.js" defer></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-500.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-600.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-700.woff2') format('woff2');font-weight:700;font-display:swap}
+body{margin:0}
+a{color:#274291}a:hover{color:#1d3270}
+button{font-family:'Switzer',system-ui,sans-serif;cursor:pointer}
+.cf-press{transition:transform .16s cubic-bezier(.2,.8,.2,1),background .2s,opacity .2s}
+.cf-press:hover{transform:translateY(-1px)}
+.cf-press:active{transform:scale(.97)}
+@keyframes cfFloat{0%{transform:translate(0,0)}50%{transform:translate(40px,-30px)}100%{transform:translate(0,0)}}
+@keyframes cfRow{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes cfOpen{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes cfToast{from{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes cfPulse{0%{box-shadow:0 0 0 0 rgba(194,122,44,.5)}70%{box-shadow:0 0 0 10px rgba(194,122,44,0)}100%{box-shadow:0 0 0 0 rgba(194,122,44,0)}}
+@media (max-width: 1100px){.cf-grid{flex-direction:column}.cf-side{width:100% !important}}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 1000px; box-sizing: border-box; position: relative; overflow: hidden; background: #eef2f7; font-family: 'Switzer', 'Inter', system-ui, sans-serif; color: #2d3e50;">
+  <div aria-hidden="true" style="position: absolute; left: -200px; top: -220px; width: 760px; height: 760px; border-radius: 50%; background: radial-gradient(circle, rgba(39,66,145,.24), rgba(39,66,145,0) 68%); filter: blur(24px); animation: cfFloat 18s ease-in-out infinite;"></div>
+  <div aria-hidden="true" style="position: absolute; right: -220px; bottom: -240px; width: 760px; height: 760px; border-radius: 50%; background: radial-gradient(circle, rgba(97,85,212,.18), rgba(97,85,212,0) 68%); filter: blur(24px); animation: cfFloat 22s ease-in-out infinite reverse;"></div>
+
+  <div style="position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 24px 32px 48px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px;">
+    <div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px;">
+      <a href="briefing.html" class="cf-press" style="height: 40px; padding: 0 16px 0 12px; border-radius: 999px; border: 1px solid #ffffff; background: rgba(255,255,255,.6); color: #1b2740; font-size: 14px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>Briefing</a>
+      <div style="flex: 1 1 360px; min-width: 0;">
+        <div style="font-size: 13px; color: #52617a;">Velocity Auto · Riverside · last 7 days</div>
+        <h1 style="margin: 2px 0 0; font-size: 36px; line-height: 1.1; font-weight: 600; letter-spacing: -0.025em; color: #1b2740;">Done on your behalf</h1>
+        <p style="margin: 6px 0 0; font-size: 16px; color: #52617a;">Everything done in your name, by anyone, and the permission it relied on.</p>
+      </div>
+      <button type="button" onClick="{{ togglePause }}" class="cf-press" style="height: 44px; padding: 0 18px; border-radius: 999px; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; {{ pauseStyle }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"></rect><rect x="14" y="5" width="4" height="14" rx="1"></rect></svg>{{ pauseLabel }}</button>
+    </div>
+
+    <sc-if value="{{ paused }}" hint-placeholder-val="{{ false }}">
+      <div style="padding: 14px 18px; border-radius: 18px; background: #fdf1ec; border: 1px solid #fad4c6; color: #9a4a06; font-size: 14px; line-height: 1.45; animation: cfOpen .4s;">Everything acting in your name is paused: the platform, James and Ridgeline. Running ads keep running, but nothing new is filed, changed or launched until you resume. Velocity corporate program rules still apply.</div>
+    </sc-if>
+
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px;">
+      <sc-for list="{{ stats }}" as="st" hint-placeholder-count="4">
+        <button type="button" onClick="{{ st.pick }}" aria-pressed="{{ st.pressed }}" class="cf-press" style="text-align: left; padding: 16px 18px; border-radius: 20px; display: flex; flex-direction: column; gap: 2px; transition: background .3s, border-color .3s; {{ st.style }}">
+          <span style="font-size: 12px; color: #52617a;">{{ st.label }}</span>
+          <span style="font-size: 28px; font-weight: 600; letter-spacing: -0.02em; color: {{ st.color }};">{{ st.n }}</span>
+        </button>
+      </sc-for>
+    </div>
+
+    <div class="cf-grid" style="display: flex; gap: 24px; align-items: flex-start;">
+      <main style="flex: 1 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+          <span style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a; margin-right: 4px;">Done by</span>
+          <sc-for list="{{ who }}" as="w" hint-placeholder-count="5">
+            <button type="button" onClick="{{ w.pick }}" aria-pressed="{{ w.pressed }}" class="cf-press" style="height: 34px; padding: 0 13px 0 10px; border-radius: 999px; font-size: 13px; font-weight: 500; display: inline-flex; align-items: center; gap: 7px; {{ w.style }}"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{ w.dot }};"></span>{{ w.label }}</button>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <sc-for list="{{ acts }}" as="a" hint-placeholder-count="6">
+            <article style="border-radius: 22px; background: rgba(255,255,255,.82); border: 1px solid {{ a.border }}; backdrop-filter: blur(24px) saturate(170%); -webkit-backdrop-filter: blur(24px) saturate(170%); box-shadow: 0 18px 44px -30px rgba(27,39,64,.35); overflow: hidden; animation: cfRow .45s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{ a.delay }};">
+              <button type="button" onClick="{{ a.toggle }}" aria-expanded="{{ a.expanded }}" style="width: 100%; border: 0; background: transparent; text-align: left; padding: 16px 18px; display: flex; gap: 14px; align-items: flex-start;">
+                <span style="width: 38px; height: 38px; flex: 0 0 auto; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #ffffff; background: {{ a.dot }};">{{ a.initials }}</span>
+                <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
+                  <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 13px; color: #52617a;"><strong style="color: #1b2740; font-weight: 600;">{{ a.by }}</strong><span>{{ a.kind }}</span><span>·</span><span>{{ a.when }}</span></span>
+                  <span style="font-size: 16px; line-height: 1.4; font-weight: 500; color: #1b2740;">{{ a.what }}</span>
+                  <span style="display: flex; flex-wrap: wrap; gap: 6px;">
+                    <span style="height: 24px; padding: 0 9px; border-radius: 999px; background: rgba(39,66,145,.08); color: #1d3270; font-size: 12px; font-weight: 500; display: inline-flex; align-items: center; gap: 5px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>{{ a.authority }}</span>
+                    <span style="height: 24px; padding: 0 9px; border-radius: 999px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; transition: background .4s, color .4s; {{ a.statusStyle }}">{{ a.status }}</span>
+                    <span style="height: 24px; padding: 0 9px; border-radius: 999px; background: #f5f8fa; color: #2d3e50; font-size: 12px; display: inline-flex; align-items: center;">{{ a.money }}</span>
+                  </span>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#52617a" stroke-width="2.2" aria-hidden="true" style="margin-top: 10px; transition: transform .3s; transform: {{ a.chev }};"><path d="M6 9l6 6 6-6"></path></svg>
+              </button>
+              <sc-if value="{{ a.open }}" hint-placeholder-val="{{ false }}">
+                <div style="padding: 0 18px 18px 70px; display: flex; flex-direction: column; gap: 12px; animation: cfOpen .35s cubic-bezier(.2,.8,.2,1);">
+                  <div style="display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 6px 14px; padding: 12px 14px; border-radius: 14px; background: #f5f8fa; font-size: 13px; line-height: 1.45;">
+                    <span style="color: #52617a;">Relied on</span><span style="color: #1b2740;">{{ a.reliedOn }}</span>
+                    <span style="color: #52617a;">What changed</span><span style="color: #1b2740;">{{ a.changed }}</span>
+                    <span style="color: #52617a;">Evidence</span><span style="color: #1b2740;">{{ a.evidence }}</span>
+                    <span style="color: #52617a;">Can it be undone</span><span style="color: #1b2740;">{{ a.undoNote }}</span>
+                  </div>
+                  <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <sc-for list="{{ a.actions }}" as="ac" hint-placeholder-count="2">
+                      <button type="button" onClick="{{ ac.go }}" class="cf-press" style="height: 40px; padding: 0 16px; border-radius: 999px; font-size: 14px; font-weight: 600; {{ ac.style }}">{{ ac.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </article>
+          </sc-for>
+          <sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 32px; border-radius: 22px; background: rgba(255,255,255,.6); text-align: center; font-size: 15px; color: #52617a;">Nothing here for this filter.</div>
+          </sc-if>
+        </div>
+      </main>
+
+      <aside class="cf-side" style="width: 380px; flex: 0 0 auto; display: flex; flex-direction: column; gap: 14px;">
+        <div style="border-radius: 26px; padding: 20px; background: rgba(255,255,255,.8); border: 1px solid #ffffff; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 24px 56px -30px rgba(27,39,64,.35); display: flex; flex-direction: column; gap: 6px;">
+          <div style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">Who can act for you</div>
+          <div style="font-size: 13px; line-height: 1.45; color: #52617a; margin-bottom: 6px;">Change a limit and it applies from the next action. Nothing already done is changed.</div>
+          <sc-for list="{{ grants }}" as="g" hint-placeholder-count="3">
+            <div style="display: flex; flex-direction: column; gap: 8px; padding: 14px 0; border-top: 1px solid rgba(27,39,64,.08);">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="width: 28px; height: 28px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #ffffff; background: {{ g.dot }};">{{ g.initials }}</span>
+                <div style="flex: 1; min-width: 0;"><div style="font-size: 15px; font-weight: 600; color: #1b2740;">{{ g.name }}</div><div style="font-size: 12px; color: #52617a;">{{ g.role }}</div></div>
+              </div>
+              <sc-for list="{{ g.perms }}" as="p" hint-placeholder-count="3">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="flex: 1; font-size: 13px; line-height: 1.35; color: #2d3e50;">{{ p.label }}</span>
+                  <sc-if value="{{ p.isSwitch }}" hint-placeholder-val="{{ true }}">
+                    <button type="button" onClick="{{ p.toggle }}" role="switch" aria-checked="{{ p.checked }}" aria-label="{{ p.label }}" style="width: 44px; height: 26px; flex: 0 0 auto; border-radius: 999px; border: 0; padding: 3px; display: flex; transition: background .3s; {{ p.track }}"><span style="width: 20px; height: 20px; border-radius: 50%; background: #ffffff; box-shadow: 0 2px 6px rgba(27,39,64,.25); transition: transform .3s cubic-bezier(.34,1.36,.44,1); {{ p.knob }}"></span></button>
+                  </sc-if>
+                  <sc-if value="{{ p.isSteps }}" hint-placeholder-val="{{ false }}">
+                    <span role="group" aria-label="{{ p.label }}" style="display: inline-flex; padding: 3px; border-radius: 999px; background: rgba(27,39,64,.06);">
+                      <sc-for list="{{ p.steps }}" as="sp" hint-placeholder-count="3">
+                        <button type="button" onClick="{{ sp.pick }}" aria-pressed="{{ sp.pressed }}" style="height: 26px; padding: 0 9px; border-radius: 999px; border: 0; font-size: 12px; font-weight: 600; transition: background .25s, color .25s; {{ sp.style }}">{{ sp.l }}</button>
+                      </sc-for>
+                    </span>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+        <div style="border-radius: 20px; padding: 16px 18px; background: rgba(255,255,255,.55); border: 1px solid rgba(255,255,255,.9); font-size: 12px; line-height: 1.5; color: #52617a;">A report that something was done isn't proof it was done. Each item links to the record it rests on: the ad platform, the payment file, or the signed attestation.</div>
+      </aside>
+    </div>
+  </div>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 50%; bottom: 28px; z-index: 20; max-width: min(640px, calc(100% - 32px)); padding: 14px 20px; border-radius: 20px; background: rgba(27,39,64,.9); color: #ffffff; font-size: 14px; line-height: 1.45; box-shadow: 0 20px 40px -16px rgba(27,39,64,.6); animation: cfToast .45s cubic-bezier(.34,1.36,.44,1) both;">{{ toast }}</div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { who: "all", status: "all", open: "a1", res: {}, spend: 200, perms: { pauseExpired: true, reviews: false, preapproval: true, repClaims: true, repEdit: false, agencyUpload: true, agencyLaunch: false }, paused: false, toast: null };
+  }
+  renderVals() {
+    const s = this.state;
+    const P = {
+      platform: { name: "Channel Fusion", kind: "Platform", dot: "#274291", initials: "CF" },
+      rep: { name: "James Okafor", kind: "Your Velocity rep", dot: "#16803c", initials: "JO" },
+      agency: { name: "Ridgeline Media", kind: "Your agency", dot: "#c27a2c", initials: "RM" },
+      corp: { name: "Velocity corporate", kind: "Program sponsor", dot: "#6155d4", initials: "VC" }
+    };
+    const say = (t) => { this.setState({ toast: t }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toast: null }), 4200); };
+    const setRes = (id, v, t) => { this.setState({ res: Object.assign({}, this.state.res, { [id]: v }) }); if (t) say(t); };
+    const ACTS = [
+      { id: "a1", p: "platform", when: "Today 9:14am", base: "needs",
+        what: "Tried to add $300 to Winter Service Search ads because bookings are running ahead of plan. Blocked: it's over your $200 limit.",
+        authority: "Limit: up to $200 per playbook without asking", money: "+$300 proposed",
+        reliedOn: "Spend limit you set Oct 30. $300 is over it, so nothing was changed.", changed: "Nothing yet. Search budget is still $900.", evidence: "Google Ads pacing report, 9am: 118% of plan, cost per booking $14", undoNote: "Nothing to undo",
+        resolved: { approve: ["Approved by you", "Approved. Search budget is now $1,200, and the extra $150 is co-op eligible on the same terms."], decline: ["Declined by you", "Declined. Search stays at $900. I won't ask again for this playbook unless pacing changes."] } },
+      { id: "a2", p: "rep", when: "Yesterday", base: "confirm",
+        what: "Filed your co-op claim for the Fall Service Clinic: $1,840, with 6 invoices and 4 tearsheets.",
+        authority: "Delegation: rep may file claims for you", money: "$1,840 claimed",
+        reliedOn: "Delegation you gave James in March 2026, scoped to filing pre-approvals and claims.", changed: "Claim VEL-CL-22418 created and submitted to Velocity co-op.", evidence: "Claim packet with James's attestation. You haven't confirmed the proof yet.", undoNote: "Can be withdrawn until Velocity reviews it (est. Nov 18)",
+        resolved: { confirm: ["Confirmed by you", "Confirmed. The claim now carries your attestation as well as James's."], dispute: ["Withdrawn by you", "Withdrawn. James has been told which proof you disputed."] } },
+      { id: "a3", p: "platform", when: "Yesterday 11:59pm", base: "done",
+        what: "Paused the Instagram story \"$79 tire swap\" at midnight, when the offer expired.",
+        authority: "Limit: may pause expired or non-compliant ads", money: "$41 unspent, returned to budget",
+        reliedOn: "Standing rule you turned on: stop ads automatically when their offer ends.", changed: "Story set to paused in Meta. 2 other ads unaffected.", evidence: "Meta change log entry 11:59:02pm", undoNote: "Can be resumed, but the offer has ended",
+        resolved: { reverse: ["Reversed by you", "Resumed. The story is running again with an expired offer, so it's no longer co-op eligible."] } },
+      { id: "a4", p: "corp", when: "Nov 10", base: "done",
+        what: "Moved $1,500 of unallocated Q4 co-op into your account.",
+        authority: "Program rule: Velocity co-op §4.2 budget release", money: "+$1,500 co-op",
+        reliedOn: "Velocity's quarterly budget release. Accounts in the same division with negative balances were covered first.", changed: "Your Q4 co-op available went from $16,750 to $18,250.", evidence: "Velocity transfer record QRT-1109", undoNote: "Not yours to undo. It's Velocity's decision under the program terms",
+        resolved: {} },
+      { id: "a5", p: "agency", when: "Nov 9", base: "done",
+        what: "Uploaded a 30-second radio script for KRVR. The brand check flagged a missing APR disclaimer, and Ridgeline fixed it.",
+        authority: "Delegation: agency may upload creative", money: "No spend",
+        reliedOn: "Upload permission you gave Ridgeline. It can't launch anything.", changed: "Script v2 added to the Winter Service Push as step 7, pending your decision.", evidence: "Brand check record v3 ruleset, both versions kept", undoNote: "Can be removed from the playbook",
+        resolved: { reverse: ["Removed by you", "Removed step 7. Ridgeline has been told."] } },
+      { id: "a6", p: "platform", when: "Nov 8", base: "failed",
+        what: "Sent the winter reminder email. 54 of 2,140 bounced, and those addresses are now marked invalid.",
+        authority: "Your approval, Oct 30", money: "No spend",
+        reliedOn: "You approved this step when you launched the playbook.", changed: "2,086 delivered. 54 addresses flagged in your customer list (not deleted).", evidence: "Email provider delivery report", undoNote: "Flags can be cleared",
+        resolved: {} },
+      { id: "a7", p: "platform", when: "Nov 7", base: "done",
+        what: "Filed the co-op pre-approval for the Winter Service Push. Velocity says the activity is permitted, and support is conditional on proof.",
+        authority: "Limit: may file pre-approvals for playbooks you launch", money: "Up to $1,200 conditional",
+        reliedOn: "Pre-approval permission you turned on.", changed: "Pre-approval VEL-PA-9932 accepted.", evidence: "Velocity co-op response, Nov 7", undoNote: "Can be withdrawn before the playbook ends",
+        resolved: {} }
+    ];
+    const statusOf = (a) => {
+      const r = s.res[a.id];
+      if (r) return { key: (r === "approve" || r === "confirm") ? "done" : (r === "decline" ? "done" : "reversed"), label: a.resolved[r][0] };
+      if (a.base === "needs") return { key: "needs", label: "Needs you" };
+      if (a.base === "confirm") return { key: "needs", label: "Needs your confirmation" };
+      if (a.base === "failed") return { key: "failed", label: "Partly failed" };
+      return { key: "done", label: "Done" };
+    };
+    const ST = {
+      needs: "background: #fdf1ec; color: #9a4a06; animation: cfPulse 2.4s infinite;",
+      done: "background: #e7f4e9; color: #126b34;",
+      failed: "background: #fdecec; color: #b42318;",
+      reversed: "background: rgba(27,39,64,.08); color: #52617a;"
+    };
+    const counts = { all: ACTS.length, needs: 0, failed: 0, reversed: 0 };
+    ACTS.forEach((a) => { const k = statusOf(a).key; if (counts[k] !== undefined) counts[k]++; });
+    const btn = (label, primary, go) => ({ label, go, style: primary ? "border: 0; background: #274291; color: #ffffff;" : "border: 1px solid #c3cee8; background: #ffffff; color: #1b2740;" });
+    const acts = ACTS.filter((a) => (s.who === "all" || a.p === s.who) && (s.status === "all" || statusOf(a).key === s.status)).map((a, i) => {
+      const st = statusOf(a);
+      const open = s.open === a.id;
+      const r = s.res[a.id];
+      let actions = [];
+      if (!r) {
+        if (a.base === "needs") actions = [btn("Approve $300", true, () => setRes(a.id, "approve", a.resolved.approve[1])), btn("Decline", false, () => setRes(a.id, "decline", a.resolved.decline[1])), btn("Raise my limit to $500", false, () => { this.setState({ spend: 500 }); say("Limit raised to $500 per playbook. This $300 still needs your answer, since it was attempted under the old limit."); })];
+        else if (a.base === "confirm") actions = [btn("Confirm the proof", true, () => setRes(a.id, "confirm", a.resolved.confirm[1])), btn("Something's wrong. Withdraw it.", false, () => setRes(a.id, "dispute", a.resolved.dispute[1]))];
+        else if (a.resolved.reverse) actions = [btn(a.p === "agency" ? "Remove from playbook" : "Reverse it", false, () => setRes(a.id, "reverse", a.resolved.reverse[1]))];
+        if (a.p === "platform" && a.id === "a3") actions.push(btn("Stop doing this automatically", false, () => { this.setState({ perms: Object.assign({}, this.state.perms, { pauseExpired: false }) }); say("Narrowed. Expired ads will now ask you before pausing. Past pauses aren't changed."); }));
+      }
+      return {
+        by: P[a.p].name, kind: P[a.p].kind, dot: P[a.p].dot, initials: P[a.p].initials, when: a.when, what: a.what,
+        authority: a.authority, money: a.money, status: st.label, statusStyle: ST[st.key],
+        border: st.key === "needs" ? "#fad4c6" : "#ffffff", delay: (i * 50) + "ms",
+        open, expanded: open ? "true" : "false", chev: open ? "rotate(180deg)" : "rotate(0deg)",
+        toggle: () => this.setState({ open: open ? null : a.id }),
+        reliedOn: a.reliedOn, changed: a.changed, evidence: a.evidence, undoNote: a.undoNote, actions
+      };
+    });
+    const statBtn = (key, label, n, color) => ({ label, n: String(n), color, pressed: s.status === key ? "true" : "false",
+      style: s.status === key ? "border: 1px solid #274291; background: #ffffff; box-shadow: 0 0 0 3px rgba(39,66,145,.12);" : "border: 1px solid rgba(255,255,255,.9); background: rgba(255,255,255,.6);",
+      pick: () => this.setState({ status: s.status === key ? "all" : key }) });
+    const stats = [statBtn("all", "Actions this week", counts.all, "#1b2740"), statBtn("needs", "Need you", counts.needs, "#9a4a06"), statBtn("failed", "Partly failed", counts.failed, "#b42318"), statBtn("reversed", "Reversed by you", counts.reversed, "#52617a")];
+    const whoKeys = ["all", "platform", "rep", "agency", "corp"];
+    const who = whoKeys.map((k) => ({ label: k === "all" ? "Everyone" : P[k].name, dot: k === "all" ? "#1b2740" : P[k].dot, pressed: s.who === k ? "true" : "false",
+      style: s.who === k ? "border: 1px solid #274291; background: #274291; color: #ffffff;" : "border: 1px solid #dde4ef; background: rgba(255,255,255,.75); color: #1b2740;",
+      pick: () => this.setState({ who: k }) }));
+    const sw = (key, label, msgOn, msgOff) => { const on = !!s.perms[key]; return { label, isSwitch: true, isSteps: false, checked: on ? "true" : "false",
+      track: on ? "background: #274291;" : "background: #c3cee8;", knob: on ? "transform: translateX(18px);" : "transform: translateX(0px);",
+      toggle: () => { this.setState({ perms: Object.assign({}, this.state.perms, { [key]: !on }) }); say(on ? msgOff : msgOn); } }; };
+    const spendSteps = { label: "Add spend without asking, per playbook", isSwitch: false, isSteps: true, steps: [0, 200, 500].map((v) => ({ l: v === 0 ? "Never" : "$" + v, pressed: s.spend === v ? "true" : "false",
+      style: s.spend === v ? "background: #274291; color: #ffffff;" : "background: transparent; color: #1b2740;",
+      pick: () => { this.setState({ spend: v }); say(v === 0 ? "The platform will ask you before any spend change." : "The platform can now add up to $" + v + " per playbook without asking. You'll see each change here."); } })) };
+    const grants = [
+      { name: P.platform.name, role: "Runs your playbooks", dot: P.platform.dot, initials: P.platform.initials, perms: [spendSteps,
+        sw("pauseExpired", "Pause ads when an offer expires or a check fails", "Turned on. Expired ads will pause automatically.", "Turned off. Expired ads will ask you first."),
+        sw("preapproval", "File co-op pre-approvals for playbooks you launch", "Turned on.", "Turned off. You'll file pre-approvals yourself."),
+        sw("reviews", "Reply to Google reviews", "Turned on. Replies post without asking, and you'll see each one here.", "Turned off. Drafts wait for your tap.")] },
+      { name: P.rep.name, role: "Velocity territory manager", dot: P.rep.dot, initials: P.rep.initials, perms: [
+        sw("repClaims", "File pre-approvals and claims for you", "James can file for you again.", "James can no longer file for you. Claims he already filed are unchanged."),
+        sw("repEdit", "Change your playbooks", "James can now edit your playbooks. Every change will show here.", "Turned off.")] },
+      { name: P.agency.name, role: "Your marketing agency", dot: P.agency.dot, initials: P.agency.initials, perms: [
+        sw("agencyUpload", "Upload creative (always brand-checked)", "Ridgeline can upload again.", "Ridgeline can no longer upload."),
+        sw("agencyLaunch", "Launch steps without you", "Ridgeline can now launch steps. Each launch will show here.", "Turned off.")] }
+    ];
+    return {
+      stats, who, acts, grants, empty: acts.length === 0,
+      paused: s.paused,
+      pauseLabel: s.paused ? "Resume everyone" : "Pause everyone acting for me",
+      pauseStyle: s.paused ? "border: 0; background: #274291; color: #ffffff;" : "border: 1px solid #fad4c6; background: rgba(255,255,255,.75); color: #9a4a06;",
+      togglePause: () => { this.setState({ paused: !s.paused }); say(s.paused ? "Resumed. Everyone can act within the limits you set." : "Paused. Nobody can file, change or launch anything in your name until you resume."); },
+      hasToast: !!s.toast, toast: s.toast || ""
+    };
+  }
+}
+</script>
+</body>
+</html>

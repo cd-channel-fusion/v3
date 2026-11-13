@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Running a playbook</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="assets/logo-mark.svg">
+<style>x-dc{display:none}</style>
+<script src="assets/vendor/react.production.min.js"></script>
+<script src="assets/vendor/react-dom.production.min.js"></script>
+<script src="assets/dc-runtime.js" defer></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-500.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-600.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-700.woff2') format('woff2');font-weight:700;font-display:swap}
+body{margin:0}
+a{color:#274291}a:hover{color:#1d3270}
+button{font-family:'Switzer',system-ui,sans-serif;cursor:pointer}
+.cf-press{transition:transform .16s cubic-bezier(.2,.8,.2,1),background .16s,opacity .2s}
+.cf-press:hover{transform:translateY(-1px)}
+.cf-press:active{transform:scale(.96)}
+@keyframes cfFloat{0%{transform:translate(0,0)}50%{transform:translate(40px,-30px)}100%{transform:translate(0,0)}}
+@keyframes cfMsg{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes cfPulse{0%{box-shadow:0 0 0 0 rgba(153,202,62,.6)}70%{box-shadow:0 0 0 12px rgba(153,202,62,0)}100%{box-shadow:0 0 0 0 rgba(153,202,62,0)}}
+@keyframes cfDot{0%,80%,100%{opacity:.25}40%{opacity:1}}
+@keyframes cfAudIn{from{opacity:0;transform:translateX(60px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes cfMorph{0%{filter:blur(6px);opacity:.4;transform:scale(.97)}100%{filter:none;opacity:1;transform:none}}
+@media (max-width: 860px){.cf-sheet{width:auto !important;left:16px !important;right:16px !important}.cf-budget{flex-direction:column;align-items:stretch !important}}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 1000px; box-sizing: border-box; position: relative; overflow: hidden; background: #eef2f7; font-family: 'Switzer', 'Inter', system-ui, sans-serif; color: #2d3e50;">
+  <div aria-hidden="true" style="position: absolute; left: 20%; top: -260px; width: 820px; height: 820px; border-radius: 50%; background: radial-gradient(circle, rgba(39,66,145,.24), rgba(39,66,145,0) 68%); filter: blur(24px); animation: cfFloat 18s ease-in-out infinite;"></div>
+  <div aria-hidden="true" style="position: absolute; right: -200px; bottom: -200px; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(153,202,62,.28), rgba(153,202,62,0) 68%); filter: blur(24px); animation: cfFloat 22s ease-in-out infinite reverse;"></div>
+
+  <div style="position: relative; z-index: 3; max-width: 1400px; margin: 0 auto; padding: 24px 32px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px;">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px;">
+      <a href="briefing.html" class="cf-press" style="height: 40px; padding: 0 16px 0 12px; border-radius: 999px; border: 1px solid #ffffff; background: rgba(255,255,255,.6); color: #1b2740; font-size: 14px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>Briefing</a>
+      <div style="flex: 1 1 320px; min-width: 0;">
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #52617a;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #99CA3E;"></span>Playbook · Velocity Auto Riverside</div>
+        <h1 style="margin: 2px 0 0; font-size: 36px; line-height: 1.1; font-weight: 600; letter-spacing: -0.025em; color: #1b2740;">Winter Service Push</h1>
+      </div>
+      <a href="after-launch.html" class="cf-press" style="height: 40px; padding: 0 14px 0 16px; border-radius: 999px; border: 1px solid #ffffff; background: rgba(255,255,255,.6); color: #1b2740; font-size: 14px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">After launch<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></a>
+      <div role="group" aria-label="View" style="display: inline-flex; padding: 4px; border-radius: 999px; background: rgba(255,255,255,.6); border: 1px solid #ffffff; position: relative;">
+        <span aria-hidden="true" style="position: absolute; top: 4px; bottom: 4px; width: 112px; border-radius: 999px; background: #274291; box-shadow: 0 8px 18px -8px rgba(39,66,145,.8); transition: transform .38s cubic-bezier(.34,1.36,.44,1); transform: {{ segX }};"></span>
+        <button type="button" onClick="{{ setGuided }}" aria-pressed="{{ guidedPressed }}" style="position: relative; width: 112px; height: 38px; border: 0; background: transparent; font-size: 14px; font-weight: 600; transition: color .3s; color: {{ guidedColor }};">Guided</button>
+        <button type="button" onClick="{{ setGrid }}" aria-pressed="{{ gridPressed }}" style="position: relative; width: 112px; height: 38px; border: 0; background: transparent; font-size: 14px; font-weight: 600; transition: color .3s; color: {{ gridColor }};">Review all</button>
+      </div>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+      <span style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a; margin-right: 4px;">Why now</span>
+      <span style="height: 30px; padding: 0 12px; border-radius: 10px; background: rgba(255,255,255,.7); border: 1px solid #dde4ef; font-size: 13px; display: inline-flex; align-items: center;">First frost forecast Thursday</span>
+      <span style="height: 30px; padding: 0 12px; border-radius: 10px; background: rgba(255,255,255,.7); border: 1px solid #dde4ef; font-size: 13px; display: inline-flex; align-items: center;">Tire bookings jump 3× the week after</span>
+      <span style="height: 30px; padding: 0 12px; border-radius: 10px; background: rgba(255,255,255,.7); border: 1px solid #dde4ef; font-size: 13px; display: inline-flex; align-items: center;">Last year's version: 41 appointments</span>
+      <span style="flex: 1;"></span>
+      <span style="font-size: 14px; color: #52617a;"><strong style="color: #1b2740;">{{ decidedCount }} of {{ realCount }}</strong> steps decided</span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+      <span style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a; margin-right: 4px;">Audiences</span>
+      <sc-for list="{{ audChips }}" as="a" hint-placeholder-count="5">
+        <button type="button" onClick="{{ a.pick }}" aria-pressed="{{ a.pressed }}" class="cf-press" style="height: 34px; padding: 0 12px 0 10px; border-radius: 999px; font-size: 13px; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; transition: background .3s, color .3s, border-color .3s; {{ a.style }}"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{ a.dot }};"></span>{{ a.label }}<span style="font-variant-numeric: tabular-nums; opacity: .75;">{{ a.size }}</span></button>
+      </sc-for>
+      <span style="font-size: 13px; color: #52617a;">{{ audHint }}</span>
+    </div>
+  </div>
+
+  <div style="position: relative; z-index: 2; height: 600px; margin-top: 8px; perspective: 1800px; perspective-origin: 50% 40%;">
+    <sc-for list="{{ cards }}" as="c" hint-placeholder-count="8">
+      <article aria-label="{{ c.aria }}" style="position: absolute; left: 50%; top: 30px; width: 400px; height: 540px; margin-left: -200px; box-sizing: border-box; border-radius: 28px; padding: 18px; display: flex; flex-direction: column; gap: 12px; transform-style: preserve-3d; transition: transform .62s cubic-bezier(.34,1.2,.44,1), opacity .5s, filter .5s, box-shadow .5s; {{ c.style }} {{ c.surface }}">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+          <span style="font-size: 13px; font-weight: 600; color: #52617a;">{{ c.num }} · {{ c.channel }}</span>
+          <span style="height: 26px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; {{ c.badgeStyle }}">{{ c.badge }}</span>
+        </div>
+
+        <sc-if value="{{ c.isSearch }}" hint-placeholder-val="{{ false }}">
+          <div style="height: 176px; border-radius: 18px; background: #ffffff; border: 1px solid #dde4ef; padding: 18px; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px; animation: cfMorph .6s cubic-bezier(.2,.8,.2,1);">
+            <div style="font-size: 12px; color: #2d3e50;"><strong>Sponsored</strong> · velocityriverside.com/service</div>
+            <div style="font-size: 19px; line-height: 1.25; color: #1d3270; font-weight: 500;">{{ c.head }}</div>
+            <div style="font-size: 13px; line-height: 1.45; color: #52617a;">{{ c.sub }}</div>
+            <div style="display: flex; gap: 14px; font-size: 13px; color: #1d3270; margin-top: auto;"><span>Book service</span><span>Tire deals</span><span>Hours</span></div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ c.isCreative }}" hint-placeholder-val="{{ true }}">
+          <div style="height: 176px; border-radius: 18px; overflow: hidden; position: relative; padding: 18px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: flex-end; animation: cfMorph .6s cubic-bezier(.2,.8,.2,1); background: {{ c.bg }};">
+            <div aria-hidden="true" style="position: absolute; right: -50px; top: -50px; width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,.12);"></div>
+            <div aria-hidden="true" style="position: absolute; left: 18px; top: 18px; font-size: 11px; font-weight: 600; color: rgba(255,255,255,.75); letter-spacing: .08em;">{{ c.format }}</div>
+            <sc-if value="{{ c.isVideo }}" hint-placeholder-val="{{ false }}">
+              <div aria-hidden="true" style="position: absolute; left: 50%; top: 42%; width: 52px; height: 52px; margin: -26px 0 0 -26px; border-radius: 50%; background: rgba(255,255,255,.9); display: flex; align-items: center; justify-content: center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1d3270" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></div>
+            </sc-if>
+            <span style="align-self: flex-start; height: 22px; padding: 0 9px; border-radius: 999px; background: #99CA3E; color: #1b2740; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; margin-bottom: 8px; position: relative;">{{ c.tag }}</span>
+            <div style="position: relative; font-size: 24px; line-height: 1.1; font-weight: 600; color: #ffffff; letter-spacing: -0.01em;">{{ c.head }}</div>
+            <div style="position: relative; font-size: 13px; color: rgba(255,255,255,.85); margin-top: 6px;">{{ c.sub }}</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ c.isAdd }}" hint-placeholder-val="{{ false }}">
+          <div style="flex: 1; border-radius: 20px; border: 2px dashed rgba(39,66,145,.35); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 24px; text-align: center;">
+            <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(39,66,145,.1); display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#274291" stroke-width="2.2" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></div>
+            <div style="font-size: 20px; font-weight: 600; color: #1b2740;">Add your own step</div>
+            <div style="font-size: 14px; line-height: 1.5; color: #52617a;">Drop in a video, flyer, photo or document your designer made. Before it can run, I'll check it against Velocity's 14 brand rules: frame by frame for video, line by line for copy.</div>
+            <button type="button" class="cf-press" style="height: 44px; padding: 0 20px; border-radius: 999px; border: 1px solid #ffffff; background: rgba(255,255,255,.8); color: #1b2740; font-size: 14px; font-weight: 600;">Upload or describe it</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ c.notAdd }}" hint-placeholder-val="{{ true }}">
+          <div style="font-size: 18px; font-weight: 600; color: #1b2740; letter-spacing: -0.01em;">{{ c.title }}</div>
+          <div style="font-size: 14px; line-height: 1.45; color: #52617a;">{{ c.detail }}</div>
+          <div style="display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; border-radius: 14px; background: rgba(39,66,145,.05); border: 1px solid rgba(39,66,145,.1);">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+              <span style="font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">Who sees it</span>
+              <span style="font-size: 12px; font-weight: 600; color: #1b2740; font-variant-numeric: tabular-nums;">{{ c.reach }}</span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px;">
+              <sc-for list="{{ c.audTags }}" as="t" hint-placeholder-count="2">
+                <span style="height: 22px; padding: 0 8px; border-radius: 999px; background: #ffffff; border: 1px solid #dde4ef; font-size: 12px; color: #1b2740; display: inline-flex; align-items: center; gap: 5px;"><span style="width: 6px; height: 6px; border-radius: 50%; background: {{ t.dot }};"></span>{{ t.label }}</span>
+              </sc-for>
+              <span style="font-size: 12px; color: #52617a;">{{ c.targeting }}</span>
+            </div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <span style="height: 28px; padding: 0 11px; border-radius: 999px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: background .4s, color .4s; {{ c.checkStyle }}">{{ c.check }}</span>
+            <span style="height: 28px; padding: 0 11px; border-radius: 999px; background: #e7eaf4; color: #1d3270; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center;">{{ c.money }}</span>
+          </div>
+          <sc-if value="{{ c.showFix }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: #fdf1ec; color: #9a4a06; font-size: 13px; line-height: 1.4;">
+              <span style="flex: 1;">The script says "0.9% APR" but leaves out the required disclaimer read.</span>
+              <button type="button" onClick="{{ c.fix }}" class="cf-press" style="height: 34px; padding: 0 12px; border-radius: 999px; border: 0; background: #9a4a06; color: #ffffff; font-size: 13px; font-weight: 600; white-space: nowrap;">Add it for me</button>
+            </div>
+          </sc-if>
+          <div style="margin-top: auto; display: flex; gap: 8px; transition: opacity .3s; {{ c.actionsStyle }}">
+            <button type="button" onClick="{{ c.include }}" class="cf-press" style="flex: 1; height: 46px; border-radius: 999px; border: 0; background: #274291; color: #ffffff; font-size: 15px; font-weight: 600;">Include</button>
+            <button type="button" onClick="{{ c.modify }}" class="cf-press" style="flex: 1; height: 46px; border-radius: 999px; border: 1px solid #c3cee8; background: rgba(255,255,255,.8); color: #1b2740; font-size: 15px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#274291" stroke-width="2.2" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"></path></svg>Modify</button>
+            <button type="button" onClick="{{ c.skip }}" class="cf-press" style="height: 46px; padding: 0 16px; border-radius: 999px; border: 0; background: transparent; color: #52617a; font-size: 15px; font-weight: 500;">Skip</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ c.clickable }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ c.focus }}" aria-label="{{ c.focusLabel }}" style="position: absolute; inset: 0; border: 0; border-radius: 28px; background: transparent;"></button>
+        </sc-if>
+      </article>
+    </sc-for>
+
+    <button type="button" onClick="{{ prev }}" aria-label="Previous step" class="cf-press" style="position: absolute; left: 32px; top: 270px; width: 52px; height: 52px; border-radius: 50%; border: 1px solid #ffffff; background: rgba(255,255,255,.7); display: inline-flex; align-items: center; justify-content: center; z-index: 200; {{ navStyle }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b2740" stroke-width="2.2" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+    <button type="button" onClick="{{ next }}" aria-label="Next step" class="cf-press" style="position: absolute; right: 32px; top: 270px; width: 52px; height: 52px; border-radius: 50%; border: 1px solid #ffffff; background: rgba(255,255,255,.7); display: inline-flex; align-items: center; justify-content: center; z-index: 200; {{ navStyle }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b2740" stroke-width="2.2" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+
+    <aside class="cf-sheet" aria-label="Edit with AI" style="position: absolute; right: 24px; top: 0; bottom: 0; width: 400px; z-index: 300; box-sizing: border-box; border-radius: 28px; padding: 20px; display: flex; flex-direction: column; gap: 14px; background: rgba(255,255,255,.86); backdrop-filter: blur(32px) saturate(180%); -webkit-backdrop-filter: blur(32px) saturate(180%); border: 1px solid #ffffff; box-shadow: 0 40px 80px -30px rgba(27,39,64,.45); transition: transform .62s cubic-bezier(.34,1.2,.44,1), opacity .4s; {{ sheetStyle }}">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">Editing this step</div>
+          <div style="font-size: 17px; font-weight: 600; color: #1b2740;">{{ sheetTitle }}</div>
+        </div>
+        <button type="button" onClick="{{ closeSheet }}" aria-label="Close editor" class="cf-press" style="width: 40px; height: 40px; border-radius: 50%; border: 0; background: rgba(27,39,64,.06); display: inline-flex; align-items: center; justify-content: center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1b2740" stroke-width="2.2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+      </div>
+      <div style="flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 4px;">
+        <sc-for list="{{ msgs }}" as="m" hint-placeholder-count="2">
+          <div style="max-width: 86%; padding: 11px 14px; border-radius: 18px; font-size: 14px; line-height: 1.45; animation: cfMsg .4s cubic-bezier(.2,.8,.2,1); {{ m.style }}">{{ m.text }}</div>
+        </sc-for>
+        <sc-if value="{{ typing }}" hint-placeholder-val="{{ false }}">
+          <div aria-label="Working" style="align-self: flex-start; padding: 12px 16px; border-radius: 18px; background: #f5f8fa; display: flex; gap: 5px;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #274291; animation: cfDot 1.2s infinite;"></span><span style="width: 7px; height: 7px; border-radius: 50%; background: #274291; animation: cfDot 1.2s .2s infinite;"></span><span style="width: 7px; height: 7px; border-radius: 50%; background: #274291; animation: cfDot 1.2s .4s infinite;"></span></div>
+        </sc-if>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <sc-for list="{{ suggestions }}" as="sg" hint-placeholder-count="3">
+          <button type="button" onClick="{{ sg.pick }}" class="cf-press" style="height: 34px; padding: 0 13px; border-radius: 999px; border: 1px solid #c3cee8; background: #ffffff; color: #1d3270; font-size: 13px; font-weight: 500;">{{ sg.label }}</button>
+        </sc-for>
+      </div>
+      <label style="display: flex; align-items: center; gap: 10px; height: 50px; padding: 0 6px 0 16px; border-radius: 999px; background: #ffffff; border: 1px solid #dde4ef;">
+        <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Describe a change</span>
+        <input type="text" placeholder="Describe a change…" style="flex: 1; min-width: 0; border: 0; outline: none; background: transparent; font: 400 15px 'Switzer', sans-serif; color: #1b2740;">
+        <button type="button" aria-label="Send" class="cf-press" style="width: 38px; height: 38px; border-radius: 50%; border: 0; background: #274291; display: inline-flex; align-items: center; justify-content: center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
+      </label>
+    </aside>
+  </div>
+
+  <div style="position: relative; z-index: 4; max-width: 1400px; margin: 0 auto; padding: 0 32px 32px; box-sizing: border-box;">
+    <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 18px; transition: opacity .3s; {{ dotsStyle }}">
+      <sc-for list="{{ dots }}" as="d" hint-placeholder-count="8">
+        <button type="button" onClick="{{ d.go }}" aria-label="{{ d.label }}" style="height: 10px; border-radius: 999px; border: 0; padding: 0; transition: width .38s cubic-bezier(.34,1.36,.44,1), background .3s; {{ d.style }}"></button>
+      </sc-for>
+    </div>
+    <div class="cf-budget" style="display: flex; align-items: center; gap: 28px; padding: 16px 16px 16px 28px; border-radius: 999px; background: rgba(255,255,255,.72); border: 1px solid #ffffff; backdrop-filter: blur(24px) saturate(160%); -webkit-backdrop-filter: blur(24px) saturate(160%); box-shadow: 0 24px 56px -30px rgba(27,39,64,.4);">
+      <div><div style="font-size: 12px; color: #52617a;">Total spend</div><div style="font-size: 20px; font-weight: 600; color: #1b2740; font-variant-numeric: tabular-nums;">{{ spend }}</div></div>
+      <div><div style="font-size: 12px; color: #52617a;">Co-op covers</div><div style="font-size: 20px; font-weight: 600; color: #1b2740; font-variant-numeric: tabular-nums;">{{ coop }}</div></div>
+      <div><div style="font-size: 12px; color: #52617a;">You pay</div><div style="font-size: 20px; font-weight: 600; color: #1b2740; font-variant-numeric: tabular-nums;">{{ share }}</div></div>
+      <div style="flex: 1; font-size: 13px; line-height: 1.4; color: #52617a;">{{ coopNote }}</div>
+      <button type="button" onClick="{{ launch }}" class="cf-press" style="height: 54px; padding: 0 28px; border-radius: 999px; border: 0; font-size: 16px; font-weight: 600; white-space: nowrap; {{ launchStyle }}">{{ launchLabel }}</button>
+    </div>
+  </div>
+
+  <sc-if value="{{ launched }}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 50%; top: 150px; z-index: 400; transform: translateX(-50%); padding: 14px 22px; border-radius: 999px; background: rgba(27,39,64,.9); color: #ffffff; font-size: 15px; display: flex; align-items: center; gap: 10px; animation: cfMsg .5s cubic-bezier(.34,1.36,.44,1); white-space: nowrap;"><span style="width: 10px; height: 10px; border-radius: 50%; background: #99CA3E;"></span>Launched. The co-op pre-approval was filed automatically.<a href="after-launch.html" class="cf-press" style="height: 34px; padding: 0 14px; border-radius: 999px; background: #99CA3E; color: #1b2740; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">Follow it to cash<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div>
+  </sc-if>
+
+  <sc-if value="{{ audOpen }}" hint-placeholder-val="{{ false }}">
+    <button type="button" onClick="{{ closeAud }}" aria-label="Close audience details" style="position: absolute; inset: 0; z-index: 490; border: 0; background: rgba(27,39,64,.18); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); animation: cfMsg .3s;"></button>
+    <aside aria-label="Audience details" style="position: absolute; top: 16px; right: 16px; bottom: 16px; width: min(480px, calc(100% - 32px)); z-index: 500; box-sizing: border-box; overflow-y: auto; border-radius: 28px; padding: 22px; display: flex; flex-direction: column; gap: 18px; background: rgba(255,255,255,.92); backdrop-filter: blur(32px) saturate(180%); -webkit-backdrop-filter: blur(32px) saturate(180%); border: 1px solid #ffffff; box-shadow: 0 40px 90px -30px rgba(27,39,64,.5); animation: cfAudIn .55s cubic-bezier(.34,1.2,.44,1);">
+      <div style="display: flex; align-items: flex-start; gap: 12px;">
+        <span style="width: 14px; height: 14px; border-radius: 50%; margin-top: 8px; flex: 0 0 auto; background: {{ ad.dot }};"></span>
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">{{ ad.type }}</div>
+          <div style="font-size: 22px; font-weight: 600; letter-spacing: -0.015em; color: #1b2740;">{{ ad.label }}</div>
+          <div style="font-size: 14px; line-height: 1.45; color: #52617a; margin-top: 4px;">{{ ad.def }}</div>
+        </div>
+        <button type="button" onClick="{{ closeAud }}" aria-label="Close" class="cf-press" style="width: 40px; height: 40px; flex: 0 0 auto; border-radius: 50%; border: 0; background: rgba(27,39,64,.06); display: inline-flex; align-items: center; justify-content: center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1b2740" stroke-width="2.2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+      </div>
+
+      <div style="display: flex; align-items: flex-end; gap: 16px; padding: 16px; border-radius: 20px; background: #f5f8fa; border: 1px solid #dde4ef;">
+        <div style="flex: 1;"><div style="font-size: 12px; color: #52617a;">Size</div><div style="font-size: 32px; font-weight: 600; letter-spacing: -0.02em; color: #1b2740; font-variant-numeric: tabular-nums; transition: color .3s;">{{ ad.size }}</div><div style="font-size: 12px; color: #52617a;">{{ ad.unit }}</div></div>
+        <div style="text-align: right;"><div style="font-size: 12px; color: #52617a;">Used by</div><div style="font-size: 15px; font-weight: 600; color: #1b2740;">{{ ad.usedBy }}</div></div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">Where it comes from</div>
+        <sc-for list="{{ ad.sources }}" as="src" hint-placeholder-count="2">
+          <div style="display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 16px; background: #ffffff; border: 1px solid #dde4ef; transition: opacity .3s; {{ src.rowStyle }}">
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-size: 14px; font-weight: 600; color: #1b2740;">{{ src.n }}</div>
+              <div style="font-size: 12px; color: #52617a;">{{ src.d }}</div>
+              <div style="font-size: 12px; color: #1d3270; margin-top: 2px;">{{ src.who }}</div>
+            </div>
+            <button type="button" onClick="{{ src.toggle }}" role="switch" aria-checked="{{ src.checked }}" aria-label="{{ src.aria }}" style="width: 46px; height: 28px; flex: 0 0 auto; border-radius: 999px; border: 0; padding: 3px; display: flex; transition: background .3s; {{ src.trackStyle }}"><span style="width: 22px; height: 22px; border-radius: 50%; background: #ffffff; box-shadow: 0 2px 6px rgba(27,39,64,.25); transition: transform .3s cubic-bezier(.34,1.36,.44,1); {{ src.knobStyle }}"></span></button>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+          <span style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">Who's in it</span>
+          <span style="font-size: 12px; color: #52617a;">{{ ad.demoBasis }}</span>
+        </div>
+        <sc-for list="{{ ad.groups }}" as="g" hint-placeholder-count="4">
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <div style="font-size: 13px; font-weight: 600; color: #1b2740;">{{ g.title }}</div>
+            <sc-for list="{{ g.rows }}" as="br" hint-placeholder-count="3">
+              <div style="display: grid; grid-template-columns: 128px minmax(0, 1fr) 40px; gap: 10px; align-items: center; font-size: 13px;">
+                <span style="color: #2d3e50;">{{ br.l }}</span>
+                <span style="height: 8px; border-radius: 999px; background: rgba(27,39,64,.07); overflow: hidden;"><span style="display: block; height: 100%; border-radius: 999px; transition: width .7s cubic-bezier(.34,1.2,.44,1); width: {{ br.w }}; background: {{ g.color }};"></span></span>
+                <span style="text-align: right; color: #1b2740; font-variant-numeric: tabular-nums;">{{ br.v }}</span>
+              </div>
+            </sc-for>
+            <sc-if value="{{ g.hasNote }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; gap: 8px; align-items: flex-start; padding: 8px 10px; border-radius: 10px; background: rgba(39,66,145,.06); font-size: 12px; line-height: 1.45; color: #1d3270;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px;"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg><span>{{ g.note }}</span></div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">What actually controls delivery</div>
+        <sc-if value="{{ ad.hasRadius }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <span style="font-size: 14px; color: #1b2740; width: 110px;">Radius</span>
+            <sc-for list="{{ ad.radii }}" as="rd" hint-placeholder-count="3">
+              <button type="button" onClick="{{ rd.pick }}" aria-pressed="{{ rd.pressed }}" class="cf-press" style="height: 34px; padding: 0 14px; border-radius: 999px; font-size: 13px; font-weight: 600; {{ rd.style }}">{{ rd.l }}</button>
+            </sc-for>
+          </div>
+        </sc-if>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="flex: 1; font-size: 14px; color: #1b2740;">Exclude people who booked in the last 30 days</span>
+          <button type="button" onClick="{{ ad.toggleExcl }}" role="switch" aria-checked="{{ ad.exclChecked }}" aria-label="Exclude recent bookers" style="width: 46px; height: 28px; border-radius: 999px; border: 0; padding: 3px; display: flex; transition: background .3s; {{ ad.exclTrack }}"><span style="width: 22px; height: 22px; border-radius: 50%; background: #ffffff; box-shadow: 0 2px 6px rgba(27,39,64,.25); transition: transform .3s cubic-bezier(.34,1.36,.44,1); {{ ad.exclKnob }}"></span></button>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="flex: 1; font-size: 14px; color: #1b2740;">Language versions</span>
+          <span style="font-size: 13px; color: #52617a;">{{ ad.langNote }}</span>
+        </div>
+        <div style="padding: 10px 12px; border-radius: 12px; background: #fdf1ec; color: #9a4a06; font-size: 12px; line-height: 1.45;">{{ ad.rule }}</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">Swap for a different audience</div>
+        <sc-for list="{{ ad.alts }}" as="alt" hint-placeholder-count="2">
+          <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; background: #ffffff; border: 1px solid #dde4ef;">
+            <span style="width: 10px; height: 10px; border-radius: 50%; flex: 0 0 auto; background: {{ alt.dot }};"></span>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-size: 14px; font-weight: 600; color: #1b2740;">{{ alt.label }}</div>
+              <div style="font-size: 12px; color: #52617a;">{{ alt.why }}</div>
+            </div>
+            <span style="font-size: 13px; color: #1b2740; font-variant-numeric: tabular-nums;">{{ alt.size }}</span>
+            <button type="button" onClick="{{ alt.swap }}" class="cf-press" style="height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid #c3cee8; background: #ffffff; color: #1d3270; font-size: 13px; font-weight: 600;">Swap</button>
+          </div>
+        </sc-for>
+        <sc-if value="{{ ad.swapped }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ ad.undoSwap }}" class="cf-press" style="align-self: flex-start; height: 34px; padding: 0 14px; border-radius: 999px; border: 0; background: transparent; color: #274291; font-size: 13px; font-weight: 600;">Undo swap: go back to "{{ ad.origLabel }}"</button>
+        </sc-if>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 6px; border-top: 1px solid rgba(27,39,64,.08);">
+        <sc-if value="{{ ad.hasNoteCmo }}" hint-placeholder-val="{{ false }}">
+          <div style="align-self: flex-start; max-width: 92%; padding: 10px 14px; border-radius: 16px 16px 16px 6px; background: #f5f8fa; font-size: 13px; line-height: 1.45; color: #1b2740; animation: cfMsg .4s;">{{ ad.cmoNote }}</div>
+        </sc-if>
+        <label style="display: flex; align-items: center; gap: 10px; height: 48px; padding: 0 6px 0 16px; border-radius: 999px; background: #ffffff; border: 1px solid #dde4ef;">
+          <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Describe a change to this audience</span>
+          <input type="text" placeholder="Describe how to change this audience…" style="flex: 1; min-width: 0; border: 0; outline: none; background: transparent; font: 400 14px 'Switzer', sans-serif; color: #1b2740;">
+          <button type="button" aria-label="Send" class="cf-press" style="width: 36px; height: 36px; border-radius: 50%; border: 0; background: #274291; display: inline-flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
+        </label>
+      </div>
+    </aside>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { cur: 0, mode: 'guided', decisions: {}, variant: {}, fixed: false, sheet: false, chat: {}, typing: false, launched: false, aud: null, audOverride: {}, audOpen: false, audEdit: {}, swaps: {}, cmoNote: null };
+  }
+  renderVals() {
+    const s = this.state;
+    const AUDS = {
+      intent: { label: 'Searching for winter service', size: 'intent', dot: '#274291', src: 'Google keywords · 38 terms' },
+      due: { label: 'Due for service · 90 days', size: '2,140', dot: '#99CA3E', src: 'Your service history' },
+      past: { label: 'Past winter customers', size: '860', dot: '#16803c', src: 'Your service history' },
+      local: { label: 'Drivers within 15 mi', size: '~48k', dot: '#6155d4', src: 'Platform geo' },
+      look: { label: 'Lookalikes of recent bookers', size: '~120k', dot: '#c27a2c', src: 'Meta, from your bookers' },
+      movers: { label: 'New to the area · last 12 mo', size: '~6.2k', dot: '#05618a', src: 'Licensed change-of-address data' },
+      aging: { label: 'Vehicles 6+ years old nearby', size: '~19k', dot: '#b5326e', src: 'Licensed registration data' }
+    };
+    const AREA = [['White', 58], ['Hispanic or Latino', 24], ['Asian', 9], ['Black', 6], ['Other or multiple', 3]];
+    const AREA_NOTE = 'Area-level census make-up of where this audience lives (ACS 2024). Shown for understanding only. It is never a targeting input, and we do not store ethnicity for people.';
+    const INFO = {
+      intent: { type: 'Intent · Google Search', def: 'People in your radius actively searching for tire changes, winter service, batteries or wipers.', base: 9000, unit: 'searches per month', geo: true,
+        sources: [{ n: 'Google Ads keyword plan', d: '38 keywords · refreshed weekly', who: 'Your Google Ads account' }, { n: 'Velocity national keyword list', d: 'Brand-provided · v4', who: 'Provided by Velocity, usable only for Velocity steps' }],
+        basis: 'Area estimates · Google shares no searcher demographics',
+        age: [['18–34', 31], ['35–54', 41], ['55+', 28]], veh: [['0–3 years', 22], ['4–8 years', 44], ['9+ years', 34]], lang: [['English', 84], ['Spanish', 13], ['Other', 3]],
+        langNote: 'English + Spanish ads', rule: 'Search can only be targeted by keyword and location. If a step adds financing terms, nothing changes here.', alts: ['local', 'movers'] },
+      due: { type: 'Owned · your customers', def: 'Customers whose next service is due within 90 days, based on mileage and last visit.', base: 2140, unit: 'people · opted in to email', geo: false,
+        sources: [{ n: 'Service history from your DMS', d: '2,612 customers due · synced nightly', who: 'Owned by Velocity Auto Riverside. Never shared with other brands' }, { n: 'Email consent records', d: '2,140 of 2,612 opted in', who: 'Only opted-in people can be reached' }],
+        basis: 'From your records · age appended (licensed)',
+        age: [['18–34', 18], ['35–54', 39], ['55+', 43]], veh: [['0–3 years', 35], ['4–8 years', 48], ['9+ years', 17]], lang: [['English', 88], ['Spanish', 11], ['Not recorded', 1]],
+        langNote: 'Uses each customer’s saved language', rule: 'Owned audience: only reachable through channels each person consented to.', alts: ['past', 'aging'] },
+      past: { type: 'Owned · your customers', def: 'Customers who bought winter service from you in the last three winters.', base: 860, unit: 'people', geo: false,
+        sources: [{ n: 'Service history from your DMS', d: 'Winter service, 2023–2025', who: 'Owned by Velocity Auto Riverside. Never shared with other brands' }, { n: 'Meta Custom Audience match', d: '612 of 860 matched (hashed)', who: 'Uploaded to your Meta account only' }],
+        basis: 'From your records · age appended (licensed)',
+        age: [['18–34', 15], ['35–54', 37], ['55+', 48]], veh: [['0–3 years', 28], ['4–8 years', 51], ['9+ years', 21]], lang: [['English', 90], ['Spanish', 9], ['Not recorded', 1]],
+        langNote: 'Uses each customer’s saved language', rule: 'If a step adds financing or lease terms, Meta treats it as a credit ad. Custom audiences still work, but age and ZIP narrowing are removed.', alts: ['due', 'aging'] },
+      local: { type: 'Market · geography', def: 'Households with at least one registered vehicle inside your radius.', base: 48000, unit: 'households', geo: true,
+        sources: [{ n: 'Census + postal household counts', d: 'ACS 2024 · USPS deliverable addresses', who: 'Public data' }, { n: 'Velocity trade-area map', d: 'Brand-provided · overlaps with 2 other Velocity stores trimmed', who: 'Provided by Velocity' }],
+        basis: 'Area-level estimates (ACS 2024)',
+        age: [['18–34', 29], ['35–54', 38], ['55+', 33]], veh: [['0–3 years', 24], ['4–8 years', 41], ['9+ years', 35]], lang: [['English', 81], ['Spanish', 15], ['Other', 4]],
+        langNote: 'Spanish runs in the 3 ZIPs where 40%+ of households speak it at home', rule: 'Geography is set by radius and ZIP. For credit, housing or employment ads, ZIP-level targeting is not allowed and a broader radius is used instead.', alts: ['movers', 'aging'] },
+      look: { type: 'Platform · Meta lookalike', def: 'People Meta finds similar to your 1,240 most recent service bookers.', base: 120000, unit: 'people reachable', geo: true,
+        sources: [{ n: 'Seed: recent bookers', d: '1,240 people · hashed upload · refreshed weekly', who: 'Built from your data, stays in your Meta account' }, { n: 'Meta lookalike model', d: '1% similarity · United States', who: 'Meta decides who is included' }],
+        basis: 'Meta reports age bands only',
+        age: [['18–34', 27], ['35–54', 44], ['55+', 29]], veh: [], lang: [['English', 85], ['Spanish', 12], ['Other', 3]],
+        langNote: 'English + Spanish ads', rule: 'Lookalikes are not allowed for credit, housing or employment ads. If financing is added, this swaps to a broad radius audience.', alts: ['local', 'movers'] },
+      movers: { type: 'Market · licensed data', def: 'Households that moved into your radius in the last 12 months and have no service history with you.', base: 6200, unit: 'households', geo: true,
+        sources: [{ n: 'Change-of-address data', d: 'Licensed · refreshed monthly', who: 'Licensed by the platform for all partners' }],
+        basis: 'Area-level estimates (ACS 2024)',
+        age: [['18–34', 46], ['35–54', 36], ['55+', 18]], veh: [['0–3 years', 30], ['4–8 years', 40], ['9+ years', 30]], lang: [['English', 79], ['Spanish', 16], ['Other', 5]],
+        langNote: 'English + Spanish ads', rule: 'Mail and digital only. Not available for SMS, which requires prior consent.', alts: ['local', 'aging'] },
+      aging: { type: 'Market · licensed data', def: 'Households in your radius with a vehicle six or more years old, which is past most tire and battery life.', base: 19000, unit: 'households', geo: true,
+        sources: [{ n: 'Vehicle registration data', d: 'Licensed · refreshed quarterly', who: 'Licensed by the platform for all partners' }],
+        basis: 'Area-level estimates (ACS 2024)',
+        age: [['18–34', 22], ['35–54', 36], ['55+', 42]], veh: [['6–8 years', 48], ['9–12 years', 34], ['13+ years', 18]], lang: [['English', 82], ['Spanish', 14], ['Other', 4]],
+        langNote: 'English + Spanish ads', rule: 'Built from registration records under state data-use rules. Usable for marketing in your state.', alts: ['local', 'movers'] }
+    };
+    const edit = (k) => Object.assign({ radius: 15, excl: true, off: {} }, s.audEdit[k] || {});
+    const sizeOf = (k) => {
+      const inf = INFO[k], e = edit(k);
+      let n = inf.base;
+      if (inf.geo) n = n * ({ 10: 0.55, 15: 1, 25: 2.1 })[e.radius];
+      if (e.excl) n = n * 0.93;
+      inf.sources.forEach((_, j) => { if (e.off[j]) n = n * 0.7; });
+      return n;
+    };
+    const fmtSize = (k) => { const n = sizeOf(k); return n >= 10000 ? '~' + Math.round(n / 1000) + 'k' : (n >= 3000 ? '~' + (n / 1000).toFixed(1) + 'k' : Math.round(n).toLocaleString('en-US')); };
+    const effK = (k) => s.swaps[k] || k;
+    const AUD_ORDER = ['intent', 'due', 'past', 'local', 'look'];
+    const STEP_AUD = [
+      { auds: ['intent', 'local'], reach: '~9k searches / mo', targeting: '15 mi radius' },
+      { auds: ['past', 'look'], reach: '~121k reach', targeting: 'excl. booked last 30d' },
+      { auds: ['local', 'look'], reach: '~34k reach', targeting: '10 mi · Instagram' },
+      { auds: [], reach: '500 handouts', targeting: 'Service-counter walk-ins, no targeting' },
+      { auds: ['local'], reach: '~48k households', targeting: 'YouTube + connected TV' },
+      { auds: ['due'], reach: '2,140 people', targeting: 'Opted-in only' },
+      { auds: ['local'], reach: '~22k listeners', targeting: 'KRVR 6–9am · station-reported' }
+    ];
+    const STEP_AUD_ALT = {
+      0: { auds: ['intent', 'local'], reach: '~16k searches / mo', targeting: '25 mi radius' },
+      1: { auds: ['past', 'look'], reach: '~120k reach', targeting: 'excl. 312 who booked since Oct 1' }
+    };
+    const STEPS = [
+      { channel: 'Search', title: 'Google Search ads', detail: 'Three ad groups: tire change, winter inspection, battery check. Runs within 15 miles.', kind: 'search', cost: 900, coopPct: 0.5,
+        variants: [{ head: 'Winter Tire Change in 45 Min | Velocity Auto Riverside', sub: 'Book online. Free 21-point winter inspection with every tire swap. Open Saturdays.' }, { head: 'Beat the First Frost | Tire Swap from $79', sub: 'Thursday\'s cold snap is coming. Book a 45-minute tire change at Velocity Auto Riverside.' }],
+        sugg: [{ label: 'Lead with the price', reply: 'Moved "$79" into the headline and made the frost the reason to act. Brand rules re-checked: all 14 pass.', v: 1 }, { label: 'Widen to 25 miles', reply: 'Widened the radius to 25 miles. That roughly doubles the searches you show up for, to about 16k a month. At this budget, expect cost per booking to rise about 12%.', v: 0, aud: true },{ label: 'Add a Spanish ad group', reply: 'Added a Spanish ad group with the same three themes. It\'s been checked against the approved Spanish disclaimer list.', v: 0 }] },
+      { channel: 'Social', title: 'Facebook + Instagram carousel', detail: 'Four cards: tire swap, battery, wipers, booking. Targets past service customers plus lookalikes.', kind: 'creative', format: 'CAROUSEL · 1:1', cost: 600, coopPct: 0.5, tag: 'SERVICE', bg: 'linear-gradient(160deg,#274291,#1b2740)',
+        variants: [{ head: 'Winter-ready in 45 minutes.', sub: 'Tires, battery, wipers · Book today' }, { head: 'Your car hates the cold too.', sub: 'Winter service from $79 · Riverside' }],
+        sugg: [{ label: 'Exclude people who already booked', reply: 'Excluded the 312 customers who have booked since Oct 1, so we are not paying to reach them. The audience is still about 120k.', v: 0, aud: true }, { label: 'Make it warmer, less salesy', reply: 'Rewrote the hook in a friendlier voice. The brand voice rule allows it, and the logo lockup and colors are unchanged.', v: 1 },{ label: 'Use our own shop photo', reply: 'Sure. Drop one in and I\'ll check the lighting, faces (releases) and logo placement before swapping it in.', v: 0 }] },
+      { channel: 'Stories', title: 'Instagram story series', detail: 'Three vertical frames with a "Book" sticker. Posts Thursday at 7am, just before the cold snap.', kind: 'creative', format: 'STORY · 9:16', cost: 300, coopPct: 0.5, tag: 'THU 7AM', bg: 'linear-gradient(160deg,#304b9d,#6155d4)',
+        variants: [{ head: 'It\'s 28° tomorrow.', sub: 'Swipe up · 45-min tire change' }, { head: 'Frost Thursday. Ready?', sub: 'Book your swap in two taps' }],
+        sugg: [{ label: 'Post Wednesday instead', reply: 'Moved it to Wednesday at 6pm. Engagement for your followers peaks then, and it still lands ahead of the frost.', v: 1 }] },
+      { channel: 'Print', title: 'Service counter flyer · 500', detail: 'Letter size, two-sided, with a QR code to booking. Printed and shipped by your fulfillment vendor, arriving Nov 4.', kind: 'creative', format: 'FLYER · 8.5×11', cost: 240, coopPct: 0.5, tag: 'PRINT', bg: 'linear-gradient(160deg,#1d3270,#2d3e50)',
+        variants: [{ head: 'Winter Service Special', sub: 'Scan to book · Velocity Auto Riverside' }, { head: 'Cold Weather Checklist', sub: 'Free inspection · Scan to book' }],
+        sugg: [{ label: 'Pool the print run with nearby stores', reply: '3 other Velocity stores within 40 miles are running this playbook. Pooling 2,000 flyers drops your cost to $150. I\'ve sent them the invite.', v: 0 }, { label: 'Make it a checklist', reply: 'Turned the back side into a winter checklist customers will keep. The layout uses the approved flyer template.', v: 1 }] },
+      { channel: 'Video', title: '15-second pre-roll spot', detail: 'Cut from Velocity\'s national winter spot, with your store name, offer and end card added. Runs on YouTube and connected TV.', kind: 'creative', format: 'VIDEO · 0:15', cost: 360, coopPct: 0.5, tag: 'PRE-ROLL', bg: 'linear-gradient(160deg,#1b2740,#274291)', video: true,
+        variants: [{ head: 'Winter doesn\'t wait.', sub: 'End card: Riverside · Book online' }, { head: 'Ready before the frost.', sub: 'End card: $79 tire swap · Riverside' }],
+        sugg: [{ label: 'Put the offer on the end card', reply: 'Added "$79 tire swap" to the end card. The legal line holds for 3 seconds, which meets the minimum read time.', v: 1 }] },
+      { channel: 'Email', title: 'Email to 2,140 service customers', detail: 'Goes to everyone due for service in the next 90 days, with a one-tap booking link.', kind: 'creative', format: 'EMAIL', cost: 0, coopPct: 0, tag: 'EMAIL', bg: 'linear-gradient(160deg,#304b9d,#1b2740)',
+        variants: [{ head: 'Maria from Velocity: frost is coming', sub: 'Subject line A/B testing is on' }, { head: 'Your winter check is due', sub: 'Personalized to each customer\'s vehicle' }],
+        sugg: [{ label: 'Personalize by vehicle', reply: 'Each email now names the customer\'s own vehicle and its last service date, pulled from your service history.', v: 1 }] },
+      { channel: 'Radio', title: 'Local radio read · uploaded by you', detail: '30-second script from your agency for KRVR morning drive. Added to this playbook by Velocity Auto Riverside.', kind: 'creative', format: 'AUDIO · 0:30', cost: 500, coopPct: 0.5, tag: 'YOURS', bg: 'linear-gradient(160deg,#6b7a82,#2d3e50)', uploaded: true,
+        variants: [{ head: '"Winter\'s here, Riverside…"', sub: 'Agency script · KRVR 6–9am' }],
+        sugg: [{ label: 'Tighten to 15 seconds', reply: 'Cut it to 15 seconds and kept the required disclaimer read. Station spec checked.', v: 0 }] }
+    ];
+    const n = STEPS.length;
+    const grid = s.mode === 'grid';
+    const decided = STEPS.filter((_, i) => s.decisions[i]).length;
+    const cards = STEPS.concat([{ add: true, channel: 'Your step', title: 'Add a step' }]).map((st, i) => {
+      const off = i - s.cur;
+      const abs = Math.abs(off);
+      const sign = off < 0 ? -1 : 1;
+      let style;
+      if (grid) {
+        const col = i % 4, row = Math.floor(i / 4);
+        style = 'transform: translate3d(' + ((col - 1.5) * 236) + 'px, ' + ((row - 0.5) * 290) + 'px, 0) rotateY(0deg) scale(.52); opacity: 1; z-index: ' + (50 + i) + ';';
+      } else if (off === 0) {
+        style = 'transform: translate3d(0, 0, 0) rotateY(0deg) scale(1); opacity: 1; z-index: 100;';
+      } else {
+        style = 'transform: translate3d(' + (sign * (300 + (abs - 1) * 120)) + 'px, 0, -260px) rotateY(' + (-sign * 50) + 'deg) scale(.84); opacity: ' + Math.max(0, 1 - abs * 0.22) + '; z-index: ' + (100 - abs) + ';' + (abs > 3 ? ' pointer-events: none;' : '');
+      }
+      const dec = s.decisions[i];
+      if (dec === 'skip') style += ' filter: grayscale(.85) brightness(1.05);';
+      const sa = st.add ? null : ((s.audOverride[i] && STEP_AUD_ALT[i]) || STEP_AUD[i]);
+      const effAuds = sa ? sa.auds.map(effK) : [];
+      if (s.aud && effAuds.indexOf(s.aud) < 0) style = style.replace(/opacity: [0-9.]+;/, 'opacity: .22;') + ' filter: saturate(.3);';
+      const center = !grid && off === 0;
+      const surface = center
+        ? 'background: rgba(255,255,255,.9); backdrop-filter: blur(32px) saturate(180%); -webkit-backdrop-filter: blur(32px) saturate(180%); border: 1px solid #ffffff; box-shadow: 0 50px 90px -40px rgba(27,39,64,.55);'
+        : 'background: rgba(255,255,255,.66); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,.9); box-shadow: 0 30px 60px -36px rgba(27,39,64,.45);';
+      if (st.add) {
+        return { isAdd: true, notAdd: false, isSearch: false, isCreative: false, isVideo: false, style, surface, num: '+', channel: 'Your step', badge: 'Optional', badgeStyle: 'background: rgba(39,66,145,.1); color: #1d3270;', aria: 'Add your own step', clickable: !center, focus: () => this.setState({ cur: i, mode: 'guided' }), focusLabel: 'Go to add your own step' };
+      }
+      const v = st.variants[s.variant[i] || 0];
+      const needsFix = st.uploaded && !s.fixed;
+      let badge = 'To decide', badgeStyle = 'background: rgba(27,39,64,.06); color: #52617a;';
+      if (dec === 'include') { badge = 'Included'; badgeStyle = 'background: #e7f4e9; color: #126b34;'; }
+      if (dec === 'skip') { badge = 'Skipped'; badgeStyle = 'background: rgba(27,39,64,.08); color: #52617a;'; }
+      if (s.launched && dec === 'include') { badge = 'Live'; badgeStyle = 'background: #99CA3E; color: #1b2740;'; }
+      const coopAmt = Math.round(st.cost * st.coopPct);
+      return {
+        isAdd: false, notAdd: true, isSearch: st.kind === 'search', isCreative: st.kind === 'creative', isVideo: !!st.video,
+        style, surface, num: String(i + 1).padStart(2, '0'), channel: st.channel, title: st.title, detail: st.detail,
+        head: v.head, sub: v.sub, tag: st.tag, bg: st.bg, format: st.format,
+        reach: sa.reach, targeting: sa.targeting,
+        audTags: effAuds.map((k) => ({ label: AUDS[k].label, dot: AUDS[k].dot })),
+        badge, badgeStyle, aria: 'Step ' + (i + 1) + ': ' + st.title,
+        check: needsFix ? 'Brand check · 1 issue' : (st.uploaded ? 'Fixed · 14 of 14 rules' : 'Brand check · 14 of 14 rules'),
+        checkStyle: needsFix ? 'background: #fdf1ec; color: #9a4a06;' : 'background: #e7f4e9; color: #126b34;',
+        money: st.cost === 0 ? 'No media cost' : ('$' + st.cost + (st.coopPct ? ' · co-op $' + coopAmt : '')),
+        showFix: needsFix && center,
+        fix: () => this.setState({ fixed: true }),
+        actionsStyle: center && !s.launched ? 'opacity: 1;' : 'opacity: 0; pointer-events: none;',
+        include: () => {
+          if (needsFix) { this.setState({ sheet: true, chat: Object.assign({}, s.chat, { [i]: (s.chat[i] || []).concat([{ who: 'ai', text: 'Before this can run, the APR claim needs its disclaimer read. Tap "Add it for me" on the card and I\'ll fix it.' }]) }) }); return; }
+          const d = Object.assign({}, s.decisions, { [i]: 'include' });
+          this.setState({ decisions: d, cur: Math.min(i + 1, n) });
+        },
+        skip: () => { const d = Object.assign({}, s.decisions, { [i]: 'skip' }); this.setState({ decisions: d, cur: Math.min(i + 1, n) }); },
+        modify: () => this.setState({ sheet: true }),
+        clickable: !center, focus: () => this.setState({ cur: i, mode: 'guided' }), focusLabel: 'Go to step ' + (i + 1)
+      };
+    });
+
+    const cs = STEPS[s.cur];
+    const intro = cs ? [{ who: 'ai', text: 'This is the ' + cs.title.toLowerCase() + '. Tell me what to change. Whatever you ask for, I\'ll keep it inside Velocity\'s brand rules.' }] : [];
+    const thread = cs ? intro.concat(s.chat[s.cur] || []) : [];
+    const msgs = thread.map((m) => ({ text: m.text, style: m.who === 'me' ? 'align-self: flex-end; background: #274291; color: #ffffff; border-bottom-right-radius: 6px;' : 'align-self: flex-start; background: #f5f8fa; color: #1b2740; border-bottom-left-radius: 6px;' }));
+    const suggestions = cs ? cs.sugg.map((g) => ({
+      label: g.label,
+      pick: () => {
+        const i = s.cur;
+        const after = (this.state.chat[i] || []).concat([{ who: 'me', text: g.label }]);
+        this.setState({ chat: Object.assign({}, this.state.chat, { [i]: after }), typing: true });
+        setTimeout(() => {
+          const t = (this.state.chat[i] || []).concat([{ who: 'ai', text: g.reply }]);
+          const upd = { typing: false, chat: Object.assign({}, this.state.chat, { [i]: t }), variant: Object.assign({}, this.state.variant, { [i]: g.v }) };
+          if (g.aud) upd.audOverride = Object.assign({}, this.state.audOverride, { [i]: true });
+          this.setState(upd);
+        }, 1100);
+      }
+    })) : [];
+
+    let spend = 0, coop = 0;
+    STEPS.forEach((st, i) => {
+      if (s.decisions[i] === 'include') { spend += st.cost; coop += Math.round(st.cost * st.coopPct); }
+    });
+    const money = (x) => '$' + x.toLocaleString('en-US');
+    const allDecided = decided === n;
+    const remaining = n - decided;
+    const dots = STEPS.concat([{ add: true }]).map((st, i) => {
+      const d = s.decisions[i];
+      const on = i === s.cur;
+      const bg = d === 'include' ? '#99CA3E' : (d === 'skip' ? '#c3cee8' : (on ? '#274291' : 'rgba(27,39,64,.2)'));
+      return { go: () => this.setState({ cur: i }), label: 'Step ' + (i + 1), style: 'width: ' + (on ? 32 : 10) + 'px; background: ' + bg + ';' };
+    });
+    const live = AUD_ORDER.map(effK);
+    const audChips = live.map((k) => {
+      const on = s.aud === k;
+      return { label: AUDS[k].label, size: fmtSize(k), dot: AUDS[k].dot, pressed: on ? 'true' : 'false',
+        style: on ? 'border: 1px solid #274291; background: #274291; color: #ffffff;' : 'border: 1px solid #dde4ef; background: rgba(255,255,255,.75); color: #1b2740;',
+        pick: () => this.setState({ aud: k, audOpen: true, mode: 'grid', sheet: false, cmoNote: null }) };
+    });
+    const usedBy = s.aud ? STEP_AUD.filter((x) => x.auds.map(effK).indexOf(s.aud) >= 0).length : 0;
+    let ad = null;
+    if (s.aud && INFO[s.aud]) {
+      const k = s.aud, inf = INFO[k], e = edit(k);
+      const setE = (patch, note) => this.setState({ audEdit: Object.assign({}, this.state.audEdit, { [k]: Object.assign({}, edit(k), patch) }), cmoNote: note || null });
+      const orig = AUD_ORDER.find((o) => effK(o) === k) || k;
+      const sw = (on) => ({ track: on ? 'background: #274291;' : 'background: #c3cee8;', knob: on ? 'transform: translateX(18px);' : 'transform: translateX(0px);' });
+      const pctRows = (arr) => arr.map((r) => ({ l: r[0], v: r[1] + '%', w: r[1] + '%' }));
+      const groups = [{ title: 'Age', rows: pctRows(inf.age), color: '#274291', hasNote: false, note: '' }];
+      if (inf.veh.length) groups.push({ title: 'Vehicle age', rows: pctRows(inf.veh), color: '#6155d4', hasNote: false, note: '' });
+      groups.push({ title: 'Language at home', rows: pctRows(inf.lang), color: '#16803c', hasNote: false, note: '' });
+      groups.push({ title: 'Community make-up (area)', rows: pctRows(AREA), color: '#8a9fd6', hasNote: true, note: AREA_NOTE });
+      ad = {
+        label: AUDS[k].label, dot: AUDS[k].dot, type: inf.type, def: inf.def, unit: inf.unit, size: fmtSize(k),
+        usedBy: usedBy + (usedBy === 1 ? ' step' : ' steps'), demoBasis: inf.basis, groups,
+        sources: inf.sources.map((src, j) => { const on = !e.off[j]; const t = sw(on); return { n: src.n, d: src.d, who: src.who, checked: on ? 'true' : 'false', aria: 'Use ' + src.n, trackStyle: t.track, knobStyle: t.knob, rowStyle: on ? '' : 'opacity: .55;', toggle: () => setE({ off: Object.assign({}, e.off, { [j]: on }) }, on ? 'Removed "' + src.n + '". The audience is smaller, and I’ve updated reach on every step that uses it.' : null) }; }),
+        hasRadius: inf.geo,
+        radii: [10, 15, 25].map((r) => ({ l: r + ' mi', pressed: e.radius === r ? 'true' : 'false', style: e.radius === r ? 'border: 1px solid #274291; background: #274291; color: #ffffff;' : 'border: 1px solid #dde4ef; background: #ffffff; color: #1b2740;', pick: () => setE({ radius: r }, r === 25 ? 'At 25 miles you overlap the Velocity Eastgate store’s area. I’ll split shared ZIPs between you so you don’t bid against each other.' : null) })),
+        exclChecked: e.excl ? 'true' : 'false', exclTrack: sw(e.excl).track, exclKnob: sw(e.excl).knob,
+        toggleExcl: () => setE({ excl: !e.excl }, e.excl ? 'Recent bookers are back in. You may pay to reach about 300 people who already booked.' : null),
+        langNote: inf.langNote, rule: inf.rule,
+        alts: inf.alts.filter((a) => live.indexOf(a) < 0).map((a) => ({ label: AUDS[a].label, dot: AUDS[a].dot, size: fmtSize(a), why: INFO[a].def, swap: () => this.setState({ swaps: Object.assign({}, this.state.swaps, { [orig]: a }), aud: a, cmoNote: 'Swapped. Every step that used "' + AUDS[k].label + '" now reaches "' + AUDS[a].label + '". The brand check re-ran and passed.' }) })),
+        swapped: orig !== k, origLabel: AUDS[orig].label,
+        undoSwap: () => { const sws = Object.assign({}, this.state.swaps); delete sws[orig]; this.setState({ swaps: sws, aud: orig, cmoNote: null }); },
+        hasNoteCmo: !!s.cmoNote, cmoNote: s.cmoNote || ''
+      };
+    }
+    return {
+      cards, dots, msgs, suggestions, typing: s.typing, audChips,
+      audOpen: s.audOpen && !!ad, ad: ad || { groups: [], sources: [], radii: [], alts: [] },
+      closeAud: () => this.setState({ audOpen: false, aud: null, cmoNote: null }),
+      audHint: s.aud ? (AUDS[s.aud].src + ' · used by ' + usedBy + ' steps') : 'Tap one to see who’s in it and change it',
+      decidedCount: decided, realCount: n,
+      segX: grid ? 'translateX(112px)' : 'translateX(0px)',
+      guidedColor: grid ? '#1b2740' : '#ffffff', gridColor: grid ? '#ffffff' : '#1b2740',
+      guidedPressed: grid ? 'false' : 'true', gridPressed: grid ? 'true' : 'false',
+      setGuided: () => this.setState({ mode: 'guided', aud: null }),
+      setGrid: () => this.setState({ mode: 'grid', sheet: false }),
+      prev: () => this.setState({ cur: Math.max(0, s.cur - 1) }),
+      next: () => this.setState({ cur: Math.min(n, s.cur + 1) }),
+      navStyle: grid ? 'opacity: 0; pointer-events: none;' : 'opacity: 1;',
+      dotsStyle: grid ? 'opacity: 0;' : 'opacity: 1;',
+      sheetStyle: s.sheet && !grid && cs ? 'transform: translateX(0) scale(1); opacity: 1;' : 'transform: translateX(115%) scale(.96); opacity: 0; pointer-events: none;',
+      sheetTitle: cs ? (String(s.cur + 1).padStart(2, '0') + ' · ' + cs.title) : '',
+      closeSheet: () => this.setState({ sheet: false }),
+      spend: money(spend), coop: money(coop), share: money(spend - coop),
+      coopNote: coop > 0 ? 'The co-op pre-approval is drafted from these steps. You won\'t fill in a form, and proof of performance is collected as each step runs.' : 'Include steps to see what co-op covers.',
+      launchLabel: s.launched ? 'Live' : (allDecided ? 'Launch playbook' : ('Decide ' + remaining + ' more')),
+      launchStyle: allDecided ? 'background: #99CA3E; color: #1b2740; animation: cfPulse 2.4s infinite;' : 'background: rgba(27,39,64,.08); color: #52617a; cursor: default;',
+      launch: () => { if (allDecided && !s.launched) this.setState({ launched: true, mode: 'grid', sheet: false }); },
+      launched: s.launched
+    };
+  }
+}
+</script>
+</body>
+</html>
