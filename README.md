@@ -6,9 +6,9 @@ Interactive concept prototypes for a reimagined, AI-led Connected Platform. Thes
 
 | Page | What it shows | Research records |
 |---|---|---|
-| `index.html` | Gallery and entry point | — |
+| `index.html` | **Landing page.** The location briefing: suggested playbooks, card-deck filters, running work, money on the table | J04, J17 |
+| `overview.html` | Gallery of all six boards with descriptions | — |
 | `design-language.html` | Principles, color, glass tiers, type, motion tokens, signature patterns | — |
-| `briefing.html` | A location's home: suggested playbooks, card-deck filters, running work, money on the table | J04, J17 |
 | `playbook.html` | Running a playbook: coverflow steps, include / modify / skip, chat edits, brand checks, review-all grid, audience details with edit and swap | J04, J05, J07.A, PJ09 |
 | `after-launch.html` | Commit → running → delivered → determined → challenge resolved → paid → received | J07.A, J07, J15, T06, J16 |
 | `on-your-behalf.html` | Every act done in the dealer's name, who did it, the authority it relied on, and editable limits | PT01, G03 |
