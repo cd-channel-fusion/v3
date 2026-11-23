@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Approvals and requests</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="assets/logo-mark.svg">
+<style>x-dc{display:none}</style>
+<script src="assets/vendor/react.production.min.js"></script>
+<script src="assets/vendor/react-dom.production.min.js"></script>
+<script src="assets/dc-runtime.js" defer></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-500.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-600.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-700.woff2') format('woff2');font-weight:700;font-display:swap}
+body{margin:0}
+a{color:#274291}a:hover{color:#1d3270}
+button{font-family:'Switzer',system-ui,sans-serif;cursor:pointer}
+.cf-press{transition:transform .16s cubic-bezier(.2,.8,.2,1),background .2s,opacity .2s}
+.cf-press:hover{transform:translateY(-1px)}
+.cf-press:active{transform:scale(.97)}
+@keyframes cfFloat{0%{transform:translate(0,0)}50%{transform:translate(40px,-30px)}100%{transform:translate(0,0)}}
+@keyframes cfRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes cfOpen{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes cfToast{from{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%,0)}}
+
+.cf-navt{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.cf-root{padding-left:268px !important;transition:padding-left .55s cubic-bezier(.34,1.2,.44,1)}
+.cf-nav{position:fixed;left:14px;top:14px;bottom:14px;width:240px;z-index:35;display:flex;flex-direction:column;box-sizing:border-box;border-radius:24px;background:rgba(255,255,255,.66);backdrop-filter:blur(26px) saturate(170%);-webkit-backdrop-filter:blur(26px) saturate(170%);border:1px solid rgba(255,255,255,.92);box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 24px 60px -30px rgba(27,39,64,.42);overflow:hidden;font-family:'Switzer',system-ui,sans-serif;transition:width .55s cubic-bezier(.34,1.2,.44,1),transform .45s cubic-bezier(.2,.8,.2,1)}
+.cf-nav-top{display:flex;align-items:center;gap:10px;padding:14px 12px 10px 16px;min-height:58px;box-sizing:border-box}
+.cf-nav-home{flex:1;display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.cf-nav-logo{width:28px;height:28px;flex:0 0 auto}
+.cf-nav-brand{flex:1;font-size:15px;font-weight:600;color:#1b2740;white-space:nowrap}
+.cf-nav-collapse{width:32px;height:32px;flex:0 0 auto;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#52617a;cursor:pointer;transition:transform .55s cubic-bezier(.34,1.2,.44,1),background .2s}
+.cf-nav-collapse:hover{background:rgba(27,39,64,.07)}
+.cf-nav-scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:2px 10px 10px;display:flex;flex-direction:column;gap:2px}
+.cf-nav-h{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6b7a82;padding:14px 10px 4px;white-space:nowrap}
+.cf-nav-item{position:relative;display:flex;align-items:center;gap:11px;min-height:38px;padding:7px 10px;box-sizing:border-box;border-radius:12px;border:0;background:transparent;color:#2d3e50;font:500 14px 'Switzer',system-ui,sans-serif;text-decoration:none;text-align:left;width:100%;cursor:pointer;transition:background .2s,color .2s,box-shadow .2s}
+.cf-nav-item:hover{background:rgba(39,66,145,.08);color:#1b2740}
+.cf-nav-item:focus-visible,.cf-nav-who:focus-visible,.cf-nav-collapse:focus-visible{outline:2px solid #274291;outline-offset:2px}
+.cf-nav-item.is-active{background:#274291;color:#ffffff;box-shadow:0 10px 22px -12px rgba(39,66,145,.85)}
+.cf-nav-item.is-later{color:#52617a;cursor:default}
+.cf-nav-ic{width:18px;height:18px;flex:0 0 auto}
+.cf-nav-txt{display:flex;flex-direction:column;min-width:0;flex:1;white-space:nowrap}
+.cf-nav-l{overflow:hidden;text-overflow:ellipsis}
+.cf-nav-sub{font-size:11px;color:#6b7a82;white-space:normal;line-height:1.35;max-height:0;opacity:0;overflow:hidden;transition:max-height .3s ease,opacity .25s ease,margin .3s}
+.cf-nav-item.is-later:hover .cf-nav-sub,.cf-nav-item.is-later:focus-visible .cf-nav-sub{max-height:40px;opacity:1;margin-top:2px}
+.cf-nav-badge{min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:999px;background:#c27a2c;color:#ffffff;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
+.cf-nav-who{display:flex;align-items:center;gap:10px;margin:0 10px 10px;padding:10px;border-radius:16px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.9);text-decoration:none;transition:background .2s}
+.cf-nav-who:hover{background:#ffffff}
+.cf-nav-av{width:34px;height:34px;flex:0 0 auto;border-radius:50%;background:#1d3270;color:#ffffff;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center}
+.cf-nav-sub2{font-size:11px;color:#52617a;overflow:hidden;text-overflow:ellipsis}
+.cf-nav-mobile{display:none}
+@media (min-width: 861px){
+  .cf-root:has(.cf-navt:checked){padding-left:100px !important}
+  .cf-navt:checked ~ .cf-nav{width:72px}
+  .cf-navt:checked ~ .cf-nav .cf-nav-collapse{transform:rotate(180deg)}
+  .cf-navt:checked ~ .cf-nav .cf-nav-top{padding:14px 0 10px;justify-content:center}
+  .cf-navt:checked ~ .cf-nav .cf-nav-home{display:none}
+  .cf-navt:checked ~ .cf-nav .cf-nav-txt{display:none}
+  .cf-navt:checked ~ .cf-nav .cf-nav-item{justify-content:center;padding:10px 0}
+  .cf-navt:checked ~ .cf-nav .cf-nav-h{font-size:0;padding:8px 0 4px;margin:6px 10px 0;border-top:1px solid rgba(27,39,64,.1)}
+  .cf-navt:checked ~ .cf-nav .cf-nav-badge{position:absolute;top:4px;right:6px;min-width:16px;height:16px;font-size:10px;padding:0 4px}
+  .cf-navt:checked ~ .cf-nav .cf-nav-who{justify-content:center;margin:0 8px 10px;padding:8px 0}
+}
+@media (max-width: 860px){
+  .cf-root{padding-left:0 !important}
+  .cf-nav{transform:translateX(-112%);width:260px;z-index:37}
+  .cf-navt:checked ~ .cf-nav{transform:none}
+  .cf-nav-mobile{display:inline-flex;position:fixed;left:12px;bottom:16px;z-index:36;width:52px;height:52px;border-radius:18px;align-items:center;justify-content:center;background:rgba(27,39,64,.88);color:#ffffff;cursor:pointer;box-shadow:0 16px 30px -12px rgba(27,39,64,.6)}
+}
+</style>
+</helmet>
+<div class="cf-root" style="width: 100%; min-height: 1000px; box-sizing: border-box; position: relative; overflow: hidden; background: #eef2f7; font-family: 'Switzer', 'Inter', system-ui, sans-serif; color: #2d3e50;">
+  <input type="checkbox" id="cf-navt" class="cf-navt">
+  <label for="cf-navt" class="cf-nav-mobile" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></label>
+  <nav class="cf-nav" aria-label="Main">
+    <div class="cf-nav-top">
+      <a href="index.html" class="cf-nav-home" title="Choose an experience"><img src="assets/logo-mark.svg" alt="" class="cf-nav-logo"><span class="cf-nav-brand">Connected</span></a>
+      <label for="cf-navt" class="cf-nav-collapse" aria-label="Collapse or expand menu" title="Collapse menu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></label>
+    </div>
+    <div class="cf-nav-scroll">
+      <a class="cf-nav-item" href="brand-home.html" title="Home"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Home</span></span></a><a class="cf-nav-item" href="brand-library.html" title="Brand library"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="8" cy="10" r="1"></circle><circle cx="12" cy="7" r="1"></circle><circle cx="16" cy="10" r="1"></circle></svg><span class="cf-nav-txt"><span class="cf-nav-l">Brand library</span></span></a><a class="cf-nav-item is-active" href="brand-approvals.html" aria-current="page" title="Approvals & requests"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"></path><path d="M9 12l2 2 4-4"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Approvals & requests</span></span><span class="cf-nav-badge">8</span></a><a class="cf-nav-item" href="brand-coverage.html" title="Initiatives"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Initiatives</span></span></a><div class="cf-nav-h">Programs</div><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Co-op & budgets · not in this prototype yet · today: Co-op · Fund recap · Budgets"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Co-op & budgets</span><span class="cf-nav-sub">Not in prototype yet · today: Co-op · Fund recap · Budgets</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Rewards & incentives · not in this prototype yet · today: Rewards · Incentives · Rebate admin"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0z"></path><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 21h8"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Rewards & incentives</span><span class="cf-nav-sub">Not in prototype yet · today: Rewards · Incentives · Rebate admin</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Sales incentives · not in this prototype yet · today: SPIFF"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Sales incentives</span><span class="cf-nav-sub">Not in prototype yet · today: SPIFF</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Consumer rebates · not in this prototype yet · today: Rebates"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z"></path><circle cx="7.5" cy="7.5" r="1.5"></circle></svg><span class="cf-nav-txt"><span class="cf-nav-l">Consumer rebates</span><span class="cf-nav-sub">Not in prototype yet · today: Rebates</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Payments & settlement · not in this prototype yet · today: Payment batches · ACH · Checks"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2"></rect><path d="M3 10h18M16 15h2"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Payments & settlement</span><span class="cf-nav-sub">Not in prototype yet · today: Payment batches · ACH · Checks</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Merchandise catalog · not in this prototype yet · today: Brand Shop admin"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l1 13H5z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Merchandise catalog</span><span class="cf-nav-sub">Not in prototype yet · today: Brand Shop admin</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Training · not in this prototype yet · today: LMS admin"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Training</span><span class="cf-nav-sub">Not in prototype yet · today: LMS admin</span></span></button><div class="cf-nav-h">Network</div><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Partners & locations · not in this prototype yet · today: Dealer list · Enrollment"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v10h16V10M3 10l2-6h14l2 6zM9 20v-6h6v6"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Partners & locations</span><span class="cf-nav-sub">Not in prototype yet · today: Dealer list · Enrollment</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Users & roles · not in this prototype yet · today: User admin · Roles"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21a7 7 0 0 1 14 0M17 4a4 4 0 0 1 0 8M22 21a6 6 0 0 0-4-5.6"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Users & roles</span><span class="cf-nav-sub">Not in prototype yet · today: User admin · Roles</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Reports · not in this prototype yet · today: Reports list"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Reports</span><span class="cf-nav-sub">Not in prototype yet · today: Reports list</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Settings · not in this prototype yet · today: Program configuration"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 17h16"></path><circle cx="9" cy="7" r="2"></circle><circle cx="15" cy="17" r="2"></circle></svg><span class="cf-nav-txt"><span class="cf-nav-l">Settings</span><span class="cf-nav-sub">Not in prototype yet · today: Program configuration</span></span></button>
+    </div>
+    <a class="cf-nav-who" href="briefing.html" title="Switch to dealer view">
+      <span class="cf-nav-av">DL</span>
+      <span class="cf-nav-txt"><span class="cf-nav-l" style="font-weight: 600; color: #1b2740;">David Lenzen</span><span class="cf-nav-sub2">Velocity corporate</span><span class="cf-nav-sub2" style="color: #274291; font-weight: 600;">Switch to dealer view →</span></span>
+    </a>
+  </nav>
+
+  <div aria-hidden="true" style="position: absolute; left: 20%; top: -280px; width: 820px; height: 820px; border-radius: 50%; background: radial-gradient(circle, rgba(97,85,212,.2), rgba(97,85,212,0) 68%); filter: blur(24px); animation: cfFloat 18s ease-in-out infinite;"></div>
+
+  <div style="position: relative; z-index: 2; max-width: 1240px; margin: 0 auto; padding: 24px 32px 80px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px;">
+    <div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px;">
+      <div style="flex: 1 1 420px;">
+        <div style="font-size: 13px; color: #52617a;">Velocity Auto Group · Corporate marketing</div>
+        <h1 style="margin: 2px 0 0; font-size: 36px; line-height: 1.1; font-weight: 600; letter-spacing: -0.025em; color: #1b2740;">Approvals &amp; requests</h1>
+        <p style="margin: 6px 0 0; font-size: 16px; color: #52617a;">Only what the rules can't settle on their own. Each item comes with the AI's recommendation and the evidence behind it.</p>
+      </div>
+      <sc-if value="{{ hasConfident }}" hint-placeholder-val="{{ true }}">
+        <button type="button" onClick="{{ approveConfident }}" class="cf-press" style="height: 48px; padding: 0 20px; border-radius: 999px; border: 0; background: #274291; color: #ffffff; font-size: 14px; font-weight: 600; box-shadow: 0 12px 26px -12px rgba(39,66,145,.8);">Approve the {{ confidentN }} the AI is confident about</button>
+      </sc-if>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+      <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+        <button type="button" onClick="{{ f.pick }}" aria-pressed="{{ f.pressed }}" class="cf-press" style="height: 36px; padding: 0 14px; border-radius: 999px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 7px; {{ f.style }}">{{ f.l }}<span style="opacity: .65;">{{ f.n }}</span></button>
+      </sc-for>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <sc-for list="{{ items }}" as="it" hint-placeholder-count="8">
+        <article style="overflow: hidden; border-radius: 22px; background: rgba(255,255,255,.86); border: 1px solid {{ it.border }}; box-shadow: 0 18px 44px -32px rgba(27,39,64,.35); transition: max-height .55s cubic-bezier(.2,.8,.2,1), opacity .35s, margin .55s, border-width .55s; animation: cfRise .45s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{ it.delay }}; {{ it.fold }}">
+          <button type="button" onClick="{{ it.toggle }}" aria-expanded="{{ it.expanded }}" style="width: 100%; border: 0; background: transparent; text-align: left; padding: 16px 18px; display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center;">
+            <span style="height: 24px; padding: 0 9px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: .04em; display: inline-flex; align-items: center; {{ it.kindStyle }}">{{ it.kind }}</span>
+            <span style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 2px;">
+              <span style="font-size: 16px; font-weight: 600; color: #1b2740;">{{ it.title }}</span>
+              <span style="font-size: 13px; color: #52617a;">{{ it.who }} · {{ it.why }}</span>
+            </span>
+            <span style="display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px; border-radius: 999px; font-size: 12px; font-weight: 600; {{ it.recStyle }}"><span style="width: 7px; height: 7px; border-radius: 50%; background: currentColor;"></span>{{ it.rec }}</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#52617a" stroke-width="2.2" aria-hidden="true" style="transition: transform .3s; transform: {{ it.chev }};"><path d="M6 9l6 6 6-6"></path></svg>
+          </button>
+          <sc-if value="{{ it.open }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 0 18px 18px; display: flex; flex-direction: column; gap: 12px; animation: cfOpen .35s cubic-bezier(.2,.8,.2,1);">
+              <div style="padding: 12px 14px; border-radius: 14px; background: {{ it.recBg }}; font-size: 14px; line-height: 1.5; color: #1b2740;"><strong style="font-weight: 600;">Why the AI says "{{ it.rec }}":</strong> {{ it.reason }}</div>
+              <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 6px 14px; padding: 12px 14px; border-radius: 14px; background: #f5f8fa; font-size: 13px; line-height: 1.45;">
+                <sc-for list="{{ it.evidence }}" as="ev" hint-placeholder-count="3">
+                  <span style="color: #52617a;">{{ ev.k }}</span><span style="color: #1b2740;">{{ ev.v }}</span>
+                </sc-for>
+              </div>
+              <sc-if value="{{ it.hasRule }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 14px; border: 1px dashed #8a9fd6; background: rgba(39,66,145,.04);">
+                  <span style="flex: 1 1 320px; font-size: 13px; line-height: 1.45; color: #1b2740;"><strong style="font-weight: 600;">You've approved this {{ it.ruleCount }} times this quarter.</strong> {{ it.ruleText }}</span>
+                  <button type="button" onClick="{{ it.makeRule }}" class="cf-press" style="height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid #274291; background: #ffffff; color: #274291; font-size: 13px; font-weight: 600;">Make it a rule</button>
+                </div>
+              </sc-if>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <sc-if value="{{ it.isLink }}" hint-placeholder-val="{{ false }}"><a href="brand-library.html" class="cf-press" style="height: 42px; padding: 0 18px; border-radius: 999px; background: #274291; color: #ffffff; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center;">Upload in the library</a></sc-if>
+                <sc-for list="{{ it.actions }}" as="ac" hint-placeholder-count="3">
+                  <button type="button" onClick="{{ ac.go }}" class="cf-press" style="height: 42px; padding: 0 18px; border-radius: 999px; font-size: 14px; font-weight: 600; {{ ac.style }}">{{ ac.l }}</button>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+        </article>
+      </sc-for>
+      <sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}">
+        <div style="padding: 40px; border-radius: 22px; background: rgba(255,255,255,.6); text-align: center; font-size: 16px; color: #52617a;">Nothing waiting here. The rules handled everything else.</div>
+      </sc-if>
+    </div>
+  </div>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; left: 50%; bottom: 28px; z-index: 50; max-width: min(660px, calc(100% - 32px)); display: flex; align-items: center; gap: 14px; padding: 12px 12px 12px 20px; border-radius: 22px; background: rgba(27,39,64,.92); color: #ffffff; font-size: 14px; line-height: 1.45; box-shadow: 0 20px 40px -16px rgba(27,39,64,.6); animation: cfToast .45s cubic-bezier(.34,1.36,.44,1) both;">
+      <span style="flex: 1;">{{ toast }}</span>
+      <sc-if value="{{ hasUndo }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ undo }}" class="cf-press" style="height: 34px; padding: 0 14px; border-radius: 999px; border: 0; background: #99CA3E; color: #1b2740; font-size: 13px; font-weight: 600;">Undo</button></sc-if>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { filter: "All", open: "a1", done: {}, toast: null, undoFn: null };
+  }
+  renderVals() {
+    const s = this.state;
+    const say = (t, undoFn) => { this.setState({ toast: t, undoFn: undoFn || null }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toast: null, undoFn: null }), 5200); };
+    const KIND = {
+      "Dealer creative": "background: #e7eaf4; color: #1d3270;",
+      "Co-op exception": "background: #fdf1ec; color: #9a4a06;",
+      "Asset request": "background: rgba(153,202,62,.25); color: #1b2740;",
+      "Rule exception": "background: #fdecec; color: #b42318;",
+      "Shared buy": "background: rgba(97,85,212,.14); color: #3d33a0;"
+    };
+    const REC = { approve: ["Approve", "background: #e7f4e9; color: #126b34;", "#e7f4e9"], decline: ["Decline", "background: #fdecec; color: #b42318;", "#fdecec"], human: ["Your call", "background: #fdf1ec; color: #9a4a06;", "#fdf1ec"], change: ["Ask for a change", "background: #fdf1ec; color: #9a4a06;", "#fdf1ec"], upload: ["Needs an upload", "background: rgba(39,66,145,.1); color: #1d3270;", "#e7eaf4"] };
+    const ITEMS = [
+      { id: "a1", kind: "Asset request", title: "Spanish Holiday headline: “El Evento Navideño ya comenzó.”", who: "5 dealers in Spanish-speaking markets", why: "their Holiday playbooks are blocked without it", rec: "approve", confident: true,
+        reason: "Translated from the approved English headline, reviewed against the Spanish style guide, and checked against the same 14 rules. No claims or numbers changed.",
+        evidence: [["Source", "Headline “The Holiday Event is on.” (approved Oct 2)"], ["Checks", "14 of 14 rules · reading level matches · no idioms flagged"], ["Unblocks", "Hialeah, Kissimmee, Santa Ana, El Paso, Oxnard"]],
+        ok: "Approved. It's in the library, and the 5 dealers' Holiday playbooks picked it up. They're running now." },
+      { id: "a2", kind: "Co-op exception", title: "Early-billed radio invoice, KRVR, $420", who: "Velocity Auto Riverside", why: "invoice dated before the claim period", rec: "approve", confident: true,
+        reason: "The station's signed affidavit shows all 12 spots aired Oct 6–24, inside the period. The dealer kept it with a note, and the dealer attested.",
+        evidence: [["Claim", "VEL-CL-22418 · Fall Service Clinic · $1,840"], ["Invoice date", "Sep 28 (period Oct 1–31)"], ["Affidavit", "12 of 12 spots aired Oct 6–24, signed Oct 27"]],
+        rule: 5, ruleText: "Accept early-billed broadcast invoices automatically when a signed affidavit shows the spots aired inside the claim period.",
+        ok: "Approved. Riverside's claim moves to payment by Nov 21." },
+      { id: "a3", kind: "Dealer creative", title: "30-second radio script from Ridgeline Media", who: "Velocity Auto Riverside", why: "agency-made creative, uploaded by the dealer", rec: "approve", confident: true,
+        reason: "The first draft was missing the APR disclaimer read. Ridgeline fixed it, and the new version passes all 14 rules. No price claims and no competitor names.",
+        evidence: [["Versions", "v1 failed (missing disclaimer) · v2 passes"], ["Checks", "14 of 14 rules · disclaimer read at 0:24–0:29"], ["Will run", "KRVR morning drive, Nov 24–Dec 20"]],
+        ok: "Approved. Ridgeline and Riverside have been told, and the step can launch." },
+      { id: "a4", kind: "Shared buy", title: "4 Northeast dealers want to pool a $18,000 radio buy", who: "Albany, Hartford, Worcester, Providence", why: "pooled buys over $10,000 need corporate sign-off", rec: "approve", confident: true,
+        reason: "Each dealer's share is under their co-op cap, and the pooled buy gets a 12% volume discount (about $2,160 saved). The creative is the approved Holiday spot with each store's end card.",
+        evidence: [["Split", "By sales volume: 31% · 27% · 22% · 20%"], ["Co-op", "75% Holiday rate · each share within cap"], ["Proof", "Station affidavit, split automatically per dealer"]],
+        ok: "Approved. All 4 dealers were notified and the buy is booked. Proof will be split per dealer automatically." },
+      { id: "a5", kind: "Co-op exception", title: "$14,000 TV flight against a $10,000 cap", who: "Velocity Fresno", why: "over the per-activity cap", rec: "human", confident: false,
+        reason: "This is a budget decision, not a rules question. Fresno is 3 units from Gold and has used 40% of its co-op. Unallocated holds $41,200.",
+        evidence: [["Request", "Holiday TV · KFSN · Dec 4–20 · $14,000"], ["Fresno co-op", "$9,600 used of $24,000 this quarter"], ["Options", "Approve at the $10,000 cap · approve in full from Unallocated · decline"]],
+        actions: [["Approve at cap", true, "Approved at $10,000. Fresno covers the rest or trims the flight, and they've been told both options."], ["Approve in full", false, "Approved in full: $4,000 from Unallocated, logged as an exception with your name."], ["Decline", false, "Declined. Fresno has been told why, with the cap rule attached."]] },
+      { id: "a6", kind: "Rule exception", title: "Headline: “Lowest prices in Florida”", who: "Velocity of Tampa", why: "wants to waive the comparative-claims rule", rec: "decline", confident: false,
+        reason: "A comparative price claim needs substantiation the dealer hasn't supplied, and rule C-3 forbids it in co-op creative. The AI drafted an alternative that passes: “Holiday pricing on every Aria in stock.”",
+        evidence: [["Rule", "C-3: no comparative or superlative price claims"], ["Substantiation", "None attached"], ["Alternative", "“Holiday pricing on every Aria in stock.” · passes 14 of 14"]],
+        actions: [["Decline, offer the alternative", true, "Declined, and the alternative went to Tampa. Their playbook will use it unless they say otherwise."], ["Approve anyway", false, "Approved as an exception, logged with your name. It won't be co-op eligible."]] },
+      { id: "a7", kind: "Dealer creative", title: "Black Friday flyer made by the store", who: "Velocity Charlotte", why: "store-made creative", rec: "change", confident: false,
+        reason: "It uses the 2023 logo lockup and a background color that isn't in the palette. Everything else passes. The AI can rebuild it with the current lockup in one step and keep their layout.",
+        evidence: [["Checks", "12 of 14 · outdated logo lockup · off-palette color"], ["Fix", "Swap to the current lockup and the nearest palette color"], ["Co-op", "Eligible once fixed"]],
+        actions: [["Send the fixed version", true, "Sent to Charlotte with the fixed version attached. One tap from them and it's approved."], ["Approve as is", false, "Approved as an exception. It won't be co-op eligible."]] },
+      { id: "a8", kind: "Asset request", title: "2025 Aria in Ember Red", who: "6 dealers", why: "their Aria playbooks fall back to Glacier White", rec: "upload", confident: false,
+        reason: "Nothing to approve yet. The library has no Ember Red shots. Upload them and the 6 dealers' playbooks update automatically.",
+        evidence: [["Asked by", "Riverside, Orlando, Tampa, Dayton, Mesa, Reno"], ["Fallback now", "Glacier White 3/4 front"]],
+        link: true }
+    ];
+    const visible = ITEMS.filter((x) => !s.done[x.id]);
+    const finish = (id, msg) => { this.setState({ done: Object.assign({}, this.state.done, { [id]: true }), open: null }); say(msg, () => { const d = Object.assign({}, this.state.done); delete d[id]; this.setState({ done: d, toast: null }); }); };
+    const btn = (l, primary, go) => ({ l, go, style: primary ? "border: 0; background: #274291; color: #ffffff;" : "border: 1px solid #c3cee8; background: #ffffff; color: #1b2740;" });
+    const KINDS = ["All", "Dealer creative", "Co-op exception", "Asset request", "Rule exception", "Shared buy"];
+    const filters = KINDS.map((k) => { const n = visible.filter((x) => k === "All" || x.kind === k).length; const on = s.filter === k; return { l: k, n: String(n), pressed: on ? "true" : "false", style: on ? "border: 1px solid #274291; background: #274291; color: #ffffff;" : "border: 1px solid #dde4ef; background: rgba(255,255,255,.75); color: #1b2740;", pick: () => this.setState({ filter: k }) }; });
+    const items = ITEMS.filter((x) => s.filter === "All" || x.kind === s.filter).map((x, i) => {
+      const gone = !!s.done[x.id];
+      const open = s.open === x.id && !gone;
+      const r = REC[x.rec];
+      let actions;
+      if (x.link) actions = [];
+      else if (x.actions) actions = x.actions.map((a) => btn(a[0], a[1], () => finish(x.id, a[2])));
+      else actions = [btn("Approve", true, () => finish(x.id, x.ok)), btn("Decline", false, () => finish(x.id, "Declined. They've been told why.")), btn("Ask a question", false, () => say("Your question goes to " + x.who + ", and the item stays here until they answer."))];
+      return { isLink: !!x.link, kind: x.kind, kindStyle: KIND[x.kind], title: x.title, who: x.who, why: x.why, rec: r[0], recStyle: r[1], recBg: r[2], reason: x.reason,
+        evidence: x.evidence.map((e) => ({ k: e[0], v: e[1] })), actions, hasRule: !!x.rule, ruleCount: String(x.rule || 0), ruleText: x.ruleText || "",
+        makeRule: () => { finish(x.id, "Rule created: early-billed broadcast invoices are accepted automatically when a signed affidavit shows in-period airing. This one is approved, and 2 similar items will never reach you."); },
+        open, expanded: open ? "true" : "false", chev: open ? "rotate(180deg)" : "rotate(0deg)",
+        toggle: () => this.setState({ open: open ? null : x.id }),
+        border: x.rec === "human" || x.rec === "decline" ? "#fad4c6" : "#ffffff", delay: (i * 50) + "ms",
+        fold: gone ? "max-height: 0px; opacity: 0; margin-top: -10px; border-width: 0px; pointer-events: none;" : "max-height: 900px; opacity: 1;" };
+    });
+    const confident = visible.filter((x) => x.confident);
+    return {
+      filters, items, empty: visible.length === 0,
+      hasConfident: confident.length > 0, confidentN: String(confident.length),
+      approveConfident: () => { const d = Object.assign({}, this.state.done); const ids = confident.map((x) => x.id); ids.forEach((id) => { d[id] = true; }); this.setState({ done: d, open: null }); say("Approved " + ids.length + ". Each dealer was told, and each decision is logged with the AI's reasoning and your name.", () => { const dd = Object.assign({}, this.state.done); ids.forEach((id) => delete dd[id]); this.setState({ done: dd, toast: null }); }); },
+      hasToast: !!s.toast, toast: s.toast || "", hasUndo: !!s.undoFn, undo: () => { if (this.state.undoFn) this.state.undoFn(); }
+    };
+  }
+}
+</script>
+</body>
+</html>

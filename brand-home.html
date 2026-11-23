@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Brand home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="assets/logo-mark.svg">
+<style>x-dc{display:none}</style>
+<script src="assets/vendor/react.production.min.js"></script>
+<script src="assets/vendor/react-dom.production.min.js"></script>
+<script src="assets/dc-runtime.js" defer></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-500.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-600.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-700.woff2') format('woff2');font-weight:700;font-display:swap}
+body{margin:0}
+a{color:#274291}a:hover{color:#1d3270}
+button{font-family:'Switzer',system-ui,sans-serif;cursor:pointer}
+.cf-press{transition:transform .16s cubic-bezier(.2,.8,.2,1),background .2s}
+.cf-press:hover{transform:translateY(-1px)}
+.cf-press:active{transform:scale(.97)}
+.cf-card{transition:transform .38s cubic-bezier(.2,.8,.2,1),box-shadow .38s}
+.cf-card:hover{transform:translateY(-3px);box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 34px 64px -30px rgba(27,39,64,.4)}
+@keyframes cfFloat{0%{transform:translate(0,0)}50%{transform:translate(40px,-30px)}100%{transform:translate(0,0)}}
+@keyframes cfRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes cfToast{from{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%,0)}}
+
+.cf-navt{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.cf-root{padding-left:268px !important;transition:padding-left .55s cubic-bezier(.34,1.2,.44,1)}
+.cf-nav{position:fixed;left:14px;top:14px;bottom:14px;width:240px;z-index:35;display:flex;flex-direction:column;box-sizing:border-box;border-radius:24px;background:rgba(255,255,255,.66);backdrop-filter:blur(26px) saturate(170%);-webkit-backdrop-filter:blur(26px) saturate(170%);border:1px solid rgba(255,255,255,.92);box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 24px 60px -30px rgba(27,39,64,.42);overflow:hidden;font-family:'Switzer',system-ui,sans-serif;transition:width .55s cubic-bezier(.34,1.2,.44,1),transform .45s cubic-bezier(.2,.8,.2,1)}
+.cf-nav-top{display:flex;align-items:center;gap:10px;padding:14px 12px 10px 16px;min-height:58px;box-sizing:border-box}
+.cf-nav-home{flex:1;display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.cf-nav-logo{width:28px;height:28px;flex:0 0 auto}
+.cf-nav-brand{flex:1;font-size:15px;font-weight:600;color:#1b2740;white-space:nowrap}
+.cf-nav-collapse{width:32px;height:32px;flex:0 0 auto;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#52617a;cursor:pointer;transition:transform .55s cubic-bezier(.34,1.2,.44,1),background .2s}
+.cf-nav-collapse:hover{background:rgba(27,39,64,.07)}
+.cf-nav-scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:2px 10px 10px;display:flex;flex-direction:column;gap:2px}
+.cf-nav-h{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6b7a82;padding:14px 10px 4px;white-space:nowrap}
+.cf-nav-item{position:relative;display:flex;align-items:center;gap:11px;min-height:38px;padding:7px 10px;box-sizing:border-box;border-radius:12px;border:0;background:transparent;color:#2d3e50;font:500 14px 'Switzer',system-ui,sans-serif;text-decoration:none;text-align:left;width:100%;cursor:pointer;transition:background .2s,color .2s,box-shadow .2s}
+.cf-nav-item:hover{background:rgba(39,66,145,.08);color:#1b2740}
+.cf-nav-item:focus-visible,.cf-nav-who:focus-visible,.cf-nav-collapse:focus-visible{outline:2px solid #274291;outline-offset:2px}
+.cf-nav-item.is-active{background:#274291;color:#ffffff;box-shadow:0 10px 22px -12px rgba(39,66,145,.85)}
+.cf-nav-item.is-later{color:#52617a;cursor:default}
+.cf-nav-ic{width:18px;height:18px;flex:0 0 auto}
+.cf-nav-txt{display:flex;flex-direction:column;min-width:0;flex:1;white-space:nowrap}
+.cf-nav-l{overflow:hidden;text-overflow:ellipsis}
+.cf-nav-sub{font-size:11px;color:#6b7a82;white-space:normal;line-height:1.35;max-height:0;opacity:0;overflow:hidden;transition:max-height .3s ease,opacity .25s ease,margin .3s}
+.cf-nav-item.is-later:hover .cf-nav-sub,.cf-nav-item.is-later:focus-visible .cf-nav-sub{max-height:40px;opacity:1;margin-top:2px}
+.cf-nav-badge{min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:999px;background:#c27a2c;color:#ffffff;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
+.cf-nav-who{display:flex;align-items:center;gap:10px;margin:0 10px 10px;padding:10px;border-radius:16px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.9);text-decoration:none;transition:background .2s}
+.cf-nav-who:hover{background:#ffffff}
+.cf-nav-av{width:34px;height:34px;flex:0 0 auto;border-radius:50%;background:#1d3270;color:#ffffff;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center}
+.cf-nav-sub2{font-size:11px;color:#52617a;overflow:hidden;text-overflow:ellipsis}
+.cf-nav-mobile{display:none}
+@media (min-width: 861px){
+  .cf-root:has(.cf-navt:checked){padding-left:100px !important}
+  .cf-navt:checked ~ .cf-nav{width:72px}
+  .cf-navt:checked ~ .cf-nav .cf-nav-collapse{transform:rotate(180deg)}
+  .cf-navt:checked ~ .cf-nav .cf-nav-top{padding:14px 0 10px;justify-content:center}
+  .cf-navt:checked ~ .cf-nav .cf-nav-home{display:none}
+  .cf-navt:checked ~ .cf-nav .cf-nav-txt{display:none}
+  .cf-navt:checked ~ .cf-nav .cf-nav-item{justify-content:center;padding:10px 0}
+  .cf-navt:checked ~ .cf-nav .cf-nav-h{font-size:0;padding:8px 0 4px;margin:6px 10px 0;border-top:1px solid rgba(27,39,64,.1)}
+  .cf-navt:checked ~ .cf-nav .cf-nav-badge{position:absolute;top:4px;right:6px;min-width:16px;height:16px;font-size:10px;padding:0 4px}
+  .cf-navt:checked ~ .cf-nav .cf-nav-who{justify-content:center;margin:0 8px 10px;padding:8px 0}
+}
+@media (max-width: 860px){
+  .cf-root{padding-left:0 !important}
+  .cf-nav{transform:translateX(-112%);width:260px;z-index:37}
+  .cf-navt:checked ~ .cf-nav{transform:none}
+  .cf-nav-mobile{display:inline-flex;position:fixed;left:12px;bottom:16px;z-index:36;width:52px;height:52px;border-radius:18px;align-items:center;justify-content:center;background:rgba(27,39,64,.88);color:#ffffff;cursor:pointer;box-shadow:0 16px 30px -12px rgba(27,39,64,.6)}
+}
+</style>
+</helmet>
+<div class="cf-root" style="width: 100%; min-height: 1000px; box-sizing: border-box; position: relative; overflow: hidden; background: #eef2f7; font-family: 'Switzer', 'Inter', system-ui, sans-serif; color: #2d3e50;">
+  <input type="checkbox" id="cf-navt" class="cf-navt">
+  <label for="cf-navt" class="cf-nav-mobile" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></label>
+  <nav class="cf-nav" aria-label="Main">
+    <div class="cf-nav-top">
+      <a href="index.html" class="cf-nav-home" title="Choose an experience"><img src="assets/logo-mark.svg" alt="" class="cf-nav-logo"><span class="cf-nav-brand">Connected</span></a>
+      <label for="cf-navt" class="cf-nav-collapse" aria-label="Collapse or expand menu" title="Collapse menu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></label>
+    </div>
+    <div class="cf-nav-scroll">
+      <a class="cf-nav-item is-active" href="brand-home.html" aria-current="page" title="Home"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Home</span></span></a><a class="cf-nav-item" href="brand-library.html" title="Brand library"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="8" cy="10" r="1"></circle><circle cx="12" cy="7" r="1"></circle><circle cx="16" cy="10" r="1"></circle></svg><span class="cf-nav-txt"><span class="cf-nav-l">Brand library</span></span></a><a class="cf-nav-item" href="brand-approvals.html" title="Approvals & requests"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"></path><path d="M9 12l2 2 4-4"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Approvals & requests</span></span><span class="cf-nav-badge">8</span></a><a class="cf-nav-item" href="brand-coverage.html" title="Initiatives"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Initiatives</span></span></a><div class="cf-nav-h">Programs</div><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Co-op & budgets · not in this prototype yet · today: Co-op · Fund recap · Budgets"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Co-op & budgets</span><span class="cf-nav-sub">Not in prototype yet · today: Co-op · Fund recap · Budgets</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Rewards & incentives · not in this prototype yet · today: Rewards · Incentives · Rebate admin"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0z"></path><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 21h8"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Rewards & incentives</span><span class="cf-nav-sub">Not in prototype yet · today: Rewards · Incentives · Rebate admin</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Sales incentives · not in this prototype yet · today: SPIFF"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Sales incentives</span><span class="cf-nav-sub">Not in prototype yet · today: SPIFF</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Consumer rebates · not in this prototype yet · today: Rebates"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z"></path><circle cx="7.5" cy="7.5" r="1.5"></circle></svg><span class="cf-nav-txt"><span class="cf-nav-l">Consumer rebates</span><span class="cf-nav-sub">Not in prototype yet · today: Rebates</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Payments & settlement · not in this prototype yet · today: Payment batches · ACH · Checks"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2"></rect><path d="M3 10h18M16 15h2"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Payments & settlement</span><span class="cf-nav-sub">Not in prototype yet · today: Payment batches · ACH · Checks</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Merchandise catalog · not in this prototype yet · today: Brand Shop admin"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l1 13H5z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Merchandise catalog</span><span class="cf-nav-sub">Not in prototype yet · today: Brand Shop admin</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Training · not in this prototype yet · today: LMS admin"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Training</span><span class="cf-nav-sub">Not in prototype yet · today: LMS admin</span></span></button><div class="cf-nav-h">Network</div><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Partners & locations · not in this prototype yet · today: Dealer list · Enrollment"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v10h16V10M3 10l2-6h14l2 6zM9 20v-6h6v6"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Partners & locations</span><span class="cf-nav-sub">Not in prototype yet · today: Dealer list · Enrollment</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Users & roles · not in this prototype yet · today: User admin · Roles"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21a7 7 0 0 1 14 0M17 4a4 4 0 0 1 0 8M22 21a6 6 0 0 0-4-5.6"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Users & roles</span><span class="cf-nav-sub">Not in prototype yet · today: User admin · Roles</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Reports · not in this prototype yet · today: Reports list"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Reports</span><span class="cf-nav-sub">Not in prototype yet · today: Reports list</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Settings · not in this prototype yet · today: Program configuration"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 17h16"></path><circle cx="9" cy="7" r="2"></circle><circle cx="15" cy="17" r="2"></circle></svg><span class="cf-nav-txt"><span class="cf-nav-l">Settings</span><span class="cf-nav-sub">Not in prototype yet · today: Program configuration</span></span></button>
+    </div>
+    <a class="cf-nav-who" href="briefing.html" title="Switch to dealer view">
+      <span class="cf-nav-av">DL</span>
+      <span class="cf-nav-txt"><span class="cf-nav-l" style="font-weight: 600; color: #1b2740;">David Lenzen</span><span class="cf-nav-sub2">Velocity corporate</span><span class="cf-nav-sub2" style="color: #274291; font-weight: 600;">Switch to dealer view →</span></span>
+    </a>
+  </nav>
+
+  <div aria-hidden="true" style="position: absolute; right: -200px; top: -240px; width: 800px; height: 800px; border-radius: 50%; background: radial-gradient(circle, rgba(97,85,212,.24), rgba(97,85,212,0) 68%); filter: blur(24px); animation: cfFloat 18s ease-in-out infinite;"></div>
+  <div aria-hidden="true" style="position: absolute; left: 10%; bottom: -280px; width: 760px; height: 760px; border-radius: 50%; background: radial-gradient(circle, rgba(153,202,62,.24), rgba(153,202,62,0) 68%); filter: blur(24px); animation: cfFloat 22s ease-in-out infinite reverse;"></div>
+
+  <div style="position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 24px 32px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 22px;">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px;">
+      <div style="display: flex; flex-direction: column;">
+        <span style="font-size: 15px; font-weight: 600; color: #1b2740;">Velocity Auto Group</span>
+        <span style="font-size: 12px; color: #52617a;">Corporate marketing · 64 locations</span>
+      </div>
+      <div style="flex: 1 1 380px; display: flex; align-items: center; gap: 12px; height: 54px; padding: 0 8px 0 20px; border-radius: 999px; background: rgba(255,255,255,.78); border: 1px solid #ffffff; box-shadow: 0 16px 40px -22px rgba(27,39,64,.35);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#274291" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+        <label style="flex: 1; min-width: 0; display: flex;"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Ask about your network</span><input type="text" placeholder="Ask about your network: who hasn't started Holiday, how much co-op is committed…" style="flex: 1; min-width: 0; border: 0; background: transparent; outline: none; font: 400 16px 'Switzer', sans-serif; color: #1b2740;"></label>
+        <button type="button" class="cf-press" style="height: 40px; padding: 0 18px; border-radius: 999px; border: 0; background: #274291; color: #ffffff; font-size: 14px; font-weight: 600;">Ask</button>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px; animation: cfRise .6s cubic-bezier(.2,.8,.2,1);">
+      <div style="flex: 1 1 520px;">
+        <h1 style="margin: 0; font-size: 44px; line-height: 1.05; font-weight: 600; letter-spacing: -0.03em; color: #1b2740;">Good morning, David.</h1>
+        <p style="margin: 8px 0 0; font-size: 18px; line-height: 1.5; color: #52617a;"><strong style="color: #1b2740; font-weight: 600;">{{ queueN }} items</strong> wait on you, and the AI recommends approving {{ autoN }} of them. <strong style="color: #1b2740; font-weight: 600;">3 library gaps</strong> are blocking dealers.</p>
+      </div>
+    </div>
+
+    <section style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px;">
+        <h2 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #9a4a06;">Waiting on you</h2>
+        <span style="font-size: 13px; color: #52617a;">The three that matter most today</span>
+        <span style="flex: 1;"></span>
+        <a href="brand-approvals.html" style="font-size: 14px; font-weight: 600; text-decoration: none;">Open all {{ queueN }} →</a>
+      </div>
+      <sc-for list="{{ top }}" as="t" hint-placeholder-count="3">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 14px 16px; border-radius: 18px; background: rgba(255,255,255,.85); border: 1px solid #fad4c6; animation: cfRise .45s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{ t.delay }};">
+          <span style="height: 24px; padding: 0 9px; border-radius: 999px; background: {{ t.kindBg }}; color: {{ t.kindColor }}; font-size: 11px; font-weight: 700; letter-spacing: .04em; display: inline-flex; align-items: center;">{{ t.kind }}</span>
+          <div style="flex: 1 1 320px; min-width: 0;"><div style="font-size: 15px; font-weight: 600; color: #1b2740;">{{ t.what }}</div><div style="font-size: 13px; color: #52617a;">{{ t.why }}</div></div>
+          <a href="{{ t.href }}" class="cf-press" style="height: 38px; padding: 0 16px; border-radius: 999px; background: #274291; color: #ffffff; font-size: 13px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center;">{{ t.cta }}</a>
+        </div>
+      </sc-for>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 12px;">
+      <h2 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">Where the network stands</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px;">
+        <sc-for list="{{ cards }}" as="c" hint-placeholder-count="6">
+          <a href="{{ c.href }}" class="cf-card" style="text-decoration: none; color: inherit; border-radius: 24px; padding: 20px; background: rgba(255,255,255,.82); backdrop-filter: blur(24px) saturate(170%); -webkit-backdrop-filter: blur(24px) saturate(170%); border: 1px solid #ffffff; box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 22px 50px -32px rgba(27,39,64,.35); display: flex; flex-direction: column; gap: 8px; animation: cfRise .5s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{ c.delay }};">
+            <span style="font-size: 13px; color: #52617a;">{{ c.q }}</span>
+            <span style="display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px;"><span style="font-size: 34px; line-height: 1.05; font-weight: 600; letter-spacing: -0.025em; color: {{ c.tone }}; font-variant-numeric: tabular-nums;">{{ c.answer }}</span><span style="font-size: 15px; color: #2d3e50;">{{ c.sub }}</span></span>
+            <span style="height: 8px; border-radius: 999px; background: rgba(27,39,64,.07); overflow: hidden; display: flex;"><span style="height: 100%; border-radius: 999px; width: {{ c.bar }}; background: {{ c.barColor }};"></span></span>
+            <span style="font-size: 14px; line-height: 1.45; color: #2d3e50;">{{ c.detail }}</span>
+            <span style="display: flex; align-items: center; gap: 8px; margin-top: 2px; font-size: 12px; color: #52617a;"><span style="flex: 1;">{{ c.asOf }}</span><span style="font-weight: 600; color: #274291;">{{ c.link }}</span></span>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const K = {
+      approve: { bg: "#e7eaf4", c: "#1d3270" }, request: { bg: "rgba(153,202,62,.25)", c: "#1b2740" }, exception: { bg: "#fdf1ec", c: "#9a4a06" }
+    };
+    const TOP = [
+      { kind: "REQUEST", k: "request", what: "6 dealers asked for the 2025 Aria in Ember Red", why: "Their Aria playbooks fall back to Glacier White. Upload the shots and they update automatically.", cta: "Upload to library", href: "brand-library.html" },
+      { kind: "EXCEPTION", k: "exception", what: "Velocity Fresno wants a $14,000 TV flight against a $10,000 cap", why: "The AI can't decide this one: it needs a budget call. Unallocated has $41,200.", cta: "Decide", href: "brand-approvals.html" },
+      { kind: "APPROVAL", k: "approve", what: "Spanish Holiday headline drafted for 5 dealers", why: "Translated from the approved English and checked against the same rules. AI recommends approving.", cta: "Review", href: "brand-approvals.html" }
+    ];
+    const CARDS = [
+      { q: "Is the Holiday Sales Event actually running?", answer: "42 of 64", sub: "locations running it", tone: "#1b2740", bar: "66%", barColor: "#274291", detail: "9 are blocked on our side: no Spanish version, or co-op ran out. 6 haven't said why.", asOf: "Confirmed by ad platforms and printers · 9:02am", link: "See coverage →", href: "brand-coverage.html" },
+      { q: "How much Q4 co-op is committed?", answer: "$1.18M", sub: "of $1.6M", tone: "#1b2740", bar: "74%", barColor: "#274291", detail: "$212k expires Dec 31 across 38 dealers. $41,200 sits in Unallocated.", asOf: "Live · co-op ledger", link: "Co-op & budgets", href: "brand-approvals.html" },
+      { q: "Is the library giving dealers what they need?", answer: "1,284", sub: "pieces live", tone: "#1b2740", bar: "94%", barColor: "#99CA3E", detail: "3 gaps are blocking dealers: Aria in Ember Red, a Spanish Holiday headline, and a winter scene for the Strada.", asOf: "Gaps found from what dealers' playbooks asked for", link: "Open library →", href: "brand-library.html" },
+      { q: "How is the AI doing with our pieces?", answer: "1,906", sub: "creatives built this week", tone: "#126b34", bar: "98%", barColor: "#99CA3E", detail: "97.8% passed the brand check first time. 41 needed a fix, most often a disclaimer too small for a story format.", asOf: "Last 7 days · all 64 locations", link: "See library rules →", href: "brand-library.html" },
+      { q: "How are claims moving?", answer: "214", sub: "in review", tone: "#1b2740", bar: "58%", barColor: "#8a9fd6", detail: "Median 3.1 days to a decision. 9 exceptions need a human, and 5 are early-billed radio invoices.", asOf: "Live · co-op claims", link: "Approvals →", href: "brand-approvals.html" },
+      { q: "What's about to expire?", answer: "18", sub: "pieces in 14 days", tone: "#9a4a06", bar: "20%", barColor: "#c27a2c", detail: "The Q4 Aria offer ends Nov 30. 23 dealer playbooks use it, and they'll switch to the December offer automatically.", asOf: "Library expiry dates", link: "Review →", href: "brand-library.html" }
+    ];
+    return {
+      queueN: "8", autoN: "4",
+      top: TOP.map((t, i) => Object.assign({}, t, { kindBg: K[t.k].bg, kindColor: K[t.k].c, delay: (i * 60) + "ms" })),
+      cards: CARDS.map((c, i) => Object.assign({}, c, { delay: (i * 50) + "ms" }))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Brand library</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="assets/logo-mark.svg">
+<style>x-dc{display:none}</style>
+<script src="assets/vendor/react.production.min.js"></script>
+<script src="assets/vendor/react-dom.production.min.js"></script>
+<script src="assets/dc-runtime.js" defer></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-500.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-600.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-700.woff2') format('woff2');font-weight:700;font-display:swap}
+body{margin:0}
+a{color:#274291}a:hover{color:#1d3270}
+button{font-family:'Switzer',system-ui,sans-serif;cursor:pointer}
+.cf-press{transition:transform .16s cubic-bezier(.2,.8,.2,1),background .2s,opacity .2s}
+.cf-press:hover{transform:translateY(-1px)}
+.cf-press:active{transform:scale(.97)}
+.cf-tile{transition:transform .38s cubic-bezier(.2,.8,.2,1),box-shadow .38s}
+.cf-tile:hover{transform:translateY(-4px);box-shadow:0 34px 64px -30px rgba(27,39,64,.42)}
+.cf-check{background-color:#ffffff;background-image:linear-gradient(45deg,#eef2f7 25%,transparent 25%),linear-gradient(-45deg,#eef2f7 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#eef2f7 75%),linear-gradient(-45deg,transparent 75%,#eef2f7 75%);background-size:16px 16px;background-position:0 0,0 8px,8px -8px,-8px 0}
+@keyframes cfFloat{0%{transform:translate(0,0)}50%{transform:translate(40px,-30px)}100%{transform:translate(0,0)}}
+@keyframes cfRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes cfSheet{from{opacity:0;transform:translateX(60px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes cfFade{from{opacity:0}to{opacity:1}}
+@keyframes cfPop{0%{opacity:0;transform:scale(.6)}70%{transform:scale(1.08)}100%{opacity:1;transform:none}}
+@keyframes cfSpin{to{transform:rotate(360deg)}}
+@keyframes cfScan{0%{transform:translateY(-100%)}100%{transform:translateY(100%)}}
+@keyframes cfToast{from{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%,0)}}
+
+.cf-navt{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.cf-root{padding-left:268px !important;transition:padding-left .55s cubic-bezier(.34,1.2,.44,1)}
+.cf-nav{position:fixed;left:14px;top:14px;bottom:14px;width:240px;z-index:35;display:flex;flex-direction:column;box-sizing:border-box;border-radius:24px;background:rgba(255,255,255,.66);backdrop-filter:blur(26px) saturate(170%);-webkit-backdrop-filter:blur(26px) saturate(170%);border:1px solid rgba(255,255,255,.92);box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 24px 60px -30px rgba(27,39,64,.42);overflow:hidden;font-family:'Switzer',system-ui,sans-serif;transition:width .55s cubic-bezier(.34,1.2,.44,1),transform .45s cubic-bezier(.2,.8,.2,1)}
+.cf-nav-top{display:flex;align-items:center;gap:10px;padding:14px 12px 10px 16px;min-height:58px;box-sizing:border-box}
+.cf-nav-home{flex:1;display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.cf-nav-logo{width:28px;height:28px;flex:0 0 auto}
+.cf-nav-brand{flex:1;font-size:15px;font-weight:600;color:#1b2740;white-space:nowrap}
+.cf-nav-collapse{width:32px;height:32px;flex:0 0 auto;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#52617a;cursor:pointer;transition:transform .55s cubic-bezier(.34,1.2,.44,1),background .2s}
+.cf-nav-collapse:hover{background:rgba(27,39,64,.07)}
+.cf-nav-scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:2px 10px 10px;display:flex;flex-direction:column;gap:2px}
+.cf-nav-h{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6b7a82;padding:14px 10px 4px;white-space:nowrap}
+.cf-nav-item{position:relative;display:flex;align-items:center;gap:11px;min-height:38px;padding:7px 10px;box-sizing:border-box;border-radius:12px;border:0;background:transparent;color:#2d3e50;font:500 14px 'Switzer',system-ui,sans-serif;text-decoration:none;text-align:left;width:100%;cursor:pointer;transition:background .2s,color .2s,box-shadow .2s}
+.cf-nav-item:hover{background:rgba(39,66,145,.08);color:#1b2740}
+.cf-nav-item:focus-visible,.cf-nav-who:focus-visible,.cf-nav-collapse:focus-visible{outline:2px solid #274291;outline-offset:2px}
+.cf-nav-item.is-active{background:#274291;color:#ffffff;box-shadow:0 10px 22px -12px rgba(39,66,145,.85)}
+.cf-nav-item.is-later{color:#52617a;cursor:default}
+.cf-nav-ic{width:18px;height:18px;flex:0 0 auto}
+.cf-nav-txt{display:flex;flex-direction:column;min-width:0;flex:1;white-space:nowrap}
+.cf-nav-l{overflow:hidden;text-overflow:ellipsis}
+.cf-nav-sub{font-size:11px;color:#6b7a82;white-space:normal;line-height:1.35;max-height:0;opacity:0;overflow:hidden;transition:max-height .3s ease,opacity .25s ease,margin .3s}
+.cf-nav-item.is-later:hover .cf-nav-sub,.cf-nav-item.is-later:focus-visible .cf-nav-sub{max-height:40px;opacity:1;margin-top:2px}
+.cf-nav-badge{min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:999px;background:#c27a2c;color:#ffffff;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
+.cf-nav-who{display:flex;align-items:center;gap:10px;margin:0 10px 10px;padding:10px;border-radius:16px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.9);text-decoration:none;transition:background .2s}
+.cf-nav-who:hover{background:#ffffff}
+.cf-nav-av{width:34px;height:34px;flex:0 0 auto;border-radius:50%;background:#1d3270;color:#ffffff;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center}
+.cf-nav-sub2{font-size:11px;color:#52617a;overflow:hidden;text-overflow:ellipsis}
+.cf-nav-mobile{display:none}
+@media (min-width: 861px){
+  .cf-root:has(.cf-navt:checked){padding-left:100px !important}
+  .cf-navt:checked ~ .cf-nav{width:72px}
+  .cf-navt:checked ~ .cf-nav .cf-nav-collapse{transform:rotate(180deg)}
+  .cf-navt:checked ~ .cf-nav .cf-nav-top{padding:14px 0 10px;justify-content:center}
+  .cf-navt:checked ~ .cf-nav .cf-nav-home{display:none}
+  .cf-navt:checked ~ .cf-nav .cf-nav-txt{display:none}
+  .cf-navt:checked ~ .cf-nav .cf-nav-item{justify-content:center;padding:10px 0}
+  .cf-navt:checked ~ .cf-nav .cf-nav-h{font-size:0;padding:8px 0 4px;margin:6px 10px 0;border-top:1px solid rgba(27,39,64,.1)}
+  .cf-navt:checked ~ .cf-nav .cf-nav-badge{position:absolute;top:4px;right:6px;min-width:16px;height:16px;font-size:10px;padding:0 4px}
+  .cf-navt:checked ~ .cf-nav .cf-nav-who{justify-content:center;margin:0 8px 10px;padding:8px 0}
+}
+@media (max-width: 860px){
+  .cf-root{padding-left:0 !important}
+  .cf-nav{transform:translateX(-112%);width:260px;z-index:37}
+  .cf-navt:checked ~ .cf-nav{transform:none}
+  .cf-nav-mobile{display:inline-flex;position:fixed;left:12px;bottom:16px;z-index:36;width:52px;height:52px;border-radius:18px;align-items:center;justify-content:center;background:rgba(27,39,64,.88);color:#ffffff;cursor:pointer;box-shadow:0 16px 30px -12px rgba(27,39,64,.6)}
+}
+</style>
+</helmet>
+<div class="cf-root" style="width: 100%; min-height: 1000px; box-sizing: border-box; position: relative; overflow: hidden; background: #eef2f7; font-family: 'Switzer', 'Inter', system-ui, sans-serif; color: #2d3e50;">
+  <input type="checkbox" id="cf-navt" class="cf-navt">
+  <label for="cf-navt" class="cf-nav-mobile" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></label>
+  <nav class="cf-nav" aria-label="Main">
+    <div class="cf-nav-top">
+      <a href="index.html" class="cf-nav-home" title="Choose an experience"><img src="assets/logo-mark.svg" alt="" class="cf-nav-logo"><span class="cf-nav-brand">Connected</span></a>
+      <label for="cf-navt" class="cf-nav-collapse" aria-label="Collapse or expand menu" title="Collapse menu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></label>
+    </div>
+    <div class="cf-nav-scroll">
+      <a class="cf-nav-item" href="brand-home.html" title="Home"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Home</span></span></a><a class="cf-nav-item is-active" href="brand-library.html" aria-current="page" title="Brand library"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="8" cy="10" r="1"></circle><circle cx="12" cy="7" r="1"></circle><circle cx="16" cy="10" r="1"></circle></svg><span class="cf-nav-txt"><span class="cf-nav-l">Brand library</span></span></a><a class="cf-nav-item" href="brand-approvals.html" title="Approvals & requests"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"></path><path d="M9 12l2 2 4-4"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Approvals & requests</span></span><span class="cf-nav-badge">8</span></a><a class="cf-nav-item" href="brand-coverage.html" title="Initiatives"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Initiatives</span></span></a><div class="cf-nav-h">Programs</div><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Co-op & budgets · not in this prototype yet · today: Co-op · Fund recap · Budgets"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Co-op & budgets</span><span class="cf-nav-sub">Not in prototype yet · today: Co-op · Fund recap · Budgets</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Rewards & incentives · not in this prototype yet · today: Rewards · Incentives · Rebate admin"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0z"></path><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 21h8"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Rewards & incentives</span><span class="cf-nav-sub">Not in prototype yet · today: Rewards · Incentives · Rebate admin</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Sales incentives · not in this prototype yet · today: SPIFF"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Sales incentives</span><span class="cf-nav-sub">Not in prototype yet · today: SPIFF</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Consumer rebates · not in this prototype yet · today: Rebates"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z"></path><circle cx="7.5" cy="7.5" r="1.5"></circle></svg><span class="cf-nav-txt"><span class="cf-nav-l">Consumer rebates</span><span class="cf-nav-sub">Not in prototype yet · today: Rebates</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Payments & settlement · not in this prototype yet · today: Payment batches · ACH · Checks"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2"></rect><path d="M3 10h18M16 15h2"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Payments & settlement</span><span class="cf-nav-sub">Not in prototype yet · today: Payment batches · ACH · Checks</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Merchandise catalog · not in this prototype yet · today: Brand Shop admin"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l1 13H5z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Merchandise catalog</span><span class="cf-nav-sub">Not in prototype yet · today: Brand Shop admin</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Training · not in this prototype yet · today: LMS admin"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Training</span><span class="cf-nav-sub">Not in prototype yet · today: LMS admin</span></span></button><div class="cf-nav-h">Network</div><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Partners & locations · not in this prototype yet · today: Dealer list · Enrollment"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v10h16V10M3 10l2-6h14l2 6zM9 20v-6h6v6"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Partners & locations</span><span class="cf-nav-sub">Not in prototype yet · today: Dealer list · Enrollment</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Users & roles · not in this prototype yet · today: User admin · Roles"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21a7 7 0 0 1 14 0M17 4a4 4 0 0 1 0 8M22 21a6 6 0 0 0-4-5.6"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Users & roles</span><span class="cf-nav-sub">Not in prototype yet · today: User admin · Roles</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Reports · not in this prototype yet · today: Reports list"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg><span class="cf-nav-txt"><span class="cf-nav-l">Reports</span><span class="cf-nav-sub">Not in prototype yet · today: Reports list</span></span></button><button type="button" class="cf-nav-item is-later" aria-disabled="true" title="Settings · not in this prototype yet · today: Program configuration"><svg class="cf-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 17h16"></path><circle cx="9" cy="7" r="2"></circle><circle cx="15" cy="17" r="2"></circle></svg><span class="cf-nav-txt"><span class="cf-nav-l">Settings</span><span class="cf-nav-sub">Not in prototype yet · today: Program configuration</span></span></button>
+    </div>
+    <a class="cf-nav-who" href="briefing.html" title="Switch to dealer view">
+      <span class="cf-nav-av">DL</span>
+      <span class="cf-nav-txt"><span class="cf-nav-l" style="font-weight: 600; color: #1b2740;">David Lenzen</span><span class="cf-nav-sub2">Velocity corporate</span><span class="cf-nav-sub2" style="color: #274291; font-weight: 600;">Switch to dealer view →</span></span>
+    </a>
+  </nav>
+
+  <div aria-hidden="true" style="position: absolute; right: -220px; top: -260px; width: 820px; height: 820px; border-radius: 50%; background: radial-gradient(circle, rgba(97,85,212,.22), rgba(97,85,212,0) 68%); filter: blur(24px); animation: cfFloat 18s ease-in-out infinite;"></div>
+
+  <div style="position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 24px 32px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px;">
+    <div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px;">
+      <div style="flex: 1 1 420px;">
+        <div style="font-size: 13px; color: #52617a;">Velocity Auto Group · Corporate marketing</div>
+        <h1 style="margin: 2px 0 0; font-size: 36px; line-height: 1.1; font-weight: 600; letter-spacing: -0.025em; color: #1b2740;">Brand library</h1>
+        <p style="margin: 6px 0 0; font-size: 16px; color: #52617a;">The pieces the AI builds every dealer's creative from. Upload parts, not finished ads.</p>
+      </div>
+      <button type="button" onClick="{{ openUpload }}" class="cf-press" style="height: 50px; padding: 0 22px; border-radius: 999px; border: 0; background: #274291; color: #ffffff; font-size: 15px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 12px 26px -12px rgba(39,66,145,.8);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>Add pieces</button>
+    </div>
+
+    <sc-if value="{{ hasGaps }}" hint-placeholder-val="{{ true }}">
+      <section style="border-radius: 22px; padding: 16px 18px; background: rgba(255,255,255,.82); border: 1px solid #fad4c6; display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;"><span style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #9a4a06;">{{ gapTitle }}</span><span style="font-size: 13px; color: #52617a;">Found from what dealers' playbooks reached for and couldn't find</span></div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px;">
+          <sc-for list="{{ gaps }}" as="g" hint-placeholder-count="3">
+            <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; background: {{ g.bg }}; transition: background .4s;">
+              <div style="flex: 1; min-width: 0;"><div style="font-size: 14px; font-weight: 600; color: #1b2740; text-decoration: {{ g.strike }};">{{ g.title }}</div><div style="font-size: 12px; color: #52617a;">{{ g.why }}</div></div>
+              <sc-if value="{{ g.isUpload }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ openUpload }}" class="cf-press" style="height: 34px; padding: 0 14px; border-radius: 999px; border: 0; background: #274291; color: #ffffff; font-size: 13px; font-weight: 600;">Upload</button></sc-if>
+              <sc-if value="{{ g.isLink }}" hint-placeholder-val="{{ false }}"><a href="brand-approvals.html" style="font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap;">In approvals →</a></sc-if>
+              <sc-if value="{{ g.isDone }}" hint-placeholder-val="{{ false }}"><span style="height: 28px; padding: 0 11px; border-radius: 999px; background: #e7f4e9; color: #126b34; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; animation: cfPop .5s;">Closed</span></sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+      <sc-for list="{{ types }}" as="ty" hint-placeholder-count="8">
+        <button type="button" onClick="{{ ty.pick }}" aria-pressed="{{ ty.pressed }}" class="cf-press" style="height: 36px; padding: 0 14px; border-radius: 999px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 7px; {{ ty.style }}">{{ ty.l }}<span style="opacity: .65; font-variant-numeric: tabular-nums;">{{ ty.n }}</span></button>
+      </sc-for>
+      <span style="flex: 1;"></span>
+      <span style="font-size: 13px; color: #52617a;">{{ liveLine }}</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px;">
+      <sc-for list="{{ tiles }}" as="a" hint-placeholder-count="12">
+        <button type="button" onClick="{{ a.open }}" class="cf-tile" style="text-align: left; padding: 0; border-radius: 22px; overflow: hidden; background: rgba(255,255,255,.86); border: 1px solid {{ a.border }}; box-shadow: 0 20px 44px -30px rgba(27,39,64,.35); display: flex; flex-direction: column; animation: cfRise .45s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{ a.delay }};">
+          <div style="position: relative; height: 150px; overflow: hidden; {{ a.prevBg }}">
+            <sc-if value="{{ a.isVehicle }}" hint-placeholder-val="{{ true }}">
+              <svg viewBox="0 0 200 90" aria-hidden="true" style="position: absolute; left: 50%; top: 50%; width: 76%; transform: translate(-50%, -46%) {{ a.flip }};"><ellipse cx="102" cy="80" rx="88" ry="6" fill="rgba(27,39,64,.18)"></ellipse><path d="M10 62 L18 44 Q22 38 32 37 L62 34 L84 18 Q90 14 100 14 L142 14 Q152 14 158 22 L172 36 Q186 38 190 46 L192 62 Z" fill="{{ a.color }}" stroke="rgba(27,39,64,.25)" stroke-width="1"></path><path d="M70 34 L88 20 Q92 18 98 18 L120 18 L120 34 Z" fill="#cfe3f5"></path><path d="M124 18 L140 18 Q148 18 152 24 L162 34 L124 34 Z" fill="#cfe3f5"></path><circle cx="50" cy="64" r="14" fill="#1b2740"></circle><circle cx="50" cy="64" r="6" fill="#c3cee8"></circle><circle cx="156" cy="64" r="14" fill="#1b2740"></circle><circle cx="156" cy="64" r="6" fill="#c3cee8"></circle></svg>
+            </sc-if>
+            <sc-if value="{{ a.isLogo }}" hint-placeholder-val="{{ false }}">
+              <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 10px;"><span style="width: 34px; height: 34px; border-radius: 9px; background: {{ a.markBg }}; color: {{ a.markFg }}; font-size: 20px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center;">V</span><span style="font-size: 22px; font-weight: 700; letter-spacing: .18em; color: {{ a.wordColor }};">{{ a.word }}</span></div>
+            </sc-if>
+            <sc-if value="{{ a.isScene }}" hint-placeholder-val="{{ false }}">
+              <svg viewBox="0 0 240 150" preserveAspectRatio="none" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="M0 98 Q60 70 120 92 T240 84 V150 H0 Z" fill="{{ a.hill1 }}"></path><path d="M0 118 Q80 96 160 114 T240 108 V150 H0 Z" fill="{{ a.hill2 }}"></path><path d="M110 150 L128 96 L134 96 L170 150 Z" fill="{{ a.road }}"></path></svg>
+            </sc-if>
+            <sc-if value="{{ a.isText }}" hint-placeholder-val="{{ false }}">
+              <div style="position: absolute; inset: 0; padding: 18px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; gap: 4px;"><span style="font-size: {{ a.textSize }}; line-height: 1.15; font-weight: {{ a.textWeight }}; color: {{ a.textColor }};">{{ a.text }}</span><span style="font-size: 11px; color: {{ a.textSubColor }};">{{ a.textSub }}</span></div>
+            </sc-if>
+            <sc-if value="{{ a.isTemplate }}" hint-placeholder-val="{{ false }}">
+              <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 104px; height: 104px; border-radius: 8px; background: #ffffff; border: 1px solid #c3cee8; display: grid; grid-template-rows: 20px 1fr 16px; gap: 5px; padding: 7px; box-sizing: border-box;"><span style="border-radius: 3px; background: #c3cee8;"></span><span style="border-radius: 3px; background: #e7eaf4; border: 1px dashed #8a9fd6;"></span><span style="width: 55%; border-radius: 3px; background: #99CA3E;"></span></div>
+            </sc-if>
+            <sc-if value="{{ a.isVideo }}" hint-placeholder-val="{{ false }}">
+              <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;"><span style="width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,.9); display: inline-flex; align-items: center; justify-content: center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#1d3270" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></span><span style="position: absolute; right: 10px; bottom: 8px; font-size: 11px; font-weight: 600; color: #ffffff;">0:15</span></div>
+            </sc-if>
+            <sc-if value="{{ a.isNew }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; left: 10px; top: 10px; height: 22px; padding: 0 9px; border-radius: 999px; background: #99CA3E; color: #1b2740; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; animation: cfPop .5s;">NEW</span></sc-if>
+          </div>
+          <div style="padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-size: 14px; font-weight: 600; color: #1b2740; line-height: 1.3;">{{ a.name }}</span>
+            <span style="font-size: 12px; color: #52617a;">{{ a.kindLabel }} · {{ a.tagLine }}</span>
+            <span style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+              <span style="height: 22px; padding: 0 8px; border-radius: 999px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; {{ a.statusStyle }}">{{ a.status }}</span>
+              <span style="font-size: 12px; color: #52617a;">{{ a.used }}</span>
+            </span>
+          </div>
+        </button>
+      </sc-for>
+    </div>
+  </div>
+
+  <sc-if value="{{ hasSel }}" hint-placeholder-val="{{ false }}">
+    <button type="button" onClick="{{ closeSel }}" aria-label="Close details" style="position: fixed; inset: 0; z-index: 40; border: 0; background: rgba(27,39,64,.2); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); animation: cfFade .3s;"></button>
+    <aside aria-label="Piece details" style="position: fixed; top: 16px; right: 16px; bottom: 16px; width: min(600px, calc(100% - 32px)); z-index: 41; box-sizing: border-box; overflow-y: auto; border-radius: 28px; padding: 22px; background: rgba(255,255,255,.95); backdrop-filter: blur(32px) saturate(180%); -webkit-backdrop-filter: blur(32px) saturate(180%); border: 1px solid #ffffff; box-shadow: 0 40px 100px -30px rgba(27,39,64,.55); display: flex; flex-direction: column; gap: 18px; animation: cfSheet .5s cubic-bezier(.34,1.2,.44,1);">
+      <div style="display: flex; align-items: flex-start; gap: 12px;">
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">{{ sel.kindLabel }}</div>
+          <div style="font-size: 22px; font-weight: 600; letter-spacing: -0.015em; color: #1b2740;">{{ sel.name }}</div>
+          <div style="font-size: 13px; color: #52617a; margin-top: 2px;">{{ sel.status }} · {{ sel.used }}</div>
+        </div>
+        <button type="button" onClick="{{ closeSel }}" aria-label="Close" class="cf-press" style="width: 40px; height: 40px; flex: 0 0 auto; border-radius: 50%; border: 0; background: rgba(27,39,64,.06); display: inline-flex; align-items: center; justify-content: center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1b2740" stroke-width="2.2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">How the AI will use it</div>
+        <div style="font-size: 13px; color: #52617a;">Three of the formats dealers' playbooks build with it, paired with other live pieces.</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; padding: 16px; border-radius: 18px; background: #f5f8fa; border: 1px solid #dde4ef;">
+          <sc-for list="{{ sel.mocks }}" as="m" hint-placeholder-count="3">
+            <div style="display: flex; flex-direction: column; gap: 6px; align-items: center;">
+              <div style="position: relative; width: {{ m.w }}; height: {{ m.h }}; border-radius: 10px; overflow: hidden; box-shadow: 0 14px 30px -18px rgba(27,39,64,.6); background: {{ sel.mockBg }}; animation: cfPop .5s cubic-bezier(.34,1.36,.44,1) both; animation-delay: {{ m.delay }};">
+                <svg viewBox="0 0 240 150" preserveAspectRatio="none" aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 55%;"><path d="M0 70 Q60 40 120 62 T240 54 V150 H0 Z" fill="{{ sel.mockHill }}"></path></svg>
+                <svg viewBox="0 0 200 90" aria-hidden="true" style="position: absolute; left: 50%; top: {{ m.carTop }}; width: {{ m.carW }}; transform: translateX(-50%);"><path d="M10 62 L18 44 Q22 38 32 37 L62 34 L84 18 Q90 14 100 14 L142 14 Q152 14 158 22 L172 36 Q186 38 190 46 L192 62 Z" fill="{{ sel.mockCar }}"></path><path d="M70 34 L88 20 Q92 18 98 18 L120 18 L120 34 Z" fill="#cfe3f5"></path><path d="M124 18 L140 18 Q148 18 152 24 L162 34 L124 34 Z" fill="#cfe3f5"></path><circle cx="50" cy="64" r="14" fill="#1b2740"></circle><circle cx="156" cy="64" r="14" fill="#1b2740"></circle></svg>
+                <div style="position: absolute; left: 8px; right: 8px; top: 8px; display: flex; flex-direction: column; gap: 3px;">
+                  <span style="font-size: 7px; font-weight: 700; letter-spacing: .12em; color: #99CA3E;">VELOCITY · RIVERSIDE</span>
+                  <span style="font-size: {{ m.head }}; line-height: 1.1; font-weight: 600; color: #ffffff;">{{ sel.mockHead }}</span>
+                </div>
+                <div style="position: absolute; left: 8px; right: 8px; bottom: 6px; display: flex; flex-direction: column; gap: 2px;">
+                  <span style="align-self: flex-start; padding: 2px 6px; border-radius: 999px; background: #99CA3E; color: #1b2740; font-size: 8px; font-weight: 700;">{{ sel.mockOffer }}</span>
+                  <span style="font-size: 5px; line-height: 1.3; color: rgba(255,255,255,.8);">{{ sel.mockLegal }}</span>
+                </div>
+              </div>
+              <span style="font-size: 11px; color: #52617a;">{{ m.l }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">What the AI sees</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+          <sc-for list="{{ sel.tags }}" as="tg" hint-placeholder-count="4">
+            <span style="height: 28px; padding: 0 11px; border-radius: 999px; background: rgba(39,66,145,.08); color: #1d3270; font-size: 12px; font-weight: 500; display: inline-flex; align-items: center;">{{ tg }}</span>
+          </sc-for>
+          <button type="button" class="cf-press" style="height: 28px; padding: 0 11px; border-radius: 999px; border: 1px dashed #8a9fd6; background: transparent; color: #274291; font-size: 12px; font-weight: 600;">+ Add tag</button>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">Rules for using it</div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+          <span style="width: 92px; font-size: 13px; color: #52617a;">Channels</span>
+          <sc-for list="{{ sel.channels }}" as="ch" hint-placeholder-count="5">
+            <button type="button" onClick="{{ ch.toggle }}" aria-pressed="{{ ch.pressed }}" class="cf-press" style="height: 30px; padding: 0 12px; border-radius: 999px; font-size: 12px; font-weight: 600; {{ ch.style }}">{{ ch.l }}</button>
+          </sc-for>
+        </div>
+        <div style="display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 8px 0; font-size: 13px;">
+          <sc-for list="{{ sel.rules }}" as="r" hint-placeholder-count="4">
+            <span style="color: #52617a;">{{ r.k }}</span><span style="color: #1b2740;">{{ r.v }}</span>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; padding-top: 6px; border-top: 1px solid rgba(27,39,64,.08);">
+        <button type="button" class="cf-press" style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #c3cee8; background: #ffffff; color: #1b2740; font-size: 13px; font-weight: 600;">Upload a new version</button>
+        <button type="button" onClick="{{ retire }}" class="cf-press" style="height: 40px; padding: 0 16px; border-radius: 999px; border: 0; background: transparent; color: #b42318; font-size: 13px; font-weight: 600;">Retire it</button>
+      </div>
+    </aside>
+  </sc-if>
+
+  <sc-if value="{{ upOpen }}" hint-placeholder-val="{{ false }}">
+    <button type="button" onClick="{{ closeUpload }}" aria-label="Close upload" style="position: fixed; inset: 0; z-index: 40; border: 0; background: rgba(27,39,64,.24); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); animation: cfFade .3s;"></button>
+    <section aria-label="Add pieces" style="position: fixed; top: 16px; right: 16px; bottom: 16px; width: min(760px, calc(100% - 32px)); z-index: 41; box-sizing: border-box; overflow-y: auto; border-radius: 28px; padding: 24px; background: rgba(255,255,255,.95); backdrop-filter: blur(32px) saturate(180%); -webkit-backdrop-filter: blur(32px) saturate(180%); border: 1px solid #ffffff; box-shadow: 0 40px 100px -30px rgba(27,39,64,.55); display: flex; flex-direction: column; gap: 18px; animation: cfSheet .5s cubic-bezier(.34,1.2,.44,1);">
+      <div style="display: flex; align-items: flex-start; gap: 12px;">
+        <div style="flex: 1;">
+          <div style="font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #52617a;">{{ upKicker }}</div>
+          <div style="font-size: 24px; font-weight: 600; letter-spacing: -0.015em; color: #1b2740;">{{ upTitle }}</div>
+        </div>
+        <button type="button" onClick="{{ closeUpload }}" aria-label="Close" class="cf-press" style="width: 40px; height: 40px; border-radius: 50%; border: 0; background: rgba(27,39,64,.06); display: inline-flex; align-items: center; justify-content: center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1b2740" stroke-width="2.2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+      </div>
+
+      <sc-if value="{{ up0 }}" hint-placeholder-val="{{ true }}">
+        <div style="border-radius: 22px; border: 2px dashed #8a9fd6; background: rgba(39,66,145,.04); padding: 40px 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center;">
+          <span style="width: 56px; height: 56px; border-radius: 18px; background: rgba(39,66,145,.1); display: inline-flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#274291" stroke-width="2.2" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg></span>
+          <div style="font-size: 18px; font-weight: 600; color: #1b2740;">Drop photos, logos, scenes, offers or copy</div>
+          <div style="font-size: 14px; line-height: 1.5; color: #52617a; max-width: 460px;">Upload the pieces, not finished ads. The AI recognizes what each one is, removes backgrounds, checks quality and brand rules, and suggests how it may be used.</div>
+          <button type="button" onClick="{{ startUpload }}" class="cf-press" style="height: 46px; padding: 0 20px; border-radius: 999px; border: 0; background: #274291; color: #ffffff; font-size: 14px; font-weight: 600;">Use 3 sample files</button>
+          <div style="font-size: 12px; color: #52617a;">aria-ember-red-34-front.jpg · aria-ember-red-side.jpg · strada-winter-road.jpg</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ up1 }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <sc-for list="{{ procRows }}" as="pr" hint-placeholder-count="3">
+            <div style="display: flex; gap: 14px; align-items: center; padding: 14px; border-radius: 18px; background: #ffffff; border: 1px solid #dde4ef;">
+              <div class="cf-check" style="position: relative; width: 96px; height: 64px; flex: 0 0 auto; border-radius: 10px; overflow: hidden; {{ pr.thumbBg }}">
+                <svg viewBox="0 0 200 90" aria-hidden="true" style="position: absolute; left: 50%; top: 50%; width: 80%; transform: translate(-50%, -50%); opacity: {{ pr.carOpacity }};"><path d="M10 62 L18 44 Q22 38 32 37 L62 34 L84 18 Q90 14 100 14 L142 14 Q152 14 158 22 L172 36 Q186 38 190 46 L192 62 Z" fill="{{ pr.color }}"></path><circle cx="50" cy="64" r="14" fill="#1b2740"></circle><circle cx="156" cy="64" r="14" fill="#1b2740"></circle></svg>
+                <sc-if value="{{ pr.scanning }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 100%; background: linear-gradient(180deg, rgba(153,202,62,0), rgba(153,202,62,.45), rgba(153,202,62,0)); animation: cfScan 1s linear infinite;"></span></sc-if>
+              </div>
+              <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
+                <span style="font-size: 14px; font-weight: 600; color: #1b2740;">{{ pr.file }}</span>
+                <span style="display: flex; flex-wrap: wrap; gap: 6px;">
+                  <sc-for list="{{ pr.steps }}" as="st" hint-placeholder-count="4">
+                    <span style="height: 24px; padding: 0 9px; border-radius: 999px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; transition: background .3s, color .3s; {{ st.style }}">{{ st.mark }} {{ st.l }}</span>
+                  </sc-for>
+                </span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ up2 }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <sc-for list="{{ reviewRows }}" as="rr" hint-placeholder-count="3">
+            <div style="display: flex; flex-wrap: wrap; gap: 14px; padding: 14px; border-radius: 18px; background: #ffffff; border: 1px solid {{ rr.border }}; animation: cfRise .4s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{ rr.delay }};">
+              <div class="cf-check" style="position: relative; width: 140px; height: 92px; flex: 0 0 auto; border-radius: 12px; overflow: hidden; {{ rr.thumbBg }}">
+                <sc-if value="{{ rr.isCar }}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 200 90" aria-hidden="true" style="position: absolute; left: 50%; top: 50%; width: 84%; transform: translate(-50%, -50%) {{ rr.flip }};"><path d="M10 62 L18 44 Q22 38 32 37 L62 34 L84 18 Q90 14 100 14 L142 14 Q152 14 158 22 L172 36 Q186 38 190 46 L192 62 Z" fill="{{ rr.color }}"></path><path d="M70 34 L88 20 Q92 18 98 18 L120 18 L120 34 Z" fill="#cfe3f5"></path><path d="M124 18 L140 18 Q148 18 152 24 L162 34 L124 34 Z" fill="#cfe3f5"></path><circle cx="50" cy="64" r="14" fill="#1b2740"></circle><circle cx="156" cy="64" r="14" fill="#1b2740"></circle><rect x="176" y="50" width="14" height="7" rx="1" fill="{{ rr.plate }}"></rect></svg></sc-if>
+                <sc-if value="{{ rr.isScene }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 240 150" preserveAspectRatio="none" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="M0 98 Q60 70 120 92 T240 84 V150 H0 Z" fill="#ffffff"></path><path d="M0 118 Q80 96 160 114 T240 108 V150 H0 Z" fill="#e7eef7"></path><path d="M110 150 L128 96 L134 96 L170 150 Z" fill="#8a9fd6"></path></svg></sc-if>
+              </div>
+              <div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 8px;">
+                <div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px;"><span style="font-size: 15px; font-weight: 600; color: #1b2740;">{{ rr.name }}</span><span style="font-size: 12px; color: #52617a;">{{ rr.file }}</span></div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                  <sc-for list="{{ rr.tags }}" as="tg" hint-placeholder-count="4">
+                    <span style="height: 24px; padding: 0 9px; border-radius: 999px; background: rgba(39,66,145,.08); color: #1d3270; font-size: 11px; font-weight: 500; display: inline-flex; align-items: center;">{{ tg }}</span>
+                  </sc-for>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                  <sc-for list="{{ rr.checks }}" as="ck" hint-placeholder-count="3">
+                    <span style="height: 24px; padding: 0 9px; border-radius: 999px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; {{ ck.style }}">{{ ck.l }}</span>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ rr.hasIssue }}" hint-placeholder-val="{{ false }}">
+                  <div style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: {{ rr.issueBg }}; font-size: 13px; color: #1b2740; transition: background .3s;">
+                    <span style="flex: 1;">{{ rr.issue }}</span>
+                    <button type="button" onClick="{{ toggleBlur }}" role="switch" aria-checked="{{ blurChecked }}" aria-label="Blur the license plate automatically" style="width: 44px; height: 26px; flex: 0 0 auto; border-radius: 999px; border: 0; padding: 3px; display: flex; transition: background .3s; {{ blurTrack }}"><span style="width: 20px; height: 20px; border-radius: 50%; background: #ffffff; box-shadow: 0 2px 6px rgba(27,39,64,.25); transition: transform .3s cubic-bezier(.34,1.36,.44,1); {{ blurKnob }}"></span></button>
+                  </div>
+                </sc-if>
+                <div style="font-size: 12px; color: #126b34; font-weight: 600;">{{ rr.closes }}</div>
+              </div>
+            </div>
+          </sc-for>
+          <div style="padding: 14px 16px; border-radius: 16px; background: rgba(39,66,145,.06); font-size: 13px; line-height: 1.5; color: #1b2740;"><strong style="font-weight: 600;">Suggested rules for all three:</strong> every channel, every region, no end date. Vehicle shots pair with any live Aria offer and its required disclaimer. You can change any of this per piece after publishing.</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+            <button type="button" onClick="{{ publish }}" class="cf-press" style="height: 50px; padding: 0 24px; border-radius: 999px; border: 0; background: #274291; color: #ffffff; font-size: 15px; font-weight: 600; box-shadow: 0 12px 26px -12px rgba(39,66,145,.8);">Publish 3 pieces</button>
+            <button type="button" onClick="{{ closeUpload }}" class="cf-press" style="height: 50px; padding: 0 18px; border-radius: 999px; border: 1px solid #c3cee8; background: #ffffff; color: #1b2740; font-size: 14px; font-weight: 500;">Save as draft</button>
+            <span style="font-size: 13px; color: #52617a;">Dealers' playbooks pick them up as soon as they're published.</span>
+          </div>
+        </div>
+      </sc-if>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; left: 50%; bottom: 28px; z-index: 50; max-width: min(640px, calc(100% - 32px)); padding: 14px 20px; border-radius: 20px; background: rgba(27,39,64,.92); color: #ffffff; font-size: 14px; line-height: 1.45; box-shadow: 0 20px 40px -16px rgba(27,39,64,.6); animation: cfToast .45s cubic-bezier(.34,1.36,.44,1) both;">{{ toast }}</div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { type: "All", sel: null, up: 0, upOpen: false, prog: 0, blur: true, published: false, retired: {}, chOff: {}, toast: null };
+  }
+  componentWillUnmount() { clearInterval(this._iv); clearTimeout(this._t); }
+  renderVals() {
+    const s = this.state;
+    const say = (t) => { this.setState({ toast: t }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toast: null }), 4800); };
+    const BASE = [
+      { id: "v1", kind: "vehicle", name: "2025 Aria · Glacier White · 3/4 front", color: "#e8edf3", tags: ["2025 Aria", "SUV", "Glacier White", "3/4 front", "Background removed"], used: 412, status: "live" },
+      { id: "v2", kind: "vehicle", name: "2025 Aria · Midnight Blue · side", color: "#1d3270", flip: true, tags: ["2025 Aria", "SUV", "Midnight Blue", "Side"], used: 288, status: "live" },
+      { id: "v3", kind: "vehicle", name: "2025 Strada · Lunar Silver · side", color: "#aeb8c4", tags: ["2025 Strada", "Sedan", "Lunar Silver", "Side"], used: 140, status: "live" },
+      { id: "v4", kind: "vehicle", name: "2026 Atlas · Graphite · 3/4 front", color: "#3b4552", tags: ["2026 Atlas", "Pickup", "Graphite", "3/4 front"], used: 96, status: "live" },
+      { id: "l1", kind: "logo", name: "Velocity primary logo", word: "VELOCITY", tags: ["Primary", "Horizontal", "Full color"], used: 1906, status: "live" },
+      { id: "l2", kind: "logo", name: "Holiday Sales Event lockup", word: "HOLIDAY", dark: true, tags: ["Event lockup", "Holiday 2026"], used: 512, status: "expires", exp: "Jan 2" },
+      { id: "s1", kind: "scene", name: "Winter road, morning", scene: "snow", tags: ["Winter", "Road", "Daylight"], used: 220, status: "live" },
+      { id: "s2", kind: "scene", name: "Showroom, evening", scene: "night", tags: ["Showroom", "Evening", "Indoor"], used: 131, status: "live" },
+      { id: "o1", kind: "offer", name: "0.9% APR for 60 months · 2025 Aria", text: "0.9% APR", textSub: "60 months · 2025 Aria · through Nov 30", tags: ["Finance offer", "Needs disclaimer D-14", "Credit ad rules"], used: 318, status: "expires", exp: "Nov 30" },
+      { id: "o2", kind: "offer", name: "$1,500 bonus cash · 2025 Aria", text: "$1,500", textSub: "Bonus cash · through Nov 30", tags: ["Cash offer", "Needs disclaimer D-09"], used: 204, status: "expires", exp: "Nov 30" },
+      { id: "c1", kind: "copy", name: "Headline · Winter-ready in 45 minutes.", text: "Winter-ready in 45 minutes.", textSub: "Service · English", tags: ["Headline", "Service", "English"], used: 377, status: "live" },
+      { id: "c2", kind: "copy", name: "Headline · The Holiday Event is on.", text: "The Holiday Event is on.", textSub: "Sales event · English", tags: ["Headline", "Holiday 2026", "English"], used: 498, status: "live" },
+      { id: "d1", kind: "disclaimer", name: "D-14 · APR disclaimer", text: "0.9% APR for 60 mos. with approved credit through Velocity Financial. $17.05/mo per $1,000 financed…", textSub: "Must be legible at every size", tags: ["Legal", "Finance", "Required with O-0.9"], used: 318, status: "live" },
+      { id: "t1", kind: "template", name: "Social carousel · 1:1", tags: ["Layout", "Meta", "1:1"], used: 640, status: "live" },
+      { id: "m1", kind: "video", name: "Holiday national spot · 15s", tags: ["Video", "Holiday 2026", "End card editable"], used: 260, status: "expires", exp: "Jan 2" }
+    ];
+    const NEW = [
+      { id: "n1", kind: "vehicle", name: "2025 Aria · Ember Red · 3/4 front", color: "#b8322a", tags: ["2025 Aria", "SUV", "Ember Red", "3/4 front", "Background removed"], used: 0, status: "new" },
+      { id: "n2", kind: "vehicle", name: "2025 Aria · Ember Red · side", color: "#b8322a", flip: true, tags: ["2025 Aria", "SUV", "Ember Red", "Side", "Background removed"], used: 0, status: "new" },
+      { id: "n3", kind: "scene", name: "Winter road, open highway", scene: "snow", tags: ["Winter", "Road", "Pairs with Strada"], used: 0, status: "new" }
+    ];
+    const all = (s.published ? NEW.concat(BASE) : BASE).filter((a) => !s.retired[a.id]);
+    const KL = { vehicle: "Vehicle", logo: "Logo & lockup", scene: "Scene", offer: "Offer", copy: "Copy", disclaimer: "Disclaimer", template: "Template", video: "Video" };
+    const TYPES = [["All", null], ["Vehicles", "vehicle"], ["Logos", "logo"], ["Scenes", "scene"], ["Offers", "offer"], ["Copy", "copy"], ["Disclaimers", "disclaimer"], ["Templates", "template"], ["Video", "video"]];
+    const types = TYPES.map((t) => { const n = all.filter((a) => !t[1] || a.kind === t[1]).length; const on = s.type === t[0]; return { l: t[0], n: String(n), pressed: on ? "true" : "false", style: on ? "border: 1px solid #274291; background: #274291; color: #ffffff;" : "border: 1px solid #dde4ef; background: rgba(255,255,255,.75); color: #1b2740;", pick: () => this.setState({ type: t[0] }) }; });
+    const curKind = (TYPES.find((t) => t[0] === s.type) || [])[1];
+    const statusOf = (a) => a.status === "new" ? ["New · ready for dealers", "background: rgba(153,202,62,.25); color: #1b2740;"] : (a.status === "expires" ? ["Expires " + a.exp, "background: #fdf1ec; color: #9a4a06;"] : ["Live", "background: #e7f4e9; color: #126b34;"]);
+    const prevBg = (a) => {
+      if (a.kind === "vehicle") return "background-color: #ffffff; background-image: linear-gradient(45deg,#eef2f7 25%,transparent 25%),linear-gradient(-45deg,#eef2f7 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#eef2f7 75%),linear-gradient(-45deg,transparent 75%,#eef2f7 75%); background-size: 16px 16px; background-position: 0 0,0 8px,8px -8px,-8px 0;";
+      if (a.kind === "logo") return a.dark ? "background: linear-gradient(160deg,#274291,#1b2740);" : "background: #ffffff;";
+      if (a.kind === "scene") return a.scene === "night" ? "background: linear-gradient(180deg,#1b2740,#304b9d);" : "background: linear-gradient(180deg,#c9d8ee,#eef3fa);";
+      if (a.kind === "offer") return "background: linear-gradient(160deg,#274291,#1d3270);";
+      if (a.kind === "copy") return "background: #ffffff;";
+      if (a.kind === "disclaimer") return "background: #f5f8fa;";
+      if (a.kind === "video") return "background: linear-gradient(160deg,#1b2740,#274291);";
+      return "background: #f5f8fa;";
+    };
+    const tiles = all.filter((a) => !curKind || a.kind === curKind).map((a, i) => {
+      const st = statusOf(a);
+      const txt = { offer: ["30px", "700", "#ffffff", "rgba(255,255,255,.8)"], copy: ["19px", "600", "#1b2740", "#52617a"], disclaimer: ["11px", "400", "#2d3e50", "#52617a"] }[a.kind] || ["14px", "600", "#1b2740", "#52617a"];
+      return { name: a.name, kindLabel: KL[a.kind], tagLine: a.tags[0], status: st[0], statusStyle: st[1], used: a.used ? "Used in " + a.used.toLocaleString("en-US") + " creatives" : "Not used yet",
+        isVehicle: a.kind === "vehicle", isLogo: a.kind === "logo", isScene: a.kind === "scene", isText: ["offer", "copy", "disclaimer"].indexOf(a.kind) >= 0, isTemplate: a.kind === "template", isVideo: a.kind === "video", isNew: a.status === "new",
+        color: a.color || "#ffffff", flip: a.flip ? "scaleX(-1)" : "", prevBg: prevBg(a),
+        markBg: a.dark ? "#99CA3E" : "#274291", markFg: a.dark ? "#1b2740" : "#ffffff", wordColor: a.dark ? "#ffffff" : "#1b2740", word: a.word || "",
+        hill1: a.scene === "night" ? "#304b9d" : "#ffffff", hill2: a.scene === "night" ? "#1d3270" : "#e7eef7", road: a.scene === "night" ? "#6155d4" : "#8a9fd6",
+        text: a.text || "", textSub: a.textSub || "", textSize: txt[0], textWeight: txt[1], textColor: txt[2], textSubColor: txt[3],
+        border: a.status === "new" ? "#99CA3E" : "#ffffff", delay: (i * 30) + "ms",
+        open: () => this.setState({ sel: a.id }) };
+    });
+
+    const GAPS = [
+      { id: "red", title: "2025 Aria in Ember Red", why: "6 dealers asked. Their Aria playbooks fall back to Glacier White.", kind: "upload" },
+      { id: "es", title: "Spanish Holiday headline", why: "5 dealers in Spanish-speaking markets are blocked. Draft is ready.", kind: "link" },
+      { id: "strada", title: "Winter scene for the Strada", why: "4 winter playbooks fell back to a generic sky.", kind: "upload" }
+    ];
+    const gaps = GAPS.map((g) => { const done = s.published && g.kind === "upload"; return { title: g.title, why: done ? "Closed by today's upload. Affected playbooks updated." : g.why, isUpload: !done && g.kind === "upload", isLink: g.kind === "link", isDone: done, bg: done ? "#e7f4e9" : "#f5f8fa", strike: done ? "line-through" : "none" }; });
+    const openGaps = gaps.filter((g) => !g.isDone).length;
+
+    let sel = { kindLabel: "", name: "", status: "", used: "", tags: [], channels: [], rules: [], mocks: [], mockBg: "", mockHill: "", mockCar: "", mockHead: "", mockOffer: "", mockLegal: "" };
+    const a = all.find((x) => x.id === s.sel);
+    if (a) {
+      const st = statusOf(a);
+      const off = s.chOff[a.id] || {};
+      const CH = a.kind === "disclaimer" ? ["Search", "Social", "Print", "Video", "Email"] : ["Social", "Display", "Print", "Video", "Email"];
+      const night = a.scene === "night";
+      sel = { kindLabel: KL[a.kind], name: a.name, status: st[0], used: a.used ? "Used in " + a.used.toLocaleString("en-US") + " creatives this quarter" : "Not used yet",
+        tags: a.tags,
+        channels: CH.map((c) => { const on = !off[c]; return { l: c, pressed: on ? "true" : "false", style: on ? "border: 1px solid #274291; background: #274291; color: #ffffff;" : "border: 1px solid #dde4ef; background: #ffffff; color: #52617a; text-decoration: line-through;", toggle: () => { this.setState({ chOff: Object.assign({}, this.state.chOff, { [a.id]: Object.assign({}, off, { [c]: on }) }) }); say(on ? "The AI won't use this piece in " + c + " from now on. Creatives already running aren't changed." : "Allowed in " + c + " again."); } }; }),
+        rules: [
+          { k: "Regions", v: a.kind === "copy" && a.tags.indexOf("English") >= 0 ? "All 64 locations. A Spanish version is used where language rules call for it" : "All 64 locations" },
+          { k: "Valid", v: a.exp ? "Until " + a.exp + ", then playbooks switch to the next live piece" : "No end date" },
+          { k: "Must pair with", v: a.kind === "offer" ? (a.tags[1] || "Its disclaimer") + ", shown legibly in every format" : (a.kind === "vehicle" ? "Any live offer for the same model, or none" : "Nothing required") },
+          { k: "Never with", v: a.kind === "vehicle" ? "Other brands' vehicles, or a price in the headline" : (a.kind === "offer" ? "Competitor comparisons, or an expired event lockup" : "Off-brand colors, or competitor names") },
+          { k: "Rights", v: a.kind === "vehicle" || a.kind === "scene" ? "Photo license through Jun 2027 · no people in frame" : (a.kind === "video" ? "Music licensed through Jan 31 · talent release on file" : "Owned by Velocity") }
+        ],
+        mockBg: night ? "linear-gradient(180deg,#1b2740,#304b9d)" : "linear-gradient(180deg,#4a63b0,#9fb4dd)",
+        mockHill: night ? "#1d3270" : "#ffffff",
+        mockCar: a.kind === "vehicle" ? a.color : "#e8edf3",
+        mockHead: a.kind === "copy" ? a.text : (a.kind === "offer" ? "Your Aria is waiting." : (a.id === "l2" || a.id === "m1" ? "The Holiday Event is on." : "Winter-ready in 45 minutes.")),
+        mockOffer: a.kind === "offer" ? a.text + (a.id === "o1" ? " APR" : " bonus cash") : (a.kind === "vehicle" && a.tags[0] === "2025 Aria" ? "0.9% APR" : "Book today"),
+        mockLegal: a.kind === "offer" || (a.kind === "vehicle" && a.tags[0] === "2025 Aria") ? "0.9% APR for 60 mos. with approved credit through Velocity Financial. See dealer for details." : "Velocity Auto Riverside · 1200 River Rd",
+        mocks: [{ l: "Social 1:1", w: "150px", h: "150px", carTop: "56%", carW: "86%", head: "13px", delay: "0ms" }, { l: "Story 9:16", w: "96px", h: "170px", carTop: "60%", carW: "120%", head: "11px", delay: "80ms" }, { l: "Flyer", w: "130px", h: "170px", carTop: "54%", carW: "96%", head: "12px", delay: "160ms" }]
+      };
+    }
+
+    const FILES = [
+      { file: "aria-ember-red-34-front.jpg", color: "#b8322a", name: "2025 Aria · Ember Red · 3/4 front", tags: ["2025 Aria", "SUV", "Ember Red", "3/4 front", "Background removed"], checks: ["5400×3600 · sharp", "Color matches Ember Red spec"], issue: true, closes: "Closes the Ember Red gap for 6 dealers", isCar: true },
+      { file: "aria-ember-red-side.jpg", color: "#b8322a", flip: true, name: "2025 Aria · Ember Red · side", tags: ["2025 Aria", "SUV", "Ember Red", "Side", "Background removed"], checks: ["5400×3600 · sharp", "Color matches Ember Red spec"], closes: "Closes the Ember Red gap for 6 dealers", isCar: true },
+      { file: "strada-winter-road.jpg", name: "Winter road, open highway", tags: ["Winter", "Road", "Daylight", "Pairs with Strada"], checks: ["6000×4000 · sharp", "No people or plates in frame"], closes: "Closes the Strada winter scene gap for 4 playbooks", isScene: true }
+    ];
+    const STEPS = ["Uploaded", "Recognized", "Background removed", "Quality + brand check"];
+    const procRows = FILES.map((f, fi) => {
+      const done = Math.max(0, Math.min(4, s.prog - fi * 2));
+      return { file: f.file, color: f.color || "#c9d8ee", carOpacity: f.isScene ? "0" : "1", thumbBg: f.isScene ? "background: linear-gradient(180deg,#c9d8ee,#eef3fa);" : "", scanning: done > 0 && done < 4,
+        steps: STEPS.map((l, si) => { const label = f.isScene && si === 2 ? "Sky and road found" : l; return { l: label, mark: si < done ? "✓" : "·", style: si < done ? "background: #e7f4e9; color: #126b34;" : "background: rgba(27,39,64,.05); color: #52617a;" }; }) };
+    });
+    const reviewRows = FILES.map((f, i) => ({ file: f.file, name: f.name, tags: f.tags, color: f.color || "", flip: f.flip ? "scaleX(-1)" : "", isCar: !!f.isCar, isScene: !!f.isScene,
+      thumbBg: f.isScene ? "background: linear-gradient(180deg,#c9d8ee,#eef3fa);" : "",
+      plate: f.issue && !s.blur ? "#ffffff" : "rgba(184,50,42,.0)",
+      checks: f.checks.map((c) => ({ l: "✓ " + c, style: "background: #e7f4e9; color: #126b34;" })).concat(f.issue ? [{ l: s.blur ? "✓ Plate blurred" : "! Real license plate visible", style: s.blur ? "background: #e7f4e9; color: #126b34;" : "background: #fdf1ec; color: #9a4a06;" }] : []),
+      hasIssue: !!f.issue, issue: s.blur ? "A real license plate was visible. It's blurred automatically." : "A real license plate is visible. Turn on blurring before dealers can use it.", issueBg: s.blur ? "#f5f8fa" : "#fdf1ec",
+      closes: f.closes, border: f.issue && !s.blur ? "#fad4c6" : "#dde4ef", delay: (i * 70) + "ms" }));
+
+    const startUpload = () => {
+      this.setState({ up: 1, prog: 0 });
+      clearInterval(this._iv);
+      this._iv = setInterval(() => {
+        const p = this.state.prog + 1;
+        if (p > 8) { clearInterval(this._iv); this.setState({ up: 2 }); return; }
+        this.setState({ prog: p });
+      }, 380);
+    };
+    const UPT = [["Add pieces", "Upload to the brand library"], ["Working on 3 files", "Recognizing and checking"], ["Ready to publish", "Check what the AI found"]];
+    return {
+      types, tiles, gaps, hasGaps: true, gapTitle: openGaps ? (openGaps === 1 ? "1 gap is blocking dealers" : openGaps + " gaps are blocking dealers") : "No gaps blocking dealers",
+      liveLine: all.length.toLocaleString("en-US") + " shown of 1,284 live pieces",
+      hasSel: !!a, sel, closeSel: () => this.setState({ sel: null }),
+      retire: () => { if (!a) return; this.setState({ retired: Object.assign({}, this.state.retired, { [a.id]: true }), sel: null }); say("Retired. " + (a.used ? a.used + " creatives used it. Their playbooks switch to the closest live piece, and dealers see the change in their activity log." : "Nothing used it yet.")); },
+      openUpload: () => this.setState({ upOpen: true, up: this.state.published ? 0 : this.state.up }),
+      closeUpload: () => { clearInterval(this._iv); this.setState({ upOpen: false, up: 0, prog: 0 }); },
+      upOpen: s.upOpen, up0: s.up === 0, up1: s.up === 1, up2: s.up === 2, upKicker: UPT[s.up][0], upTitle: UPT[s.up][1],
+      startUpload, procRows, reviewRows,
+      blurChecked: s.blur ? "true" : "false", blurTrack: s.blur ? "background: #274291;" : "background: #c3cee8;", blurKnob: s.blur ? "transform: translateX(18px);" : "transform: translateX(0px);",
+      toggleBlur: () => this.setState({ blur: !this.state.blur }),
+      publish: () => { if (!this.state.blur) { say("Turn on plate blurring first. A real license plate can't go to dealers."); return; } this.setState({ published: true, upOpen: false, up: 0, prog: 0, type: "All" }); say("Published 3 pieces. 6 dealers' Aria playbooks now show Ember Red, and 4 Strada winter playbooks have a real scene. 2 gaps closed."); },
+      hasToast: !!s.toast, toast: s.toast || ""
+    };
+  }
+}
+</script>
+</body>
+</html>
